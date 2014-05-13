@@ -1,0 +1,30 @@
+{
+  "name": "tbc.webdesk",
+  "version": "0.0.1",
+  "author": "Colin <mail@luozhihua.com>",
+  "description": "TBC Javascript Project",
+  "dependencies": {
+    "grunt": "^0.4.4"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "yuidocjs": "*",
+    "grunt-build-docs": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-commands": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-less": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-yuidoc": "*",
+    "grunt-copy-to": "0.0.4",
+    "grunt-jsdoc": "~0.3.3",
+    "grunt-yui-compressor": "*",
+    "grunt-zip": "*",
+    "grunt-sftp-deploy": "0.0.9",
+    "grunt-ssh": "~0.7.0"
+  }
+}

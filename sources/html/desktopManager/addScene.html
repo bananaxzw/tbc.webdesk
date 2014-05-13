@@ -1,0 +1,74 @@
+<%
+    var isAdmin = window.desktop.isAdmin(),
+        isSysAdmin = window.desktop.isSysAdmin();
+%>
+<div class="tbc-add-scene">
+        <div class="tbc-add-scene-inner">
+            <div class="tbc-add-scene-box">
+                <div class="add-scene-type">
+                    <label><%= i18n('v4.js.deskType')%></label>
+                        <select class="add-scene-type-select">
+                            <% if (typeof (widgetsEnalbe) !== 'undefined' && widgetsEnalbe===true) {%>
+                            <option value="WIDGETS" selected="selected"><%= i18n('!v4.js.widgetTemplate')%></option>
+                            <option value="DESKTOP"><%= i18n('!v4.js.emptyDesk')%></option>
+                            <% } else {%>
+                            <option value="DESKTOP" selected="selected"><%= i18n('!v4.js.emptyDesk')%></option>
+                            <% } %>
+                            <option value="APPLICATION"><%= i18n('!v4.js.app')%></option>
+                            <option value="LINK"><%= i18n('!v4.js.site')%></option>
+                        </select>
+                </div>
+
+                <ul style="display:block;" class="add-scene-type-opera add-scene-info-DESKTOP">
+                    <li><label><%= i18n('v4.js.deskName')%></label><input type="text" value="" class="add-scene-normal-title" /> <span class="msg">*</span></li>
+                </ul>
+
+                <ul class="add-scene-type-opera add-scene-info-APPLICATION clearFloat">
+                    <li class="add-scene-app-selected" title="<%= i18n('!v4.js.openAppSelector')%>">
+                       <div class="add-scene-app-selected-box">
+                           <img class="add-scene-app-selected-icon" style="width:48px; display:none;" onerror="this.style.display=\'none\';"/>
+                       </div>
+                       <span class="add-scene-app-selected-name"><%= i18n('v4.js.selectApp')%></span>
+                    </li>
+                    <% if (isAdmin) { %>
+                    <li>
+                        <label>&nbsp;</label>
+                        <label class="label-for-alluser">
+                            <input value="true" type="checkbox" class="add-scene-app-alluser" name="add-scene-app-alluser" /> <%= i18n('v4.js.applyToAllUser')%>
+                        </label>
+                    </li>
+                    <% } %>
+                    <input type="hidden" value="" class="add-scene-app-url" />
+                    <input type="hidden" value="" class="add-scene-app-title" />
+                    <input type="hidden" value="" class="add-scene-app-icon" />
+                    <input type="hidden" value="" class="add-scene-app-appCode" />
+                </ul>
+
+                <ul class="add-scene-type-opera add-scene-info-LINK">
+                    <li><label><%= i18n('v4.js.deskName')%></label><input value="" type="text" class="add-scene-site-title" /> <span class="msg">*</span></li>
+                    <li><label><%= i18n('v4.js.siteUrl')%></label><input value="" type="text" class="add-scene-site-url" /> <span class="msg">*</span></li>
+                    <% if (isAdmin) { %>
+                    <li><label>&nbsp;</label> <label class="label-for-alluser"><input value="true" name="add-scene-site-alluser" type="checkbox" class="add-scene-site-alluser" /> <%= i18n('v4.js.applyToAllUser')%></label></li>
+                    <% } %>
+                </ul>
+
+                <div class="add-scene-type-opera add-scene-info-WIDGETS"></div>
+                <% if (isSysAdmin) { %>
+                <div class="add-scene-type-opera add-scene-info-WIDGETS assigned-for-users">
+                    <label class="label-for-alluser">
+                        <input value="true" <%=(typeof(isTem)!=='undefined' && isTem ? ' checked="checked"' : '') %> type="checkbox" class=" for-alluser add-scene-widget-alluser" name="add-scene-widget-alluser" />
+                        <%= i18n('v4.js.applyToAllUser')%></label>
+                </div>
+                <% } %>
+                <input type="hidden" value="" class="add-scene-widget-url" />
+                <input type="hidden" value="" class="add-scene-widget-title" />
+                <input type="hidden" value="" class="add-scene-widget-icon" />
+                <input type="hidden" value="" class="add-scene-widget-appCode" />
+
+            </div>
+        </div>
+        <div class="add-scene-bottom-tools">
+            <input type="submit" value="<%= i18n('!v4.js.save')%>" class="save-button tbc-button tbc-button-blue" />
+            <input type="button" value="<%= i18n('!v4.js.cancel')%>" class="cancel-button tbc-button" />
+        </div>
+</div>

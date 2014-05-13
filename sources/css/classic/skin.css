@@ -1,0 +1,421 @@
+@charset "utf-8";
+
+/* background */
+body{ background-color:#E8F2F7; }
+
+.tbc-panel-controls a,
+.tbc-panel-controls a:visited,
+.tbc-panel-controls a:hover,
+.tbc-panel-controls a:active,
+
+.tbc-panel-controls a.tbc-panel-btn-close,
+.closable .tbc-panel-controls a.tbc-panel-btn-close,
+.closable .tbc-panel-controls a.tbc-panel-btn-close:hover,
+.closable .tbc-panel-controls a.tbc-panel-btn-close:active,
+.closable .tbc-panel-controls a.tbc-panel-btn-close:visited,
+
+.tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:hover,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:active,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:visited,
+
+.tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:hover,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:active,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:visited,
+
+.tbc-pop-arrow,
+.tbc-pop-close a,
+
+.tbc-widgets-close,
+.tbc-widgets-fix,
+.tbc-widgets-refresh,
+
+.tbc-shortcut-inner:hover,
+.tbc-shortcut-inner:active, .tbc-shortcut-inner-active,
+.tbc-shortcut-hover .tbc-shortcut-inner,
+.tbc-shortcut:active .tbc-shortcut-inner, .tbc-shortcut-inner-active,
+.tbc-shortcut-active .tbc-shortcut-inner,
+.tbc-shortcut-inner-mousedown,
+.tbc-shortcut-selected .tbc-shortcut-inner,
+.tbc-shortcut-label,
+.tbc-desktop-dock,
+.tbc-task,
+.tbc-task em,
+.tbc-startmenu-handle,
+.tbc-scene-title .tbc-icon,
+.tbc-startMenu .tbc-pretty-background
+{ background-image:url(images/desktop/desktop.png); background-color:transparent; background-repeat:no-repeat; }
+
+/* DOCK */
+.tbc-desktop-dock{ background-position:-47px -243px; height:270px; border-radius:0 10px 10px 0; overflow:hidden; }
+.tbc-desktop-dock .tbc-shortcut { margin:6px 0px;}
+.tbc-desktop-dock .tbc-shortcut {height: 40px; left: 0; top: 4px; width:40px; }
+.tbc-desktop-dock .tbc-shortcut-icon { height: 32px; margin: 4px auto; width: 32px; }
+.tbc-desktop-dock .tbc-shortcut-inner{ left:6px;}
+.tbc-desktop-dock .tbc-shortcut-inner:hover{ background:transparent url(images/desktop/desktop.png) -300px -46px no-repeat; z-index:3;}
+.tbc-desktop-dock .tbc-shortcut-tips{ right:-8px; top:-4px; }
+
+/* 分屏导航条 */
+.tbc-desktop-nav-list{ margin-left:10px;}
+.tbc-scene-title,
+.tbc-scene-title:visited,
+.tbc-scene-title:hover,
+.tbc-desktop-nav .current
+{
+	border:none; background-color:transparent; box-shadow:none; margin-top:1px; +margin-top:3px; outline:none; overflow:visible;
+}
+.tbc-scene-title .tbc-icon{ width:24px; height:24px; line-height:24px; margin:0px; background-position:-233px -583px; font-style:normal; font-weight:bold; cursor:pointer; }
+.tbc-scene-title:hover .tbc-icon,
+.tbc-scene-title.current .tbc-icon{ background-position:-233px -612px; }
+
+.tbc-scene-title .tbc-icon img{ display:none;}
+
+/* dragin */
+.tbc-desktop-nav .tbc-dragin-parent .tbc-scene-title{ line-height:210px; }
+.tbc-desktop-nav .tbc-dragin-parent .tbc-dragin{ line-height:250px; }
+
+/*
+.scene_title_1 .tbc-icon,
+.scene_title_1:visited .tbc-icon{ background-position:-263px -523px; }
+.scene_title_1:hover .tbc-icon{ background-position:-263px -553px; }
+.scene_title_1:active .tbc-icon{ background-position:-263px -583px; }
+.scene_title_1.current .tbc-icon{ background-position:-263px -613px; }
+
+.scene_title_2 .tbc-icon,
+.scene_title_2:visited .tbc-icon{ background-position:-293px -523px; }
+.scene_title_2:hover .tbc-icon{ background-position:-293px -553px; }
+.scene_title_2:active .tbc-icon{ background-position:-293px -583px; }
+.scene_title_2.current .tbc-icon{ background-position:-293px -613px; }
+
+.scene_title_3 .tbc-icon,
+.scene_title_3:visited .tbc-icon{ background-position:-323px -523px; }
+.scene_title_3:hover .tbc-icon{ background-position:-323px -553px; }
+.scene_title_3:active .tbc-icon{ background-position:-323px -583px; }
+.scene_title_3.current .tbc-icon{ background-position:-323px -613px; }
+
+.scene_title_4 .tbc-icon,
+.scene_title_4:visited .tbc-icon{ background-position:-353px -523px; }
+.scene_title_4:hover .tbc-icon{ background-position:-353px -553px; }
+.scene_title_4:active .tbc-icon{ background-position:-353px -583px; }
+.scene_title_4.current .tbc-icon{ background-position:-353px -613px; }
+/**/
+
+
+.tbc-scene-title:visited .tbc-icon{ color:#fff; }
+.tbc-scene-title:hover .tbc-icon{ color:#fff; }
+.tbc-scene-title:active .tbc-icon{ color:#fff; }
+.tbc-scene-title.current .tbc-icon{ color:#fff; }
+
+.scene_title_admin .tbc-icon,
+.scene_title_admin:visited .tbc-icon{ background-position:-262px -523px; }
+.scene_title_admin.current .tbc-icon{ background-position:-262px -612px; }
+.scene_title_admin:hover .tbc-icon{ background-position:-262px -553px; }
+.scene_title_admin:active .tbc-icon{ background-position:-262px -583px; }
+
+/* 桌面快捷方式 */
+.tbc-shortcut-label{ color:#000; text-shadow:0 1px 0 #eee;}
+.tbc-shortcut-tips em { font-style:normal; font-size:12px; font-family:Arial;}
+
+/* 开始菜单 */
+.tbc-startMenu{ z-index:3; height:157px; width:188px; left:7px; bottom:30px; box-shadow:none; }
+.tbc-startMenu-box{ border:none;}
+.tbc-startBox{ z-index:1;}
+.tbc-startMenu .tbc-startMenu-bottom .tbc-button{ border:none; margin:4px 8px auto 4px; float:none; filter:none; overflow:hidden; display:block; font-size: 14px; color:#333; background-image: none; }
+.tbc-startMenu .tbc-startMenu-bottom .tbc-button:hover{ border:none; filter:none; color:red;}
+.tbc-startMenu .tbc-startMenu-bottom .tbc-button .tbc-icon{ margin-right: 4px;}
+.tbc-startMenu .tbc-pretty-dark,
+.tbc-startMenu .tbc-pretty-shine{ display:none;}
+
+.tbc-startmenu-handle, .tbc-startmenu-handle:visited{ display:block; cursor:pointer; bottom:-3px; height:64px; margin:-30px 0 0 0px; width:64px; background-position:-573px -135px; float:left; outline:none; position:relative; z-index:4;
+	-moz-transition:-moz-transform .8s;-webkit-transition:-webkit-transform .8s;-o-transition:-o-transform .8s;-ms-transition:-ms-transform .8s;transition:transform .8s;
+}
+.tbc-taskbar-min .tbc-startmenu-handle, .tbc-taskbar-min .tbc-startmenu-handle:visited{
+    ssbottom:27px !important;
+}
+.tbc-startmenu-handle:hover{background-position:-573px -200px;}
+.tbc-startmenu-handle-hold{ -moz-transform:rotate(360deg); -webkit-transform:rotate(360deg); -o-transform:rotate(360deg); -ms-transform:rotate(360deg); transform:rotate(360deg);}
+.tbc-startmenu-handle:focus{}
+.tbc-startmenu-handle:active{background-position:-573px -135px;}
+.tbc-startmenu-handle-hold{background-position:-573px -135px; }
+
+.tbc-taskbar-min .tbc-toggle-taskbar{}
+.tbc-startMenu .tbc-pretty-background { background-color:transparent; opacity:1; filter:none; background-position:-130px -249px;}
+.tbc-startMenu-userinfo { background-color:transparent; border:0px;}
+.tbc-startMenu-container{ height:180px;}
+
+.tbc-userPortrait{ background-image:none; padding:15px 8px 0 13px;}
+.tbc-userPortrait img{ width:100%; height:100%;}
+.tbc-startMenu-userinfo h1 { line-height:1.2em; margin:10px 10px auto auto; font-size:12px; font-weight:lighter; width:90px; float:left; overflow:hidden;}
+
+/* 任务栏 */
+.tbc-taskbar-container .tbc-pretty-background{ background-image:url("images/desktop/taskbar.png"); background-color:transparent;  opacity:1; filter:none;}
+.tbc-taskbar-container .tbc-pretty-top .tbc-pretty-dark{ opacity:0.5; filter:alpha(opacity=50); }
+.tbc-taskbar-container .tbc-pretty-top .tbc-pretty-shine{ opacity:0.7; filter:alpha(opacity=70); }
+
+.tbc-taskbar-container .tbc-pretty-bottom .tbc-pretty-dark{ opacity:0.3; filter:alpha(opacity=30); }
+
+.tbc-task-title{ color:#333; text-shadow:0 1px 0px #fff;}
+.tbc-task-current .tbc-task-title,
+.tbc-task-hover .tbc-task-title,
+.tbc-task-active .tbc-task-title{ color:#000; text-shadow:0 1px 0 rgba(0,255,255,.8); }
+
+.tbc-scroll-arrow-toNext,
+.tbc-scroll-arrow-toNext:visited,
+.tbc-scroll-arrow-toNext:hover,
+.tbc-scroll-arrow-toNext:active,
+.tbc-scroll-arrow-toPrev,
+.tbc-scroll-arrow-toPrev:visited,
+.tbc-scroll-arrow-toPrev:hover,
+.tbc-scroll-arrow-toPrev:active,
+.tbc-showTaskbar,
+.tbc-hideTaskbar,
+.tbc-task-displayInvisible,
+.tbc-task-separator,
+.tbc-task-invisible-handle
+{ background-image:url(images/desktop/taskbar.png); }
+
+.tbc-hideTaskbar:hover, .tbc-showTaskbar:hover {
+    background-color: #fff;
+    opacity: 1;
+}
+
+/* POP */
+.tbc-pop{ box-shadow:1px 2px 6px rgba(0,0,0,.5);}
+.tbc-pop-close a, .tbc-pop-close a:visited{ background-position:-130px -573px; width:32px; height:32px; text-indent:-100px; overflow:hidden;}
+.tbc-pop-close {height:32px; right:-10px; top:-10px;}
+
+.tbc-pop-folder .tbc-pop-arrow,
+.tbc-pop-folder .tbc-pop-left{height:27px; top:30%; width:12px; background-position:-94px -610px; width:13px; left:-13px;}
+.tbc-pop-folder .tbc-pop-right{ background-position:-112px -610px; width:15px; right:-15px; left:auto; }
+.tbc-pop-folder .tbc-pop-top{ background-position:-96px -607px; height: 17px; left: 5px; top: -17px; width: 27px;}
+.tbc-pop-folder .tbc-pop-bottom{ background-position:-96px -623px; height: 14px; left:5px; top:auto; bottom:-14px; width: 27px;}
+
+.tbc-pop-folder{ background-color:#0080AA; border-width:1px; }
+.tbc-pop-folder .tbc-pop-container{ padding:6px; }
+
+/**** 窗口:tbc.window.css */
+.tbc-panel-controls{ top:9px; right:10px;}
+.tbc-panel-controls-box{ border:0px;}
+.closable .tbc-panel-controls a, .tbc-panel-controls a:visited {
+	width:24px; height:24px; overflow:hidden; text-indent:-3000px; border:0px; border-radius:4px; outline:none;
+	-moz-transition:0s; -webkit-transition:0s; -o-transition:0s; -ms-transition:0s; transition:0s;
+}
+.tbc-panel-footer{ overflow:hidden; height:10px;}
+.tbc-panel-footer .resize-handle{ margin-top:-3px;}
+.tbc-panel-footer-center{ +position:relative; +top:-3px;}
+
+/* 关闭 */
+.tbc-panel-controls a.tbc-panel-btn-close{ display:none; background-position:-612px -611px;}
+.closable .tbc-panel-controls a.tbc-panel-btn-close,
+.closable .tbc-panel-controls a.tbc-panel-btn-close:visited{ background-position:-612px -521px; }
+.closable .tbc-panel-controls a.tbc-panel-btn-close:hover{ background-position:-612px -551px;}
+.closable .tbc-panel-controls a.tbc-panel-btn-close:active{ background-position:-612px -581px;}
+
+/* 最大化 */
+.tbc-panel-controls a.tbc-panel-btn-max{ display:none;  background-position:-588px -611px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:visited{ background-position:-588px -521px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:hover{ background-position:-588px -551px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:active{ background-position:-588px -581px;}
+
+/* 还原 */
+.tbc-panel-controls a.tbc-panel-btn-max{ display:none;  background-position:-562px -611px;}
+.maximize .tbc-panel-controls a.tbc-panel-btn-max,
+.maximize .tbc-panel-controls a.tbc-panel-btn-max:visited{ background-position:-562px -521px;}
+.maximize .tbc-panel-controls a.tbc-panel-btn-max:hover{ background-position:-562px -551px;}
+.maximize .tbc-panel-controls a.tbc-panel-btn-max:active{ background-position:-562px -581px;}
+
+/* 最小化 */
+.tbc-panel-controls a.tbc-panel-btn-min{ display:none;  background-position:-536px -611px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:visited{ background-position:-536px -521px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:hover{ background-position:-536px -551px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:active{ background-position:-536px -581px;}
+
+/* 刷新 */
+.tbc-panel-controls a.tbc-panel-btn-refresh{ display:none; background-position:-510px -611px;}
+.refreshable .tbc-panel-controls a.tbc-panel-btn-refresh,
+.refreshable .tbc-panel-controls a.tbc-panel-btn-refresh:visited{ background-position:-510px -521px;}
+.refreshable .tbc-panel-controls a.tbc-panel-btn-refresh:hover{ background-position:-510px -551px; cursor:pointer;}
+.refreshable .tbc-panel-controls a.tbc-panel-btn-refresh:active{ background-position:-510px -581px;}
+
+/* 重置 */
+.tbc-panel-controls a.tbc-panel-btn-reset{ display:none; background-position:-406px -611px;}
+.resettable .tbc-panel-controls a.tbc-panel-btn-reset,
+.resettable .tbc-panel-controls a.tbc-panel-btn-reset:visited{ background-position:-406px -521px;}
+.resettable .tbc-panel-controls a.tbc-panel-btn-reset:hover{ background-position:-406px -551px; cursor:pointer;}
+.resettable .tbc-panel-controls a.tbc-panel-btn-reset:active{ background-position:-406px -581px;}
+
+/* 帮助 */
+.tbc-panel-controls a.tbc-panel-btn-help{ display:none; background-position:-484px -611px; }
+.helpable .tbc-panel-controls a.tbc-panel-btn-help,
+.helpable .tbc-panel-controls a.tbc-panel-btn-help:visited{ background-position:-484px -521px;}
+.helpable .tbc-panel-controls a.tbc-panel-btn-help:hover{ background-position:-484px -551px; cursor:pointer;}
+.helpable .tbc-panel-controls a.tbc-panel-btn-help:active{ background-position:-484px -581px;}
+
+/* 翻译 */
+.tbc-panel-controls a.tbc-panel-btn-translate{ display:none; background-position:-380px -611px; }
+.translatable .tbc-panel-controls a.tbc-panel-btn-translate,
+.translatable .tbc-panel-controls a.tbc-panel-btn-translate:visited{ background-position:-380px -521px;}
+.translatable .tbc-panel-controls a.tbc-panel-btn-translate:hover{ background-position:-380px -551px; cursor:pointer;}
+.translatable .tbc-panel-controls a.tbc-panel-btn-translate:active{ background-position:-380px -581px;}
+
+/* 按钮 */
+.tbc-panel-controls-box{ text-align: right; }
+.translatable .tbc-panel-controls a.tbc-panel-btn-translate,
+.translatable .tbc-panel-controls a.tbc-panel-btn-translate:visited,
+.helpable .tbc-panel-controls a.tbc-panel-btn-help,
+.helpable .tbc-panel-controls a.tbc-panel-btn-help:visited,
+.resettable .tbc-panel-controls a.tbc-panel-btn-reset,
+.resettable .tbc-panel-controls a.tbc-panel-btn-reset:visited,
+.refreshable .tbc-panel-controls a.tbc-panel-btn-refresh,
+.refreshable .tbc-panel-controls a.tbc-panel-btn-refresh:visited,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:visited,
+.maximize .tbc-panel-controls a.tbc-panel-btn-max,
+.maximize .tbc-panel-controls a.tbc-panel-btn-max:visited,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:visited,
+.closable .tbc-panel-controls a.tbc-panel-btn-close,
+.closable .tbc-panel-controls a.tbc-panel-btn-close:visited
+{
+    display: inline-block; +display: inline; +zoom:1;
+}
+
+/* Widgets */
+.tbc-widget-tools a, .tbc-widget-tools a:visited{ height:24px; width:24px; background-color:transparent; border-radius:0; }
+
+.tbc-widgets-close,
+.tbc-widgets-close:visited{ background-position:-612px -405px; }
+.tbc-widgets-close:hover{ background-position:-612px -434px; background-color:transparent; }
+.tbc-widgets-close:active{ background-position:-612px -464px;}
+
+.tbc-widgets-fix,
+.tbc-widgets-fix:visited{ background-position:-588px -405px;}
+.tbc-widgets-fix:hover{ background-position:-588px -434px; background-color:transparent;}
+.tbc-widgets-fix:active{ background-position:-588px -464px;}
+.tbc-widgets-fix-disabled, .tbc-widgets-fix-disabled:visited, .tbc-widgets-fix-disabled:hover
+{ background-position:-588px -464px; }
+
+.tbc-widgets-refresh,
+.tbc-widgets-refresh:visited{ background-position:-563px -405px; }
+.tbc-widgets-refresh:hover{ background-position:-563px -434px; background-color:transparent; }
+.tbc-widgets-refresh:active{ background-position:-563px -464px; }
+
+.tbc-appsTray .tbc-button-link,
+.tbc-appsTray .tbc-button-link:visited,
+.tbc-appsTray .tbc-button-link:active{ color:#333; border:0px; vertical-align: top; cursor:pointer; margin:4px 0 1px 3px; padding:4px 1px 2px 2px; text-shadow:0 1px 0px #ccc; }
+.tbc-appsTray .tbc-button-link:hover{ color:#000; text-shadow:0 1px 0px #fff; }
+
+
+/* Start: window*/
+
+
+/* 边框背景(普通模式) */
+.tbc-panel-top-left, .north-west{background:url(images/window/flat/dialog-top-left.png) repeat-x top right;}
+.tbc-panel-top-center, .north{background:url(images/window/flat/dialog-top-center.png) repeat-x top;}
+.tbc-panel-top-right, .north-east{background:url(images/window/flat/dialog-top-right.png) top left no-repeat;}
+.tbc-panel-middle-left, .west{background:url(images/window/flat/dialog-middle-left.png) repeat-y left;}
+.tbc-panel-middle-center{background:#fff url(images/window/flat/dialog-content.png) repeat left;}
+.tbc-panel-middle-right, .east{background:url(images/window/flat/dialog-middle-right.png) repeat-y right;}
+.tbc-panel-footer-left, .south-weat{background:url(images/window/flat/dialog-bottom-left.png) top right no-repeat;}
+.tbc-panel-footer-center, .south{ background:url(images/window/flat/dialog-bottom-center.png) repeat-x top;}
+.tbc-panel-footer-right, .south-east{background:url(images/window/flat/dialog-bottom-right.png) top left no-repeat;}
+
+/* 边框背景(阴影模式) */
+.shadow .tbc-panel-top-left{background:url(images/window/shadow/dialog-top-left.png) repeat-x top right;}
+.shadow .tbc-panel-top-center{background:url(images/window/shadow/dialog-top-center.png) repeat-x top;}
+.shadow .tbc-panel-top-right{background:url(images/window/shadow/dialog-top-right.png) top left no-repeat;}
+.shadow .tbc-panel-middle-left{background:url(images/window/shadow/dialog-middle-left.png) repeat-y left;}
+.shadow .tbc-panel-middle-center{background:#fff url(images/window/shadow/dialog-content.png) repeat left;}
+.shadow .tbc-panel-middle-right{background:url(images/window/shadow/dialog-middle-right.png) repeat-y right;}
+.shadow .tbc-panel-footer-left{background:url(images/window/shadow/dialog-bottom-left.png) top right no-repeat;}
+.shadow .tbc-panel-footer-center{ background:url(images/window/shadow/dialog-bottom-center.png) repeat-x top;}
+.shadow .tbc-panel-footer-right{background:url(images/window/shadow/dialog-bottom-right.png) top left no-repeat;}
+
+/* 边框背景(无标题模式) */
+.layerMode .tbc-panel-top-left{background:url(images/window/white/dialog-top-left.png) repeat-x top right;}
+.layerMode .tbc-panel-top-center{background:url(images/window/white/dialog-top-center.png) repeat-x top;}
+.layerMode .tbc-panel-top-right{background:url(images/window/white/dialog-top-right.png) top left no-repeat;}
+.layerMode .tbc-panel-middle-left{background:url(images/window/white/dialog-middle-left.png) repeat-y left;}
+.layerMode .tbc-panel-middle-center{background:#fff url(images/window/white/dialog-content.png) repeat left;}
+.layerMode .tbc-panel-middle-right{background:url(images/window/white/dialog-middle-right.png) repeat-y right;}
+.layerMode .tbc-panel-footer-left{background:url(images/window/white/dialog-bottom-left.png) top right no-repeat;}
+.layerMode .tbc-panel-footer-center{ background:url(images/window/white/dialog-bottom-center.png) repeat-x top;}
+.layerMode .tbc-panel-footer-right{background:url(images/window/white/dialog-bottom-right.png) top left no-repeat;}
+.layerMode .tbc-panel-controls a.tbc-panel-btn-close,
+.layerMode .tbc-panel-controls a.tbc-panel-btn-close:hover,
+.layerMode .tbc-panel-controls a.tbc-panel-btn-close:visited,
+.layerMode .tbc-panel-controls a.tbc-panel-btn-close:active{
+    background-position: -127px -572px;
+    position: relative;
+    height: 32px;
+    top: -10px;
+    right: -13px;
+    width: 32px;
+}
+
+/* 边框背景(活动模式) */
+.active .tbc-panel-top-left{background:url(images/window/active/dialog-top-left.png) repeat-x top right;}
+.active .tbc-panel-top-center{background:url(images/window/active/dialog-top-center.png) repeat-x top;}
+.active .tbc-panel-top-right{background:url(images/window/active/dialog-top-right.png) top left no-repeat;}
+.active .tbc-panel-middle-left{background:url(images/window/active/dialog-middle-left.png) repeat-y left;}
+.active .tbc-panel-middle-center{background:#fff url(images/window/active/dialog-content.png) repeat left;}
+.active .tbc-panel-middle-right{background:url(images/window/active/dialog-middle-right.png) repeat-y right;}
+.active .tbc-panel-footer-left{background:url(images/window/active/dialog-bottom-left.png) top right no-repeat;}
+.active .tbc-panel-footer-center{ background:url(images/window/active/dialog-bottom-center.png) repeat-x top;}
+.active .tbc-panel-footer-right{background:url(images/window/active/dialog-bottom-right.png) top left no-repeat;}
+
+/* 边框背景(错误模式) */
+.error .tbc-panel-top-left{background:url(images/window/error/dialog-top-left.png) repeat-x top right;}
+.error .tbc-panel-top-center{background:url(images/window/error/dialog-top-center.png) repeat-x top;}
+.error .tbc-panel-top-right{background:url(images/window/error/dialog-top-right.png) top left no-repeat;}
+.error .tbc-panel-middle-left{background:url(images/window/error/dialog-middle-left.png) repeat-y left;}
+.error .tbc-panel-middle-center{background:#fff url(images/window/error/dialog-content.png) repeat left;}
+.error .tbc-panel-middle-right{background:url(images/window/error/dialog-middle-right.png) repeat-y right;}
+.error .tbc-panel-footer-left{background:url(images/window/error/dialog-bottom-left.png) top right no-repeat;}
+.error .tbc-panel-footer-center{ background:url(images/window/error/dialog-bottom-center.png) repeat-x top;}
+.error .tbc-panel-footer-right{background:url(images/window/error/dialog-bottom-right.png) top left no-repeat;}
+
+/* 可重置大小时给边框定义不同的鼠标指针状态 */
+.resizable .tbc-panel-top-left      {cursor:nw-resize;}
+.resizable .tbc-panel-top-center    {cursor:n-resize;}
+.resizable .tbc-panel-top-right     {cursor:ne-resize;}
+.resizable .tbc-panel-middle-left   {cursor:w-resize;}
+.resizable .tbc-panel-middle-center {cursor:default;}
+.resizable .tbc-panel-middle-right  {cursor:e-resize;}
+.resizable .tbc-panel-footer-left   {cursor:sw-resize;}
+.resizable .tbc-panel-footer-center {cursor:s-resize;}
+.resizable .tbc-panel-footer-right  {cursor:se-resize;}
+/**/
+
+/* 因IE6不能完美支持透明的PNG图片,为IE6设置为gif背景图 */
+/* IE6: 无阴影模式 */
+.tbc-panel .tbc-panel-top-left{ _background:url(images/window/IE6/flat/dialog-top-left.gif) repeat-x top right;}
+.tbc-panel .tbc-panel-top-center{ _background:url(images/window/IE6/flat/dialog-top-center.gif) repeat-x 0 0px;}
+.tbc-panel .tbc-panel-top-right{ _background:url(images/window/IE6/flat/dialog-top-right.gif) top left no-repeat;}
+
+.tbc-panel .tbc-panel-middle-left{ _background:url(images/window/IE6/flat/dialog-middle-left.gif) repeat-y left;}
+.tbc-panel .tbc-panel-middle-center{ _background:#fff url(images/window/IE6/flat/dialog-content.gif) repeat left;}
+.tbc-panel .tbc-panel-middle-right{ _background:url(images/window/IE6/flat/dialog-middle-right.gif) repeat-y right;}
+
+.tbc-panel .tbc-panel-footer-left{ _background:url(images/window/IE6/flat/dialog-bottom-left.gif) top right no-repeat;}
+.tbc-panel .tbc-panel-footer-center{ _background:url(images/window/IE6/flat/dialog-bottom-center.gif) repeat-x top;}
+.tbc-panel .tbc-panel-footer-right{ _background:url(images/window/IE6/flat/dialog-bottom-right.gif) top left no-repeat;}
+
+/* IE6: 阴影模式*/
+.shadow .tbc-panel-top-left{ _background:url(images/window/IE6/shadow/dialog-top-left.gif) repeat-x top right;}
+.shadow .tbc-panel-top-center{ _background:url(images/window/IE6/shadow/dialog-top-center.gif) repeat-x 0 0px;}
+.shadow .tbc-panel-top-right{ _background:url(images/window/IE6/shadow/dialog-top-right.gif) top left no-repeat;}
+
+.shadow .tbc-panel-middle-left{ _background:url(images/window/IE6/shadow/dialog-middle-left.gif) repeat-y left;}
+.shadow .tbc-panel-middle-center{ _background:#fff url(images/window/IE6/shadow/dialog-content.gif) repeat left;}
+.shadow .tbc-panel-middle-right{ _background:url(images/window/IE6/shadow/dialog-middle-right.gif) repeat-y right;}
+
+.shadow .tbc-panel-footer-left{ _background:url(images/window/IE6/shadow/dialog-bottom-left.gif) top right no-repeat;}
+.shadow .tbc-panel-footer-center{ _background:url(images/window/IE6/shadow/dialog-bottom-center.gif) repeat-x top;}
+.shadow .tbc-panel-footer-right{ _background:url(images/window/IE6/shadow/dialog-bottom-right.gif) top left no-repeat;}
+/**/

@@ -1,0 +1,32 @@
+.folder-demo{ height:100%;}
+
+.tbc-folder-viewer{ height:100%; width:100%; overflow:hidden; position:relative;}
+.tbc-folder-directory{ width:100px; display:none; height:100%; border-right:1px solid #ddd; background:#f8f8f8; overflow:auto; overflow-x:hidden; position:absolute; top:0; left:0; z-index:1;}
+.tbc-folder-previewer{ width:0px; display:none; height:100%; border-left:1px solid #ddd; background:#f8f8f8; overflow:auto;position:absolute; top:0; right:0;}
+.tbc-folder-container{ margin:0; overflow:auto; height:100%; background:#fff; position:relative;}
+
+.tbc-list{ background:#ddd; width:100%;}
+.tbc-list-row{ background-color:#fff; border-top:1px solid #eee; border-bottom:1px solid #eee; position:relative; margin-top:-1px; height:28px; line-height:28px; width:100%; overflow:hidden;}
+.tbc-list-body .tbc-list-row{ color:#666;}
+.tbc-list-body .tbc-list-row:hover,
+.tbc-list-body .tbc-list-row-hold
+{ background-color:#eee; border-color:#ccc; color:#000; z-index:1;}
+.tbc-list-body .tbc-list-row-selected{ background-color:#6CF; border-color:#3CF; color:#036;}
+.tbc-list-body .tbc-list-row-selected:hover{ background-color:#6CC; border-color:#3CA; color:#000;}
+.tbc-list-body .tbc-list-row-error{ background-color:#eee; border:1px solid #fff; color:#333;}
+.tbc-list-cell{ height:100%; width:120px; display:block; float:left; padding:0 8px; margin-left:0px;}
+.tbc-list-cell img{ height:100%;}
+
+
+.tbc-list-header{color:#000; font-weight:bold; font-size:14px;}
+.tbc-list-header .tbc-list-row{
+	backdroung-color: #eeeeee;
+	background-image: -moz-linear-gradient(top, #e8e8e8, #fff 100%);
+	background-image: -o-linear-gradient(top, #e8e8e8, #fff 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e8e8e8), to(#fff));
+	background-image: -ms-linear-gradient(top, #e8e8e8, #fff 100%);
+	background-image: linear-gradient(top, #e8e8e8, #fff 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(gradienttype=0, startColorstr='#e8e8e8', endColorstr='#ffffff'); 
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(gradienttype=0, startColorstr='#e8e8e8', endColorstr='#ffffff')"; 
+}
+.tbc-list-header .tbc-list-cell{ border-left:1px solid #fff; border-right:1px solid #ddd; }

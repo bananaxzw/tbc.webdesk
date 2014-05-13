@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="/webdesk/css/default/tbc.desktop.manager.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="desk-box desk-edit-tools">
+        <div class="tools-list">
+            <dl>
+                <dt>编辑</dt>
+                <dd data-id="111111111"><i class="edit"></i></dd>
+                <dd data-id="222222222"><i class="edit"></i></dd>
+                <dd data-id="333333333"><i class="edit"></i></dd>
+                <dd data-id="444444444"><i class="edit"></i></dd>
+            </dl>
+            <dl>
+                <dt>显示</dt>
+                <dd data-id="111111111"><i class="visible"></i></dd>
+                <dd data-id="222222222"><i class="visible"></i></dd>
+                <dd data-id="333333333"><i class="hidden"></i></dd>
+                <dd data-id="444444444"><i class="visible"></i></dd>
+            </dl>
+            <dl>
+                <dt>排序</dt>
+                <dd data-id="111111111"><i class="prev"></i><i class="next"></i></dd>
+                <dd data-id="222222222"><i class="prev"></i><i class="next"></i></dd>
+                <dd data-id="333333333"><i class="prev"></i><i class="next"></i></dd>
+                <dd data-id="444444444"><i class="prev"></i><i class="next"></i></dd>
+            </dl>
+        </div>
+
+        <div class="desk-settings">
+            <dl><label><input type="checkbox" name="allowUserAddDesktop" />允许学员创建桌面屏</label></dl>
+        </div>
+    </div>
+
+    <div class="desk-box desk-add">
+        <div class="tbc-tab-nav">
+            <ul>
+                <li>新增空白屏</li>
+                <li>新增应用屏</li>
+                <li>新增网页屏</li>
+            </ul>
+        </div>
+        <div class="tbc-tabset">
+            <div class="blank">
+                <div>新增一个空白屏，您可以在上面自由添加应用。</div>
+                <div>
+                    <label for="desk-title"><s class="text-warning">*</s>名称：</label>
+                    <input name="desk-title" type="text"/>
+                </div>
+                <div class="desk-add-btns">
+                    <a class="btn-blue ok" href="">确定</a>
+                    <a class="btn-blue cancel" href="">取消</a>
+                </div>
+            </div>
+            <div class="app">
+                <div>选择一个应用设置为独立的桌面屏。</div>
+                <div>
+                    <label for="ss"><s class="text-warning">*</s>名称：</label>
+                    <input name="desk-title" type="text"/>
+                    <input name="desk-url" type="text"/>
+                    <input name="desk-appCode" type="text"/>
+                </div>
+                <div class="desk-add-btns">
+                    <a class="btn-blue ok" href="">确定</a>
+                    <a class="btn-blue cancel" href="">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

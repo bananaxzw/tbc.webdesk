@@ -1,0 +1,193 @@
+
+<script type="text/template" id="translateForm">
+    <div class="trans-inputer tbc-form-group">
+        <input type="text" class="trans-keyword" value="<%=(key?key:"")%>" placeholder="输入词条内容"/>
+        <button type="button" class="s-button trans-search"><i class="tbc-icon icon-zoom">&nbsp;</i></button>
+    </div>
+    <% if (key===false) { %>
+        <div class="trans-tips" style="display:block;">
+            <p>输入页面内的字段内容，出现该字段对应的所有语言版本；您可以自定义修改字段内容。</p>
+        </div>
+    <% } else if(localeName===null) {%>
+        <div class="trans-tips trans-empty" style="display:block;">
+            <p>您查询的key不存在，要不您再换个key试试吧</p>
+        </div>
+    <% } else { %>
+        <div class="trans-list">
+            <ul>
+                <%
+                    var data = langs;
+                    $.each(data, function (index, obj){
+                     var localeName = obj.localeName;
+                     var id = obj.key + '_' + obj.locale;
+                     var locale = obj.locale;
+                     var value = $('<span/>').html(obj.value).text();
+                %>
+                <li data-lang="<%=locale%>">
+                    <span class="tbc-form-group">
+                        <label for="<%=id%>"><%=localeName%>：</label>
+                        <input name="<%=id%>" id="<%=id%>" data-key="<%=key%>" data-locale="<%=locale%>" class="trans-edit" value="<%=value%>" type="text" />
+                        <button type="button" class="s-button trans-save">
+                            保存
+                            <!--<i class="tbc-icon icon-check">&nbsp;</i>-->
+                        </button>
+                    </span>
+                </li>
+                <%})%>
+            </ul>
+        </div>
+    <%}%>
+</script>
+<div class="translate"></div>
+<script type="text/javascript">
+(function() {
+
+    var URLS = {
+
+        // 词条维护页面
+          translateForm   : "/webdesk/html/desktopManager/translate.html"
+        , languageList    : "/cs/html/admin/loadLanguageSetting.do"
+        // 查找国际化文本
+        , searchI18nWords : "/os/html/desk/desk.getAllLocalValue.do"
+        // 保存i18n文本
+        , saveI18nWords   : "/os/html/desk/desk.updateI18n.do"
+    };
+
+    function init (langList) {
+
+        var $template = $('#translateForm'),
+            win = tbc.getTaskByElement($template[0]),
+            langs = _.groupBy(langList, 'locale'),
+            template = $template.html(),
+            $container = win.ui.find('.translate'),
+            html;
+
+        function search(key) {
+            if (key) {
+                $.ajax({
+                    url : URLS['searchI18nWords'],
+                    data: {key:key},
+                    type: 'POST',
+                    dataType : 'json',
+                    beforeSend: function() {
+                        $container.find('.trans-search').attr('disabled', 'disabled');
+                    },
+                    complete: function() {
+                        $container.find('.trans-search').removeAttr('disabled');
+                    },
+                    success: function(json) {
+                        if (json) {
+                            json.langs = json;
+                            json.key = key;
+                            json.localeName = key;
+                            html = _.template(template, json);
+                            $container.html(html);
+                        } else {
+                            html = _.template(template, {key:key, localeName:null});
+                            $container.html(html);
+                        }
+                    }
+                });
+            }
+        }
+
+        function save (data, btn) {
+            $.ajax({
+                url  : URLS['saveI18nWords'],
+                type : 'POST',
+                data : data,
+                dataType : 'json',
+                beforeSend: function() {
+                    btn.attr('disabled', 'disabled');
+                },
+                complete: function() {
+                    btn.removeAttr('disabled');
+                },
+                success: function() {
+                    btn.parents('li').removeClass('editable');
+                    updatePage(data.locale, data.key, data.value);
+                }
+            });
+        }
+
+        /**
+         * 更新页面的i18n文本
+         * @return {[type]} [description]
+         */
+        function updatePage(lang, key, value) {
+            var cookie = tbc.cookie('local_');
+            if (cookie===lang || (cookie==='' && lang==='zh_CN')) {
+                var doc = win.targetWin ? win.targetWin.document : null,
+                    iframe,
+                    i18nTags;
+
+                if (!doc) {
+                    iframe = win.opener ? win.opener.ui.find('iframe') : null;
+                    doc = iframe ? iframe.contents()[0] : null;
+                }
+
+                if (doc) {
+                    i18nTags = $('i[data-key="'+ key +'"]', doc);
+                    $.each(i18nTags, function() {
+                        var text = this.childNodes;
+                        if (text[0].nodeType===3) {
+                            text[0].data = value;
+                        }
+                    });
+                }
+            }
+        }
+
+        win.search = search;
+        win.addEvent('close', function() {
+            this.search = null;
+        });
+
+        $container.on('click', '.trans-save', function (event) {
+            var $btn = $(this),
+                $ipt = $btn.siblings('input[type="text"]'),
+                val = $.trim($ipt.val()),
+                key = $ipt.attr('data-key'),
+                locale = $ipt.attr('data-locale');
+
+            save({
+                key    : key,
+                value  : val,
+                locale : locale
+            }, $btn);
+        }).on('click', '.trans-search', function() {
+            var key = $container.find('.trans-keyword').val();
+            search(key);
+        }).on('keyup', '.trans-keyword', function(event) {
+            if (event.keyCode === 13) {
+                search(this.value);
+            }
+        }).on('focus', '.trans-edit', function(event) {
+            $(this).parents('li').addClass('editable');
+        }).on('keyup', '.trans-edit', function(event) {
+            if (event.keyCode === 13) {
+                $container.find('.trans-save').trigger('click');
+                this.blur();
+            }
+        });
+
+        // 渲染界面
+        html = _.template(template, {key:false});
+        $container.html(html);
+
+        // 自动搜索
+        if (win.i18nKey) {
+            search(win.i18nKey);
+            $container.find('.trans-keyword').val(win.i18nKey);
+        } else {
+            $container.find('.trans-keyword').focus();
+        }
+    }
+
+    if (window.i18n && typeof window.i18n.loadLanguageList === 'function') {
+        window.i18n.loadLanguageList(init);
+    } else if (window.desktop && typeof window.desktop.loadLanguageList === 'function') {
+        desktop.loadLanguageList(init);
+    }
+}());
+</script>

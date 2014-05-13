@@ -1,0 +1,19 @@
+{
+  "name": "jquery-plugin",
+  "version": "0.0.0-ignored",
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "dependencies": {
+    "grunt-css": ">= 0.2.1",
+    "grunt-coffee": ">= 0.0.6",
+    "grunt-jasmine-task": ">= 0.2.2",
+    "grunt-sizediff": ">= 0.2.1",
+    "grunt-shell": ">= 0.1.3",
+    "grunt-contrib": ">= 0.1.7",
+    "marked": ">= 0.2.5"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.14"
+  }
+}

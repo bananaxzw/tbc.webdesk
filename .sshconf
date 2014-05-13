@@ -1,0 +1,17 @@
+{
+  "test2": {
+    "host" : "192.168.0.215",
+    "username": "root",
+    "password": "xnLocalDev.215"
+  },
+  "test3": {
+    "host" : "192.168.0.215",
+    "username": "root",
+    "password": "xnLocalDev.215"
+  },
+  "yufa": {
+    "host" : "192.168.0.215",
+    "username": "web",
+    "password": "tbcBjWeb116"
+  }
+}

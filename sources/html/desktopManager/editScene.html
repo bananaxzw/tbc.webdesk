@@ -1,0 +1,112 @@
+<%
+    var TYPE_NAME = {
+        DESKTOP     : '空白桌面',
+        LINK        : '网站',
+        APPLICATION : '应用',
+        WIDGETS     : 'Widget模板'
+    },
+    type    = scene.type || '',
+    icon    = scene.icon || '',
+    name    = scene.name || scene.title || '',
+    isTem   = scene.isTem,
+    url     = scene.url || '',
+    appCode = scene.appCode || '',
+    isAdmin = window.desktop.isAdmin(),
+    isSysAdmin = window.desktop.isSysAdmin();
+%>
+<div class="tbc-add-scene">
+    <div class="tbc-add-scene-inner">
+        <div class="tbc-add-scene-box">
+            <div class="add-scene-type">
+                <label><%= i18n('v4.js.deskType')%></label>
+                <select class="add-scene-type-select">
+                    <option value="<%= type%>" selected="selected"><%= TYPE_NAME[type]%></option>
+                </select>
+            </div>
+            <%
+                switch(type) {
+                    case 'DESKTOP': %>
+                        <ul style="display:block;" class="add-scene-type-opera add-scene-info-DESKTOP">
+                            <li>
+                                <label>* <%= i18n('v4.js.deskName')%></label>
+                                <input type="text" value="<%=(name)%>" class="add-scene-normal-title" /><span class="msg"><%= i18n('v4.js.strMaxlength', 10)%></span>
+                            </li>
+                        </ul> <%
+
+                        break;
+                    case 'APPLICATION': %>
+                        <ul style="display:block;" class="add-scene-type-opera add-scene-info-APP clearFloat">
+                            <li class="add-scene-app-selected">
+                                <span class="app-preview">
+                                    <div class="add-scene-app-selected-box">
+                                        <img class="add-scene-app-selected-icon" src="<%= icon%>" style="width:48px; display:block;" onerror="this.style.display=\'none\';"/>
+                                    </div>
+                                    <span class="add-scene-app-selected-name"><%=(name|| i18n('v4.js.selectApp'))%></span>
+                                </span>
+                            </li>
+                            <% if (isAdmin) { %>
+                            <li>
+                                <label>&nbsp;</label>
+                                <label class="label-for-alluser">
+                                    <input value="true" <%=(isTem ? ' checked="checked"' : '')%> type="checkbox" class="for-alluser add-scene-app-alluser" />
+                                    <%= i18n('v4.js.applyToAllUser')%>
+                                </label>
+                            </li>
+                            <% } %>
+                            <input type="hidden" value="<%=url %>" class="add-scene-app-url" />
+                            <input type="hidden" value="<%=name %>" class="add-scene-app-title" />
+                            <input type="hidden" value="<%=icon %>" class="add-scene-app-icon" />
+                            <input type="hidden" value="<%=appCode %>" class="add-scene-app-appCode" />
+                        </ul> <%
+
+                        break;
+                    case 'LINK': %>
+                        <ul style="display:block;" class="add-scene-type-opera add-scene-info-LINK">
+                            <li>
+                                <label>* <%= i18n('v4.js.deskName')%></label>
+                                <input value="<%=name%>" type="text" class="add-scene-site-title" />
+                                <span class="msg"><%= i18n('v4.js.strMaxlength', 10)%></span>
+                            </li>
+                            <li>
+                                <label>* <%= i18n('v4.js.siteUrl')%></label>
+                                <input value="<%=url%>" type="text" class="add-scene-site-url" />
+                                <span class="msg">(<%= i18n('v4.js.vtpRequired')%>)</span>
+                            </li>
+                            <% if (isAdmin) { %>
+                            <li>
+                               <label>&nbsp;</label>
+                               <label class="label-for-alluser">
+                                   <input value="true" <%=(isTem ? ' checked="checked"' : '') %> type="checkbox" class="for-alluser add-scene-site-alluser" name="add-scene-site-alluser" />
+                                   <%= i18n('v4.js.applyToAllUser')%></label>
+                            </li>
+                            <% } %>
+                        </ul>
+                        <%
+                        break;
+
+                    case 'WIDGETS': %>
+                        <div style="display:block;" class="add-scene-type-opera add-scene-info-WIDGETS"></div>
+                        <% if (isSysAdmin) { %>
+                        <div style="display:block;" class="add-scene-type-opera add-scene-info-WIDGETS assigned-for-users">
+                            <label class="label-for-alluser">
+                                <input value="true" <%=(isTem ? ' checked="checked"' : '') %> type="checkbox" class=" for-alluser add-scene-widget-alluser" name="add-scene-widget-alluser" />
+                                <%= i18n('v4.js.applyToAllUser')%></label>
+                        </div>
+                        <% } %>
+                        <input type="hidden" value="<%=url %>" class="add-scene-widget-url" />
+                        <input type="hidden" value="<%=name %>" class="add-scene-widget-title" />
+                        <input type="hidden" value="<%=icon %>" class="add-scene-widget-icon" />
+                        <input type="hidden" value="<%=appCode %>" class="add-scene-widget-appCode" />
+                        <%
+                        break;
+
+                    default: %>
+                        <div style="display:block;" class="add-scene-type-opera no-changed"><%=i18n('v4.js.noPermissionsEditDesk')%></div>
+                <% } %>
+        </div>
+    </div>
+    <div class="add-scene-bottom-tools">
+        <input type="submit" value="<%=i18n('!v4.js.confirm')%>" class="save-button tbc-button tbc-button-blue" />
+        <input type="button" value="<%=i18n('!v4.js.cancel')%>" class=" cancel-button tbc-button" />
+    </div>
+</div>

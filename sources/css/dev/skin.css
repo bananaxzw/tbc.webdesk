@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+/* background */
+.tbc-panel-controls a,
+.tbc-panel-controls a:visited,
+.tbc-panel-controls a:hover,
+.tbc-panel-controls a:active,
+
+.tbc-panel-controls a.tbc-panel-btn-close,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:hover,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:active,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:visited,
+
+.tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:hover,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:active,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:visited,
+
+.tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:hover,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:active,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:visited,
+
+.tbc-pop-arrow,
+.tbc-pop-close a
+{ background-image:url(images/desktop/desktop.png); background-color:transparent; background-repeat:no-repeat;}
+
+/**** 窗口:tbc.window.css */
+.tbc-panel-controls{ top:10px; right:10px;}
+.tbc-panel-controls-box{ border:0px; border-radius:0;}
+.closeable .tbc-panel-controls a, .tbc-panel-controls a:visited {
+	width:30px; height:22px; overflow:hidden; text-indent:-3000px; border:0px; -moz-transition:0s;
+}
+
+.tbc-panel-controls a.tbc-panel-btn-close{ background-position:-609px -612px;}
+.closeable .tbc-panel-controls a.tbc-panel-btn-close,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:visited{ background-position:-609px -542px;}
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:hover{ background-position:-609px -565px;}
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:active{ background-position:-609px -588px;}
+
+.tbc-panel-controls a.tbc-panel-btn-max{ background-position:-579px -611px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:visited{ background-position:-579px -542px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:hover{ background-position:-579px -565px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:active{ background-position:-579px -588px;}
+
+.tbc-panel-controls a.tbc-panel-btn-min{ background-position:-545px -611px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:visited{ background-position:-545px -542px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:hover{ background-position:-545px -565px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:active{ background-position:-545px -588px;}
+
+bod{ position:}
+
+

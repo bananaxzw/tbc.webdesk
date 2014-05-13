@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>数据格式转换</title>
+	<script type="text/javascript" src="http://local.21tb.com/webdesk/js/jQuery/jquery-1.7.1.js"></script>
+	<script type="text/javascript" src="http://local.21tb.com/webdesk/js/lib/tbc.webdesk.js"></script>
+	<script type="text/javascript" src="http://local.21tb.com/webdesk/js/lib/tbc.DataTranslator.js"></script>
+	<script type="text/javascript" src="http://local.21tb.com/webdesk/js/dataTranslator.js"></script>
+	<script type="text/javascript">
+		
+		// document.ready
+		jQuery(function($){
+			
+			tbc.webdesk.data2 = {};
+			
+			var dataStore = tbc.webdesk.data,
+				dataStore2= tbc.webdesk.data2,
+				translator = dataStore.translator;
+			
+			$.ajaxSetup({
+				dataType : 'json'
+			});
+			
+			$.get('../desktop.json', function(json) {
+				
+				var data = json.requestUserDesk,
+					_shortcuts = data.userDeskItemList,
+					_autorun = data.autoRunItemList,
+					_app = json.applicationMap,
+					_toolbar = json.userDeskDock.userDeskDockItemList,
+					_tray = [],
+					k;
+				
+				// appMap
+				for (k in _app) {
+					dataStore.apps[k] = translator.apps.transform(_app[k], 'fresh');
+				}
+				
+				// shortcuts
+				dataStore.shortcuts = translator.shortcuts.transformList(_shortcuts, 'fresh');
+				
+				// autorun
+				dataStore.autoruns = translator.autoruns.transformList(_autorun, 'fresh');
+				
+				// 左侧快捷栏
+				for (var i=0; i<_toolbar.length; i++) {
+					dataStore.tools.push(translator.shortcuts.transform(_toolbar[i]['userDeskItem'], 'fresh'));
+				}
+				
+				// 右下角托盘
+				dataStore.trays = translator.shortcuts.transformList(_tray, 'fresh');
+				
+				
+				
+				/*
+				 * 转换为旧格式 
+				 */
+				// appMap
+				dataStore2.apps = dataStore2.apps||[];
+				for (k in dataStore.apps) {
+					dataStore2.apps[k] = translator.apps.transform(dataStore.apps[k], 'antique');
+				}
+				
+				// shortcuts
+				dataStore2.shortcuts = translator.shortcuts.transformList(dataStore.shortcuts, 'antique');
+				
+				// autorun
+				dataStore2.autoruns = translator.autoruns.transformList(dataStore.autoruns, 'antique');
+				
+				// 左侧快捷栏
+				dataStore2.tools = dataStore2.tools||[];
+				for (var i=0; i<_toolbar.length; i++) {
+					dataStore2.tools.push(translator.shortcuts.transform(_toolbar[i]['userDeskItem'], 'fresh'));
+				}
+				
+				// 右下角托盘
+				dataStore2.trays = translator.shortcuts.transformList(_tray, 'antique');
+				
+			});
+			
+		});
+	</script>
+</head>
+
+<body>
+</body>
+</html>

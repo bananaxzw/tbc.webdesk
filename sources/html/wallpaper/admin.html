@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>壁纸设置(管理员)</title>
+</head>
+
+<body>
+	
+    <div id="bgSettingPanel">
+        <details class="bg-block bg-settings">
+            <summary class="bg-title">设置</summary>
+            <menu type="list">
+                <li>
+                    <label> <input type="checkbox" name="allowLearnerChange" /> 允许学员更换桌面背景 <span class="text-gray">系统默认提供6套背景供学员选择</span></label>
+                </li>
+                <li>
+                    <label> <input type="checkbox" name="allowLearnerUpload" /> 允许学员上传桌面背景图片 <span class="text-gray">最多5张</span></label>
+                </li>
+            </menu>
+        </details>
+        
+        <details class="bg-image-box bg-block open" open>
+            <summary class="bg-title">指定学员背景</summary>
+            <div class="bg-block-container clearFloat">
+                <div class="float-left">点击背景库中任意一张图片,即可将此图片设置为<b>所有学员</b>的桌面背景</div>
+            </div>
+            <div class="bg-block-container">
+                <div class="bg-uploader-box">
+                    <div class="bg-upload-button">
+                    	<input id="bgUploadSelector" type="file" name="bgUploadSelector" data-text="上传图片" />
+                    </div>
+                    
+                    <div class="clearFloat">
+                    	<div class="float-left text-gray">支持1M以内的jpg/png图片,最佳尺寸:1920*1080px,最多可以存放20张</div>
+                        <div class="float-right">
+                            显示方式:
+                            <select name="bgDisplayType" id="bgDisplayType">
+                                <option value="cover">填充</option>
+                                <option value="contain">适应屏幕</option>
+                                <option value="extrude">拉伸</option>
+                                <option value="repeat">平铺</option>
+                                <option value="center">居中</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-image-list">
+                    <figure data-id="1">
+                        <i><img src="/webdesk/html/wallpaper/upload/1.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                    <figure class="current" data-id="2">
+                        <i><img src="/webdesk/html/wallpaper/upload/2.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                    <figure data-id="3">
+                        <i><img src="/webdesk/html/wallpaper/upload/3.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                    
+                    <figure data-id="4">
+                        <i><img src="/webdesk/html/wallpaper/upload/4.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                    <figure data-id="5">
+                        <i><img src="/webdesk/html/wallpaper/upload/5.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                    <figure data-id="6">
+                        <i><img src="/webdesk/html/wallpaper/upload/6.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                    <figure data-id="7">
+                        <i><img src="/webdesk/html/wallpaper/upload/7.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                    <figure data-id="8">
+                        <i><img src="/webdesk/html/wallpaper/upload/8.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                    <figure data-id="9">
+                        <i><img src="/webdesk/html/wallpaper/upload/9.jpg" /></i>
+                        <a class="bg-image-delete" href="javascript:void(0);">&times;</a>
+                    </figure>
+                </div>
+            </div>
+        </details>
+	</div>
+    
+    <script type="text/javascript">
+		jQuery(function( $ ){
+			
+			var wallpaper = new tbc.desktop.Wallpaper();
+				
+			wallpaper.extend({
+				
+				/* 
+				 * 允许学员更改桌面背景
+				 * @param	: allow(boolean); true: 允许更改; false:不允许更改
+				 */
+				allowLearnerChange : function ( allow, callback ){
+					$.ajax({
+						url : "/webdesk/html/wallpaper/ajax/allow-change.json",
+						type	: "post",
+						dataType: "json",
+						data	: { allow:allow, corpCode:window.corpCode },
+						success : function( json ) {
+							if ( json.success ) {
+								
+								// 回调方法
+								$.isFunction(callback) && callback();
+							} else {
+								alert( json.message||"设置没有成功,请重试一次" );
+							}
+						}
+					});
+				},
+				
+				/* 
+				 * 允许学员上传桌面背景
+				 * @param	: allow(boolean); true: 允许上传; false:不允许上传
+				 */
+				allowLearnerUpload : function ( allow, callback ) {
+					$.ajax({
+						url : "/webdesk/html/wallpaper/ajax/allow-upload.json",
+						type	: "post",
+						dataType: "json",
+						data	: { allow:allow, corpCode:window.corpCode },
+						success : function( json ) {
+							if ( json.success ) {
+								
+								// 回调方法
+								$.isFunction(callback) && callback();
+							} else {
+								alert( json.message||"设置没有成功,请重试一次" );
+							}
+						}
+					});
+				}
+			});
+			
+			// 设置上传按钮
+			function setUploadButton () {
+				$("#bgUploadSelector").uploadify({
+					'formData'		: {},
+					'buttonText'	: $('#bgUpload').attr("data-text") || "上传图片",
+					'sbuttonClass'	: "tbc-button-blue",
+					'width'			: 90,
+					'fileTypeExts'	: "*.png;*.jpg;*.jpeg;",
+					'fileTypeDesc'	: "图片",
+					'swf'      		: '/webdesk/js/jQuery/plugins/uploadify/uploadify.swf',
+					'uploader'		: '/webdesk/js/jQuery/plugins/uploadify/uploadify.php', // 上传地址 (需修改为对应的地址)
+					'uploadLimit'	: 20, // 限制上传数量
+					//removeCompleted : false,
+					'onUploadError' : function(){
+						// debugger;
+					},
+					'onUploadSuccess' : function ( file, data, response ) {
+						// data = '{"id": "jasd2qnieuyfiwebbuwe834", "url":"asdasdas.jpg"}';
+						data = jQuery.parseJSON(data);
+						var id	= data.id,
+							url	= data.filepath;
+						addImageToList( id, url );
+					}
+				});
+			}
+			
+			// 上传成功后,将图片显示在列表中
+			function addImageToList ( id, url ) {
+				var img = $('<figure data-id="'+ new Date().getTime() +'"></figure>');
+					img.html('<i><img src="/webdesk'+ url +'" /></i> <a class="bg-image-delete" href="javascript:void(0);">&times;</a>');
+				$(".bg-image-list").prepend(img);
+			}
+			
+			// 切换背景显示方式
+			$("#bgDisplayType").change(function( event ){
+				
+				wallpaper.changeMode( this.value );
+				
+			});
+			
+			$("#bgSettingPanel summary").click(function(){
+				var aopen = $(this).parent().hasClass("open");
+				if ( aopen ) {
+					$(this).parent().removeClass("open").removeAttr("open");
+				} else {
+					$(this).parent().addClass("open").attr("open", "true");
+				}
+			});
+			
+			$(".bg-image-list")
+			.on("click", "figure", function(  ){
+				var id = $(this).attr("data-id");
+				wallpaper.applyImage( id, function(){
+					
+					var imgBox = $("figure[data-id='"+id+"']").addClass("current"),
+						imgUrl = imgBox.find("img").attr("src")+"#";
+				
+					imgBox.siblings().removeClass("current");
+					
+					window.desktop.setBackground( imgUrl );
+				} );
+			})
+			.on("click", ".bg-image-delete", function(  ) {
+				var id = $(this).parents("[data-id]:first").attr("data-id");
+				wallpaper.deleteImage( id, function(){
+					$("figure[data-id='"+id+"']").remove();
+				} );
+				return false;
+			});
+			
+			var win = tbc.getTaskByElement(".bg-imagelist");
+			
+			// 检测上传组件是否存在,否则加载上传组件
+			if ( $.fn.unloadify ) {
+				setUploadButton();
+			} else {
+				$.getScript("/webdesk/js/jQuery/plugins/uploadify/jquery.uploadify-min.js", setUploadButton );
+			}
+			
+			
+		});
+	</script>
+    
+</body>
+</html>

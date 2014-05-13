@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>欢迎进入企业学习门户</title>
+
+    <link type="image/x-icon" href="favicon.ico" rel="shortcut icon">
+    <link type="image/x-icon" href="favicon.ico" rel="bookmark">
+
+    <link href="/webdesk/css/default/tbc.webdesk-min.css" type="text/css" rel="stylesheet" />
+    <link href="/webdesk/css/classic/skin.css" type="text/css" rel="stylesheet" />
+    <link href="/webos/css/shortcut-webdesk.css" type="text/css" rel="stylesheet" />
+
+    <script type="text/javascript">
+
+        // 域名
+        var host   = document.location.host,
+            domain = host.split(".").length<3 ? host : host.substring( host.indexOf(".")+1 );
+            domain = domain.split(":")[0];
+        document.domain = domain;
+
+        /*
+         * 全局设置
+         */
+        var   containsAdmin = '${contains_manage_type_role!0}'   // 是否是管理员(0:学员; 1:管理员)
+            , USERNAME      = '${eln_session_map["user_name"]!}' // 用户名
+            , DOMAIN        = '${domain!}'        // 域名
+            , CSS_PATH      = "webdesk/css/"    // 样式路径
+            , SKIN          = "default"            // 皮肤(主题)
+            , BACKGROUND    = ""                // 桌面背景
+            , DEFAULT_ICONS = {
+                  window_icon     : CSS_PATH + SKIN + "/images/icons/16/newWindow.png"        // 窗体默认图标
+                , app_icon        : CSS_PATH + SKIN + "/images/icons/64/default_shortcut.png" // 应用图标
+                , app_icon_min    : CSS_PATH + SKIN + "/images/icons/16/default_shortcut.png" // 应用小图标
+                , folder_icon     : CSS_PATH + SKIN + "/images/icons/64/folder.png"           // 文件夹图标
+                , folder_icon_min : CSS_PATH + SKIN + "/images/icons/16/folder.png"           // 文件夹小图标
+                , secne_icon      : CSS_PATH + SKIN + "/images/icons/16/scene.png"
+            };
+
+        var server    = "asp";
+
+        // 路径
+        var URLS = {
+              getSceneSettings        : "data/desktopSettings.json"                // 加载分屏设
+            , sceneAdd                : "data/desktop-add-scene.json"                    // 增加一个分屏
+            , sceneUpdate            : "data/desktop-add-scene.json"                // 修改分屏
+            , sceneDelete            : "data/desktop-delete-scene.json"                // 删除一个分屏
+            , accessicon            : "/elos/html/elos.accessicon.do"        // 点击桌面图标时调用后台事件
+
+            , getSceneContents        : "/elos/html/elos.initdesk.do"
+              // 加载分屏的内容
+              // @POST    : _ajax_toKen:elos; deskindex:0; loadDockItem:true
+              // @RESULT:
+
+            , saveWidgetPosition    : "data/saveWidgetPosition."+server
+              // 保存widget位置
+              // @POST    : userDeskItemId; top:132; left:640;
+              // @RESULT:
+
+            , loadFolderContent        : "/elos/html/elos.listfolderitem.do"
+              // 加载文件夹内容
+              // @POST    : current_app_id=null; userDeskItemId=8a8081ee3a502734013a7dd55ae05f74"
+              // @RESULT: 文件夹内的快捷方式列表
+
+            , saveNewFolder            : "/elos/html/elos.createfolder.do"
+              // 保存新文件夹
+              /* @POST  : _ajax_toKen = elos
+                          folderName  = "新文件夹"
+                          userDeskId  = "分屏ID"
+
+                 @RESULT: {shortcut options}
+                 */
+
+            , deleteFolder            : "/elos/html/elos.deletefolder.do"
+              // 删除文件夹
+              // @POST   : userDeskItemId:8a8081ee3a502734013a7dd55ae05f74
+              // @RESULT : {"result":true}
+
+            , renameFolder            : "/elos/html/elos.renamefolder.do"
+              // 重命名文件夹
+              // @POST   : folderName=%E5%8D%8F%E4%BD%9C%E4%B8%AD2; userDeskId; userDeskItemId;
+              // @RESULT : true
+
+            , orderDesktopShorcuts    : "/elos/html/elos.updatedeskitemposition.do"
+              // 排列顺序(桌面图标)
+              // @POST    : deskid; items;
+              // {"result": "success"}
+
+            , loadShortcutCreater : "/elos/html/elos.toCreateShortcut4User.do"
+              // 加载创建链接的页面内容
+              // @POST   : none
+              // @RESULT : html
+
+            , saveNewShortcut    : "/elos/html/elos.simpleAddShortcut.do"
+              // 保存创建的链接
+              /* @POST : accessUrl      = http%3A%2F%2Fwww.baidu.com;
+                         appName        = 百度;
+                         fixedAccessUrl = http%3A%2F%2Fwww.baidu.com;
+                         iconUrl        = %2Fwebos%2Fimages%2Fshortcut%2Fdefault_shortcut.png
+                         showInUserDesk = false
+                         userDeskId     = 8a8081ee3a502734013a7dd55ade5f73
+                @RESULT: {"result":"success", "userDeskItem":{ ... }*/
+
+             , selectBg            : "/skm/html/skmSkin/skmSkin.skinsetting.do?current_app_id=4028805935c7addf0135c875cef90060"
+               // 设置背景图片
+
+
+            , shortcutMoveToFolder    : "/elos/html/elos.moveintofolder.do"
+              // 移动到文件夹
+              /* @POST    : _ajax_toKen          = elos
+                            folderUserDeskItemId = 4028805b3a95fc0b013ade8d98db13a4
+                            userDeskItemId       = 4028805b3a95fc0b013ade8d991113a7
+                @RESULT   : {"result":true}
+               */
+
+            , shortcutMoveOutFolder    : "/elos/html/elos.moveoutoffolder.do"
+              // 从文件夹移除
+              /* @POST    : _ajax_toKen          = elos
+                            folderUserDeskItemId = 4028805b3a95fc0b013ade8d98db13a4
+                            userDeskItemId       = 4028805b3a95fc0b013ade8d991113a7
+                @RESULT   : {"result":true}
+               */
+
+            , getCurrentBg            : "/skm/html/skmSkin/skmSkin.getCurrentDeskTopImg.do"
+              // 获取桌面背景
+              /*
+               * @POST   : _ajax_toKen = elos
+               * @RESULT : {url:"/skm/....."}
+               */
+
+            , saveDockShortcuts        : "/elos/html/elos.updatedock.do"
+              // 保存快捷栏快捷方式
+              /*
+               * @POST  : _ajax_toKen = elos
+                            items       = 8a8081ee3b03c3a4013b0801336f3c01, ..., 8a8081ee3b03c3a4013b080133703c02
+               * @Result: {"result":"success"}
+               */
+
+            , help                    : "/elos/html/$%7Bctx!%7D/html/elos.getAppHelp.do"
+              // 帮助地址
+              /*
+               *@PARAM    : applicationId = 4028805935c7addf0135c873dddd005e
+                            corpCode      = cyd
+               */
+        }
+
+        // 路径
+        URLS = host!="local.21tb.com" ? URLS : {
+              desktop                : "data/desktop.json"                            // 桌面设置
+
+            , sceneAdd                : "data/desktop-add-scene.json"                    // 增加一个分屏
+            , sceneDelete            : "data/desktop-delete-scene.json"                // 增加一个分屏
+
+            , getSceneSettings        : "data/desktopSettings.min.json"                // 加载桌面设置
+            , getSceneContents        : "data/desktop.min.json"                        // 加载分屏的内容
+            , startShortcutManager    : "module/shortcutsManager/new-manager.html"    // 管理快捷方式和应用
+            , startShortcutAdd        : "module/shortcutsManager/new-add.html"        // 创建快捷方式
+
+            , appReminder            : "data/appReminder."+ server +"?id={0}"        // 应用提醒
+            , saveWidgetPosition     : "data/saveWidgetPosition."+server                // 保存widget位置
+            , loadFolderContent      : "data/loadFolderContent."+server+"?id={0}"    // 加载文件夹内容
+            , deleteFolder           : "data/deleteFolder."+server                    // 删除文件夹
+            , renameFolder           : "data/renameFolder."+server                    // 重命名文件夹
+            , saveNewFolder          : "data/saveNewFolder."+server                    // 保存新文件夹
+            , orderDesktopShorcuts   : "data/orderDesktopShorcuts."+server            // 排列顺序(桌面图标)
+
+            , addShortcutForm        : "module/addShortcutForm.html"                    // 添加快捷方式的页面
+            , loadShortcutCreater    : "data/loadShortcutCreater."+server            // 加载快捷方式创建页面
+            , saveNewShortcut        : "data/saveNewShortcut."+server                // 保存新快捷方式
+            , selectBg               : "/webdesk/html/wallpaper/learner.html"        // 选择背景图片
+            , selectBgAdmin          : "/webdesk/html/wallpaper/admin.html"        // 选择背景图片(管理员)
+
+            , shortcutMoveToFolder   : "data/moveintofolder."+server                    // 移动到文件夹
+            , shortcutMoveOutFolder  : "data/moveoutoffolder."+server                // 从文件夹移除
+                /*
+                     _ajax_toKen    elos
+                    folderUserDeskItemId    4028805b3a95fc0b013ade8d98db13a4
+                    userDeskItemId    4028805b3a95fc0b013ade8d991113a7
+                 */
+
+            , autoLoginSetting       : "/webdesk/html/autoLogin/shortcutWarn.html"    // 自动登录设置
+
+            , switchAppRole          : "/elos/html/elos.moveoutoffolder.do"                    // 移动到屏幕(旧版本里面的移除文件夹)
+            , shortcutMoveToScene    : "/elos/html/elos.moveoutoffolder.do"                    // 移动到屏幕(旧版本里面的移除文件夹)
+
+            , saveDockShortcuts      : "/elos/html/elos.updatedock.do"
+            , help                   : "help.html"
+        }
+
+        // IE 内存回收
+        setInterval(function(){
+            if ( window.tbc && window.tbc.msie && window.CollectGarbage ){
+                CollectGarbage();
+            }
+        }, 10000);
+
+        /**** 加载各种JS库 ***
+        (function(){
+
+            var scriptsJqr = "jquery.easing.1.3.js+jquery.Methods.js+jQuery.drag.js+jQuery.resizable.js+jQuery.Contextmenu.js+jQuery.Selector.js",
+                scriptsLib = "tbc.js+tbc.ClassManager.js+tbc.System.js+tbc.Event.js+tbc.jdc.js+tbc.History.js+tbc.Panel.js+tbc.Window.js+tbc.Tabset.js+tbc.Tabpage.js+tbc.Desktop.js+tbc.Shortcuts.js+tbc.Scene.js+tbc.App.js+tbc.Task.js+tbc.Taskbar.js+tbc.desktop.Widget.js+tbc.Drag.js+tbc.Folder.js+tbc.Pop.js+tbc.folder.Pop.js+tbc.Button.js+tbc.TaskManager.js+tbc.Start.js+tbc.QuickLaunch.js+soundmanager2-nodebug.js",
+                p    = document.location.search,
+                jp    = "/webdesk/js/",
+                jq    = jp + "jQuery/",
+                lp    = jp + "lib/",
+                a    = [],
+                F    = function( p, u ){ a.push(p+u); };
+
+            F( jp, "outter/json2.js" );
+
+            if( p && p.match(/debug=true/) ){
+                var sj = scriptsJqr.split("+"),
+                    lb = scriptsLib.split("+");
+
+                for( var i=0,len=sj.length; i<len; i++){ F( jq, sj[i] ); }
+                for( var i=0,len=lb.length; i<len; i++){ F( lp, lb[i] ); }
+            }else{
+                F( jq, "jQuery.tbc-min.js" );
+                F( lp, "tbc.webdesk-min.js" );
+            }
+            var h =document.getElementsByTagName("head")[0];
+            for(var i=0,len=a.length; i<len; i++){
+                var s = document.createElement("script");
+                    s.src=a[i];
+                h.appendChild(s);
+            }
+            scriptsJqr = scriptsLib = p = jp = jq = lp = a = F =  h = null;
+        })();
+        /*****/
+    </script>
+
+    <script src="/webdesk/js/tbc.webdesk.js" type="text/javascript"></script>
+    <script src="/webos/js/online/desktop.message.js" type="text/javascript"></script>
+    <script src="/webos/js/jquery.vfdialog.js" type="text/javascript"></script>
+
+    <script type="text/javascript" src="http://wpa.b.qq.com/cgi/wpa.php?key=XzkzODA3MDUyMV82MTI3MV80MDAxNjAyMTAwXw"></script>
+    <style type="text/css">
+        #QQ_online{position: relative; width:92px; display:inline-block; +display:inline; +zoom:1; margin-top:2px; }
+        #QQ_online .QQ_online_btn{ display:inline-block; _display:inline; _zoom:1; width:92px; height: 22px; text-indent: 24px; line-height: 24px;
+          background: url('/webdesk/css/default/images/icons/18/support.png') no-repeat 4px 3px;
+        }
+        #QQ_online_con{ position: absolute;  left:0; top:4px; overflow: hidden; width:92px; height:22px; z-index: 2; opacity: 0.01; filter:alpha(opacity=0.1);}
+    </style>
+    <script type="text/javascript">
+    jQuery(function($){
+
+        /**
+         * QQ在线客服
+         */
+        $('.tbc-appsTray').append('<div id="QQ_online" class="tbc-button-link">'+
+          '<div class="QQ_online_btn">在线客服</div>'+
+          '<div id="QQ_online_con"></div>'+
+          '</div>');
+        taskbar.resize();
+        BizQQWPA.add({
+            aty         : "1",
+            a           : "1016",
+            type        : '1', //使用按钮类型 WPA
+            nameAccount : '4001602100',
+            fsty        : "1",
+            fposX       : "2",
+            fposY       : "2",
+            parent      : 'QQ_online_con'
+        });
+
+        /**
+        // 在右下角显示在线学员
+        apptray.append({
+            guid    : "online_feedback",
+            icon    : "/webdesk/css/default/images/icons/18/deskicon.png",
+            title    : "在线学员",
+            showTitle : false,
+            click    : function(  ){
+                var onlineFrame = $("#onlineFrame"),
+                    visible = !onlineFrame.hasClass("hide");
+                visible ? onlineFrame.addClass("hide") : onlineFrame.removeClass("hide");
+            }
+        });
+        /**/
+        apptray.append({
+            guid  : "online_message",
+            icon  : "/webdesk/css/default/images/icons/18/deskicon.png",
+            title : "在线学员",
+            showTitle : false,
+            click : function() {
+                var onlineFrame = $("#onlineFrame"),
+                    count,
+                    visible = !onlineFrame.hasClass("hide"),
+                    url = '/uc/html/online/online.onlineIndex.do';
+
+                if (!window.msgDialog) {
+                    if (!visible) {
+                        onlineFrame.removeClass('hide').attr('src', url);
+                    } else {
+                        onlineFrame.addClass('hide');
+                    }
+                } else {
+                    count = msgDialog.getMsgCount();
+                    if (count > 0) {
+
+                        // 打开聊天窗口
+                        if (msgDialog) {
+                            msgDialog.unmin();
+                            msgDialog.showUnreadMsg();
+                        }
+
+                        if (!visible) {
+                            onlineFrame.removeClass('hide').attr('src', url);
+                        } else {
+                            //onlineFrame.addClass('hide');
+                        }
+                    } else {
+                        if (!visible) {
+                            onlineFrame.removeClass('hide').attr('src', url);
+                            msgDialog.unmin();
+                        } else {
+                            onlineFrame.addClass('hide');
+                            msgDialog.min();
+                        }
+                    }
+                }
+            }
+        });
+
+        if (window.msgDialog) {
+            msgDialog.checkMsgCount();
+        }
+
+        var   onlineFeeback; // 在线反馈窗口
+        // 在右下角显示在线反馈
+        apptray.append({
+            guid    : "online_feedback",
+            icon    : "/webdesk/css/default/images/icons/18/feedback.png",
+            title    : "在线反馈",
+            showTitle : false,
+            click    : function(  ){
+                onlineFeeback = onlineFeeback
+                ? onlineFeeback.focus().flash()
+                : new tbc.Window({
+                      icon : '/webdesk/css/default/images/icons/18/feedback.png'
+                    , loadType    : "iframe"
+                    , homepage    : "/fb/html/index.parser.do?id=0001&current_app_id=4028805639a08b660139dd44553d043b"
+                    , name    : "在线反馈"
+                    , width    : 640
+                    , height: 480
+                }).show()
+                .addEvent({
+                    "close" : function(){
+                        onlineFeeback = null;
+                    }
+                });
+            }
+        });
+
+        // 请求是否显示在线客服
+        $.ajax({
+            url            : 'elos.showCompanyKF.do',
+            type        : 'post',
+            dataType    : "json",
+            error        : function ( json ) {
+                if (true||json.showKF=="false") {
+
+                    // 在右下角显示在线客服
+                    apptray.append({
+                        guid    : "online_service",
+                        icon    : "/webdesk/css/default/images/icons/18/support.png",
+                        title    : "在线客服",
+                        showTitle : true,
+                        click    : function(  ){
+                            var kf_openurl    = 'http://chat.5251.net/client.jsp?flag=1&companyId=1733&style=4897&locate=cn&username=' + encodeURIComponent('[4.0]' + json.corpName + '-' + json.corpCode + '-' + json.userName);
+                            var chat_win    = window.open(kf_openurl, 'chat_1733', 'height=473,width=703,top=200,left=200,status=yes,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,titlebar=no');
+                                chat_win.focus();
+                        }
+                    });
+                }
+            }
+        });
+
+        /** 最新消息 */
+        apptray.append({
+            guid    : "new_messages",
+            icon    : "/webdesk/css/default/images/icons/16/news.png",
+            title    : "最新消息",
+            showTitle : false,
+            click    : function(){
+                if ($('.postTipframe').hasClass('hide') == true) {
+                    $('.postTipframe').removeClass('hide').show();
+                } else {
+                    $('.postTipframe').addClass('hide').hide();
+                }
+            }
+        });
+        /* s */
+    });
+    </script>
+</head>
+<body>
+
+<div class="tbc-wallpaper" _="背景"><img src="images/wallpaper/10.jpg" /></div>
+<div class="tbc-desktop">
+
+    <div class="tbc-desktop-dock">
+
+    </div>
+    <div class="tbc-desktop-nav">
+        <div class="tbc-desktop-nav-group">
+            <div class="tbc-desktop-nav-handle"></div>
+            <div class="tbc-desktop-nav-list"></div>
+            <div class="tbc-desktop-tools">
+
+            </div>
+            <i class="tbc-desktop-nav-side tbc-desktop-nav-left"></i>
+            <i class="tbc-desktop-nav-side tbc-desktop-nav-right"></i>
+        </div>
+
+        <div class="tbc-desktop-nav-group" style="display:none;">
+            <i class="tbc-icon icon-add s_add-scene" title="增加桌面"></i>
+            <i class="tbc-desktop-nav-side tbc-desktop-nav-left"></i>
+            <i class="tbc-desktop-nav-side tbc-desktop-nav-right"></i>
+        </div>
+    </div>
+    <div class="tbc-desktop-slide tbc-tabset">
+        <!--
+        <div class="tbc-slide-scene current" _title="第1屏">
+
+                <div class="tbc-shortcut-48 tbc-app" style="top:60px;">
+                    <div class="tbc-shortcut-inner">
+                        <i class="tbc-shortcut-icon"><img src="images/icons/app/1.png" alt="" title="" /></i>
+                        <span class="tbc-shortcut-label">主题设置</span>
+                    </div>
+                    <sup class="tbc-shortcut-tips">1</sup>
+                </div>
+
+                <div class="tbc-shortcut-48 tbc-floder-shortcut" style="left: 164px; top:50px;">
+                    <div class="tbc-shortcut-inner">
+                        <i class="tbc-shortcut-icon">
+                            <img src="images/icons/app/folder.png" alt="" title="" />
+                            <dl class="tbc-folder-thumbnail">
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/7.png" alt="" title=""/></i>
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/8.png" alt="" title=""/></i>
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/9.png" alt="" title=""/></i>
+
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/10.png" alt="" title=""/></i>
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/11.png" alt="" title=""/></i>
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/12.png" alt="" title=""/></i>
+
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/13.png" alt="" title=""/></i>
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/14.png" alt="" title=""/></i>
+                                <i class="tbc-folder-thumbnail-icon"><img src="images/icons/app/15.png" alt="" title=""/></i>
+                            </dl>
+                         </i>
+                        <span class="tbc-shortcut-label">文件夹</span>
+                    </div>
+                    <sup class="tbc-shortcut-tips">123456</sup>
+                </div>
+        </div>
+        <div class="tbc-slide-scene" _title="第2屏" style="display:none;"></div>
+        <div class="tbc-slide-scene" _title="第3屏" style="display:none;"></div>
+        -->
+    </div>
+    <div class="fixed-IE-Contextmenu" _title="fixed-IE-Contextmenu"></div>
+
+</div>
+
+    <div _="底部任务栏" class="tbc-taskbar">
+        <div class="tbc-startBox">
+            <div class="tbc-startmenu-handle" title="显示开始菜单"></div>
+            <div class="tbc-startMenu">
+                <div class="tbc-startMenu-box">
+                    <div class="tbc-startMenu-userinfo">
+                        <i class="tbc-userPortrait"><span class="tbc-imgicon-48"><img src="/webdesk/css/default/images/default_120.png"/></span></i>
+                        <h1>罗志华 <a>个人资料</a></h1>
+                        <p></p>
+                    </div>
+                    <div class="tbc-startMenu-container" style="display:none;">
+
+                        <div class="tbc-shortcut tbc-app-shortcut">
+                            <div class="tbc-shortcut-inner" onClick="desktop.selectBg(); startmenu.toggle();">
+                                <i class="tbc-shortcut-icon">
+                                    <img src="images/icons/app/1.png" alt="" title="" style="display: block;">
+                                    <em></em>
+                                </i>
+                                  <span class="tbc-shortcut-label">桌面背景设置</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tbc-startMenu-bottom">
+                        <a onClick="tbc.system.logout(true);" class="tbc-button">
+                            <i class="tbc-icon icon-gem_remove"></i>
+                            <span class="tbc-button-text">退出</span>
+                        </a>
+                    </div>
+
+                    <div class="tbc-pretty-background"></div>
+                    <div class="tbc-pretty-left"><i class="tbc-pretty-dark"></i><i class="tbc-pretty-shine"></i></div>
+                    <div class="tbc-pretty-right"><i class="tbc-pretty-dark"></i><i class="tbc-pretty-shine"></i></div>
+                    <div class="tbc-pretty-top"><i class="tbc-pretty-dark"></i><i class="tbc-pretty-shine"></i></div>
+                    <div class="tbc-pretty-bottom"><i class="tbc-pretty-space"></i><i class="tbc-pretty-shine"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tbc-taskbar-container">
+            <div class="tbc-task-quickLaunch" _title="快速启动">
+
+                <!--
+                <dl class="tbc-task-invisible"></dl>
+                <div class="tbc-task-invisible-handle"></div>
+                -->
+                <i class="tbc-task-separator"></i>
+            </div>
+            <div class="tbc-task-box">
+                <ul class="tbc-task-container"></ul>
+
+                <div class="tbc-scroll-arrow tbc-scroll-arrow-left">
+                    <span class="tbc-scroll-arrow-toPrev" hidefocus="true">&lt;</span>
+                    <a class="tbc-scroll-arrow-toNext" hidefocus="true">&gt;</a>
+                </div>
+                <div class="tbc-scroll-arrow tbc-scroll-arrow-right">
+                    <a class="tbc-scroll-arrow-toPrev" hidefocus="true">&lt;</a>
+                    <a class="tbc-scroll-arrow-toNext" hidefocus="true">&gt;</a>
+                </div>
+            </div>
+            <div id="tbc-appsTray" class="tbc-appsTray">
+                <i class="tbc-task-separator"> </i>
+                <ul class="tbc-appsTray-container"> </ul>
+            </div>
+
+
+            <div class="tbc-pretty-background"> </div>
+            <div class="tbc-pretty-left"><i class="tbc-pretty-dark"> </i><i class="tbc-pretty-shine"> </i></div>
+            <div class="tbc-pretty-right"><i class="tbc-pretty-dark"> </i><i class="tbc-pretty-shine"> </i></div>
+            <div class="tbc-pretty-top"><i class="tbc-pretty-dark"> </i><i class="tbc-pretty-shine"> </i></div>
+            <div class="tbc-pretty-bottom"><i class="tbc-pretty-shine"> </i><i class="tbc-pretty-dark"> </i></div>
+        </div>
+
+        <a class="tbc-toggle-taskbar tbc-hideTaskbar"></a>
+    </div>
+
+
+<!-- 最新消息  -->
+<style>
+    .postTipframe {position:absolute;bottom:35px;right:5px;width:432px;height:285px;overflow:hidden;background:transparent;z-index:5;}
+    .ylTipIcon{display:none;}
+    .onlineFrame{ position:absolute;width:480px; height:510px; overflow:hidden;  z-index:10; bottom:30px; right:0px;}
+</style>
+
+<!--
+<iframe class="postTipframe" src="/cmsinner/html/train/train.postFrame.do#" frameBorder="no" scrolling="no" hideFocus="false" allowTransparency="true" width="432" height="285" id="postframe"></iframe>
+-->
+<iframe class="onlineFrame hide" src="about:blank" frameBorder="no" scrolling="no" hideFocus="false" allowTransparency="true" width="480" height="520" id="onlineFrame"></iframe>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--div class="folder-demo" style="display:none;">
+
+    <div class="tbc-folder-viewer">
+        <div class="tbc-folder-directory" _title="目录结构"></div>
+        <div class="tbc-folder-container" _title="文件夹内容">
+
+            <div class="tbc-list">
+                <div class="tbc-list-header">
+                    <dl class="tbc-list-row">
+                        <dd class="tbc-list-cell"></dd>
+                        <dd class="tbc-list-cell">名称</dd>
+                        <dd class="tbc-list-cell">类型</dd>
+                        <dd class="tbc-list-cell">描述</dd>
+                    </dl>
+                </div>
+                <div class="tbc-list-body">
+                    <dl class="tbc-list-row">
+                        <dd class="tbc-list-cell"><img src="images/icons/app/1.png" /></dd>
+                        <dd class="tbc-list-cell">选课中心</dd>
+                        <dd class="tbc-list-cell">应用</dd>
+                        <dd class="tbc-list-cell"></dd>
+                    </dl>
+                    <dl class="tbc-list-row tbc-list-row-selected">
+                        <dd class="tbc-list-cell"><img src="images/icons/app/2.png" /></dd>
+                        <dd class="tbc-list-cell">个人档案</dd>
+                        <dd class="tbc-list-cell">设置项</dd>
+                        <dd class="tbc-list-cell"></dd>
+                    </dl>
+                    <dl class="tbc-list-row">
+                        <dd class="tbc-list-cell"><img src="images/icons/app/17.png"/></dd>
+                        <dd class="tbc-list-cell">百度地图</dd>
+                        <dd class="tbc-list-cell">链接</dd>
+                        <dd class="tbc-list-cell"></dd>
+                    </dl>
+                    <dl class="tbc-list-row tbc-list-footer">
+                        <dd class="tbc-list-cell"><img src="images/icons/app/17.png"/></dd>
+                        <dd class="tbc-list-cell">百度地图</dd>
+                        <dd class="tbc-list-cell">链接</dd>
+                        <dd class="tbc-list-cell"></dd>
+                    </dl>
+                </div>
+                <div class="tbc-list-footer">
+                    <dl class="tbc-list-row">
+                        <dd class="tbc-list-cell"></dd>
+                        <dd class="tbc-list-cell"></dd>
+                        <dd class="tbc-list-cell"></dd>
+                        <dd class="tbc-list-cell"></dd>
+                    </dl>
+                </div>
+            </div>
+
+        </div>
+        <div class="tbc-folder-previewer" _title="文件预览"></div>
+    </div>
+
+</div-->
+
+<div class="icons-demo" style="display:none;">
+
+        <div style="text-align:center;">
+            当前打开的窗口数:<span id="num" style="font-size:64px; color:red; font-weight:bold;">0</span>
+            <input type="button" id="openWin" value="新窗口"/>
+        </div>
+
+        <div class="tbc-button-list">
+            <a class="tbc-button-link"><span class="tbc-icon icon-folder_classic_stuffed_remove"> </span>删除文件夹</a>
+            <a class="tbc-button-link"><span class="tbc-icon icon-folder_classic_stuffed_edit"> </span>重命名</a>
+            <a class="tbc-button-link tbc-button-border"><span class="tbc-icon icon-application_windows_add"> </span>添加应用</a>
+            <a class="tbc-button"><span class="tbc-icon icon-document_a4_remove"> </span>删除</a>
+        </div>
+
+        <div class="tbc-icons-list">
+            <ul>
+                <li title="icon-add" style="cursor: pointer;"><i class="tbc-icon icon-add"> </i></li>
+                <li title="icon-add_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-add_outline"> </i></li>
+                <li title="icon-add_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-add_small"> </i></li>
+                <li title="icon-applications_windows" style="cursor: pointer;"><i
+                    class="tbc-icon icon-applications_windows"> </i></li>
+                <li title="icon-application_windows" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows"> </i></li>
+                <li title="icon-application_windows_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_add"> </i></li>
+                <li title="icon-application_windows_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_down"> </i></li>
+                <li title="icon-application_windows_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_edit"> </i></li>
+                <li title="icon-application_windows_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_locked"> </i></li>
+                <li title="icon-application_windows_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_new"> </i></li>
+                <li title="icon-application_windows_okay" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_okay"></i></li>
+                <li title="icon-application_windows_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_remove"></i></li>
+                <li title="icon-application_windows_share" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_share"></i></li>
+                <li title="icon-application_windows_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_up"></i></li>
+                <li title="icon-application_windows_warning"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-application_windows_warning"></i></li>
+                <li title="icon-arrow_large_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_large_down"></i></li>
+                <li title="icon-arrow_large_down_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_large_down_outline"></i></li>
+                <li title="icon-arrow_large_left" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_large_left"></i></li>
+                <li title="icon-arrow_large_left_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_large_left_outline"></i></li>
+                <li title="icon-arrow_large_right" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_large_right"></i></li>
+                <li title="icon-arrow_large_right_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_large_right_outline"></i></li>
+                <li title="icon-arrow_large_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_large_up"></i></li>
+                <li title="icon-arrow_large_up_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_large_up_outline"></i></li>
+                <li title="icon-arrow_medium_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_medium_down"></i></li>
+                <li title="icon-arrow_medium_left" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_medium_left"></i></li>
+                <li title="icon-arrow_medium_lower_left" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_medium_lower_left"></i></li>
+                <li title="icon-arrow_medium_lower_right" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_medium_lower_right"></i></li>
+                <li title="icon-arrow_medium_right" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_medium_right"></i></li>
+                <li title="icon-arrow_medium_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_medium_up"></i></li>
+                <li title="icon-arrow_medium_upper_left" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_medium_upper_left"></i></li>
+                <li title="icon-arrow_medium_upper_right" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_medium_upper_right"></i></li>
+                <li title="icon-arrow_small_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_small_down"></i></li>
+                <li title="icon-arrow_small_left" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_small_left"></i></li>
+                <li title="icon-arrow_small_right" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_small_right"></i></li>
+                <li title="icon-arrow_small_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_small_up"></i></li>
+                <li title="icon-arrow_state_blue_collapsed" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_state_blue_collapsed"></i></li>
+                <li title="icon-arrow_state_blue_expanded" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_state_blue_expanded"></i></li>
+                <li title="icon-arrow_state_blue_left" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_state_blue_left"></i></li>
+                <li title="icon-arrow_state_blue_right" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_state_blue_right"></i></li>
+                <li title="icon-arrow_state_grey_collapsed" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_state_grey_collapsed"></i></li>
+                <li title="icon-arrow_state_grey_expanded" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_state_grey_expanded"></i></li>
+                <li title="icon-arrow_state_grey_left" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_state_grey_left"></i></li>
+                <li title="icon-arrow_state_grey_right" style="cursor: pointer;"><i
+                    class="tbc-icon icon-arrow_state_grey_right"></i></li>
+                <li title="icon-box" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box"></i></li>
+                <li title="icon-box_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box_add"></i></li>
+                <li title="icon-box_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box_edit"></i></li>
+                <li title="icon-box_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box_locked"></i></li>
+                <li title="icon-box_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box_new"></i></li>
+                <li title="icon-box_okay" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box_okay"></i></li>
+                <li title="icon-box_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box_remove"></i></li>
+                <li title="icon-box_share" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box_share"></i></li>
+                <li title="icon-box_warning" style="cursor: pointer;"><i
+                    class="tbc-icon icon-box_warning"></i></li>
+                <li title="icon-breadcrumb_separator_arrow_1_dot"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-breadcrumb_separator_arrow_1_dot"></i></li>
+                <li title="icon-breadcrumb_separator_arrow_2_dots"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-breadcrumb_separator_arrow_2_dots"></i></li>
+                <li title="icon-breadcrumb_separator_arrow_full"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-breadcrumb_separator_arrow_full"></i></li>
+                <li title="icon-breadcrumb_separator_dark" style="cursor: pointer;"><i
+                    class="tbc-icon icon-breadcrumb_separator_dark"></i></li>
+                <li title="icon-breadcrumb_separator_light" style="cursor: pointer;"><i
+                    class="tbc-icon icon-breadcrumb_separator_light"></i></li>
+                <li title="icon-bullet_blue" style="cursor: pointer;"><i
+                    class="tbc-icon icon-bullet_blue"></i></li>
+                <li title="icon-bullet_blue_arrow" style="cursor: pointer;"><i
+                    class="tbc-icon icon-bullet_blue_arrow"></i></li>
+                <li title="icon-bullet_blue_collapse" style="cursor: pointer;"><i
+                    class="tbc-icon icon-bullet_blue_collapse"></i></li>
+                <li title="icon-bullet_blue_collapse_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-bullet_blue_collapse_small"></i></li>
+                <li title="icon-bullet_blue_expand" style="cursor: pointer;"><i
+                    class="tbc-icon icon-bullet_blue_expand"></i></li>
+                <li title="icon-bullet_blue_expand_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-bullet_blue_expand_small"></i></li>
+                <li title="icon-bullet_blue_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-bullet_blue_small"></i></li>
+                <li title="icon-calendar_day" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_day"></i></li>
+                <li title="icon-calendar_day_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_day_add"></i></li>
+                <li title="icon-calendar_day_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_day_down"></i></li>
+                <li title="icon-calendar_day_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_day_edit"></i></li>
+                <li title="icon-calendar_day_event" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_day_event"></i></li>
+                <li title="icon-calendar_day_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_day_new"></i></li>
+                <li title="icon-calendar_day_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_day_remove"></i></li>
+                <li title="icon-calendar_day_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_day_up"></i></li>
+                <li title="icon-calendar_month" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_month"></i></li>
+                <li title="icon-calendar_month_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_month_add"></i></li>
+                <li title="icon-calendar_month_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_month_down"></i></li>
+                <li title="icon-calendar_month_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_month_edit"></i></li>
+                <li title="icon-calendar_month_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_month_new"></i></li>
+                <li title="icon-calendar_month_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_month_remove"></i></li>
+                <li title="icon-calendar_month_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_month_up"></i></li>
+                <li title="icon-calendar_week" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_week"></i></li>
+                <li title="icon-calendar_week_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_week_add"></i></li>
+                <li title="icon-calendar_week_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_week_edit"></i></li>
+                <li title="icon-calendar_week_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-calendar_week_remove"></i></li>
+                <li title="icon-cellphone" style="cursor: pointer;"><i
+                    class="tbc-icon icon-cellphone"></i></li>
+                <li title="icon-check" style="cursor: pointer;"><i
+                    class="tbc-icon icon-check"></i></li>
+                <li title="icon-close" style="cursor: pointer;"><i
+                    class="tbc-icon icon-close"></i></li>
+                <li title="icon-comment" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comment"></i></li>
+                <li title="icon-comments" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comments"></i></li>
+                <li title="icon-comments_reply" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comments_reply"></i></li>
+                <li title="icon-comments_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comments_small"></i></li>
+                <li title="icon-comment_alert" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comment_alert"></i></li>
+                <li title="icon-comment_new_1" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comment_new_1"></i></li>
+                <li title="icon-comment_new_2" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comment_new_2"></i></li>
+                <li title="icon-comment_question" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comment_question"></i></li>
+                <li title="icon-comment_reply" style="cursor: pointer;"><i
+                    class="tbc-icon icon-comment_reply"></i></li>
+                <li title="icon-contact_blue" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_blue"></i></li>
+                <li title="icon-contact_blue_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_blue_add"></i></li>
+                <li title="icon-contact_blue_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_blue_edit"></i></li>
+                <li title="icon-contact_blue_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_blue_new"></i></li>
+                <li title="icon-contact_blue_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_blue_remove"></i></li>
+                <li title="icon-contact_grey" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_grey"></i></li>
+                <li title="icon-contact_grey_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_grey_add"></i></li>
+                <li title="icon-contact_grey_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_grey_edit"></i></li>
+                <li title="icon-contact_grey_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_grey_new"></i></li>
+                <li title="icon-contact_grey_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-contact_grey_remove"></i></li>
+                <li title="icon-diamonds_1" style="cursor: pointer;"><i
+                    class="tbc-icon icon-diamonds_1"></i></li>
+                <li title="icon-diamonds_2" style="cursor: pointer;"><i
+                    class="tbc-icon icon-diamonds_2"></i></li>
+                <li title="icon-diamonds_3" style="cursor: pointer;"><i
+                    class="tbc-icon icon-diamonds_3"></i></li>
+                <li title="icon-diamonds_4" style="cursor: pointer;"><i
+                    class="tbc-icon icon-diamonds_4"></i></li>
+                <li title="icon-documents" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents"></i></li>
+                <li title="icon-documents_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents_add"></i></li>
+                <li title="icon-documents_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents_edit"></i></li>
+                <li title="icon-documents_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents_locked"></i></li>
+                <li title="icon-documents_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents_new"></i></li>
+                <li title="icon-documents_okay" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents_okay"></i></li>
+                <li title="icon-documents_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents_remove"></i></li>
+                <li title="icon-documents_share" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents_share"></i></li>
+                <li title="icon-documents_warning" style="cursor: pointer;"><i
+                    class="tbc-icon icon-documents_warning"></i></li>
+                <li title="icon-document_a4" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4"></i></li>
+                <li title="icon-document_a4_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_add"></i></li>
+                <li title="icon-document_a4_blank" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_blank"></i></li>
+                <li title="icon-document_a4_download" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_download"></i></li>
+                <li title="icon-document_a4_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_edit"></i></li>
+                <li title="icon-document_a4_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_locked"></i></li>
+                <li title="icon-document_a4_marked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_marked"></i></li>
+                <li title="icon-document_a4_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_new"></i></li>
+                <li title="icon-document_a4_okay" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_okay"></i></li>
+                <li title="icon-document_a4_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_remove"></i></li>
+                <li title="icon-document_a4_share" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_share"></i></li>
+                <li title="icon-document_a4_upload" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_upload"></i></li>
+                <li title="icon-document_a4_warning" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_a4_warning"></i></li>
+                <li title="icon-document_copy" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_copy"></i></li>
+                <li title="icon-document_letter" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter"></i></li>
+                <li title="icon-document_letter_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_add"></i></li>
+                <li title="icon-document_letter_blank" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_blank"></i></li>
+                <li title="icon-document_letter_download" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_download"></i></li>
+                <li title="icon-document_letter_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_edit"></i></li>
+                <li title="icon-document_letter_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_locked"></i></li>
+                <li title="icon-document_letter_marked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_marked"></i></li>
+                <li title="icon-document_letter_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_new"></i></li>
+                <li title="icon-document_letter_okay" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_okay"></i></li>
+                <li title="icon-document_letter_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_remove"></i></li>
+                <li title="icon-document_letter_share" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_share"></i></li>
+                <li title="icon-document_letter_upload" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_upload"></i></li>
+                <li title="icon-document_letter_warning" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_letter_warning"></i></li>
+                <li title="icon-document_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_small"></i></li>
+                <li title="icon-document_small_download" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_small_download"></i></li>
+                <li title="icon-document_small_upload" style="cursor: pointer;"><i
+                    class="tbc-icon icon-document_small_upload"></i></li>
+                <li title="icon-download" style="cursor: pointer;"><i
+                    class="tbc-icon icon-download"></i></li>
+                <li title="icon-error" style="cursor: pointer;"><i
+                    class="tbc-icon icon-error"></i></li>
+                <li title="icon-error_do_not" style="cursor: pointer;"><i
+                    class="tbc-icon icon-error_do_not"></i></li>
+                <li title="icon-error_do_not_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-error_do_not_small"></i></li>
+                <li title="icon-error_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-error_small"></i></li>
+                <li title="icon-error_x" style="cursor: pointer;"><i
+                    class="tbc-icon icon-error_x"></i></li>
+                <li title="icon-fish" style="cursor: pointer;"><i
+                    class="tbc-icon icon-fish"></i></li>
+                <li title="icon-folder_classic" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic"></i></li>
+                <li title="icon-folder_classic_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_add"></i></li>
+                <li title="icon-folder_classic_add_simple" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_add_simple"></i></li>
+                <li title="icon-folder_classic_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_down"></i></li>
+                <li title="icon-folder_classic_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_edit"></i></li>
+                <li title="icon-folder_classic_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_locked"></i></li>
+                <li title="icon-folder_classic_opened" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_opened"></i></li>
+                <li title="icon-folder_classic_opened_stuffed"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_opened_stuffed"></i></li>
+                <li title="icon-folder_classic_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_remove"></i></li>
+                <li title="icon-folder_classic_remove_simple"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_remove_simple"></i></li>
+                <li title="icon-folder_classic_stuffed" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_stuffed"></i></li>
+                <li title="icon-folder_classic_stuffed_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_stuffed_add"></i></li>
+                <li title="icon-folder_classic_stuffed_add_simple"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_stuffed_add_simple"></i></li>
+                <li title="icon-folder_classic_stuffed_edit"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_stuffed_edit"></i></li>
+                <li title="icon-folder_classic_stuffed_locked"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_stuffed_locked"></i></li>
+                <li title="icon-folder_classic_stuffed_remove"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_stuffed_remove"></i></li>
+                <li title="icon-folder_classic_stuffed_remove_simple"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_stuffed_remove_simple"></i></li>
+                <li title="icon-folder_classic_type_document"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_type_document"></i></li>
+                <li title="icon-folder_classic_type_image" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_type_image"></i></li>
+                <li title="icon-folder_classic_type_music" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_type_music"></i></li>
+                <li title="icon-folder_classic_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_classic_up"></i></li>
+                <li title="icon-folder_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_locked"></i></li>
+                <li title="icon-folder_modernist" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist"></i></li>
+                <li title="icon-folder_modernist_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_add"></i></li>
+                <li title="icon-folder_modernist_add_simple"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_add_simple"></i></li>
+                <li title="icon-folder_modernist_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_down"></i></li>
+                <li title="icon-folder_modernist_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_edit"></i></li>
+                <li title="icon-folder_modernist_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_locked"></i></li>
+                <li title="icon-folder_modernist_opened" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_opened"></i></li>
+                <li title="icon-folder_modernist_opened_stuffed"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_opened_stuffed"></i></li>
+                <li title="icon-folder_modernist_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_remove"></i></li>
+                <li title="icon-folder_modernist_remove_simple"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_remove_simple"></i></li>
+                <li title="icon-folder_modernist_stuffed" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_stuffed"></i></li>
+                <li title="icon-folder_modernist_stuffed_add"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_stuffed_add"></i></li>
+                <li title="icon-folder_modernist_stuffed_add_simple"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_stuffed_add_simple"></i></li>
+                <li title="icon-folder_modernist_stuffed_edit"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_stuffed_edit"></i></li>
+                <li title="icon-folder_modernist_stuffed_locked"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_stuffed_locked"></i></li>
+                <li title="icon-folder_modernist_stuffed_remove"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_stuffed_remove"></i></li>
+                <li title="icon-folder_modernist_stuffed_remove_simple"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_stuffed_remove_simple"></i></li>
+                <li title="icon-folder_modernist_type_document"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_type_document"></i></li>
+                <li title="icon-folder_modernist_type_image"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_type_image"></i></li>
+                <li title="icon-folder_modernist_type_movie"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_type_movie"></i></li>
+                <li title="icon-folder_modernist_type_music"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_type_music"></i></li>
+                <li title="icon-folder_modernist_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_modernist_up"></i></li>
+                <li title="icon-folder_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_remove"></i></li>
+                <li title="icon-folder_stuffed" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_stuffed"></i></li>
+                <li title="icon-folder_stuffed_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_stuffed_add"></i></li>
+                <li title="icon-folder_stuffed_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_stuffed_locked"></i></li>
+                <li title="icon-folder_stuffed_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-folder_stuffed_remove"></i></li>
+                <li title="icon-gem_cancel_1" style="cursor: pointer;"><i
+                    class="tbc-icon icon-gem_cancel_1"></i></li>
+                <li title="icon-gem_cancel_2" style="cursor: pointer;"><i
+                    class="tbc-icon icon-gem_cancel_2"></i></li>
+                <li title="icon-gem_okay" style="cursor: pointer;"><i
+                    class="tbc-icon icon-gem_okay"></i></li>
+                <li title="icon-gem_options" style="cursor: pointer;"><i
+                    class="tbc-icon icon-gem_options"></i></li>
+                <li title="icon-gem_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-gem_remove"></i></li>
+                <li title="icon-group_blue" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_blue"></i></li>
+                <li title="icon-group_blue_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_blue_add"></i></li>
+                <li title="icon-group_blue_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_blue_edit"></i></li>
+                <li title="icon-group_blue_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_blue_new"></i></li>
+                <li title="icon-group_blue_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_blue_remove"></i></li>
+                <li title="icon-group_green" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_green"></i></li>
+                <li title="icon-group_green_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_green_add"></i></li>
+                <li title="icon-group_green_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_green_edit"></i></li>
+                <li title="icon-group_green_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_green_new"></i></li>
+                <li title="icon-group_green_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_green_remove"></i></li>
+                <li title="icon-group_grey" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_grey"></i></li>
+                <li title="icon-group_grey_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_grey_add"></i></li>
+                <li title="icon-group_grey_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_grey_edit"></i></li>
+                <li title="icon-group_grey_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_grey_new"></i></li>
+                <li title="icon-group_grey_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-group_grey_remove"></i></li>
+                <li title="icon-hcard" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcard"></i></li>
+                <li title="icon-hcards" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcards"></i></li>
+                <li title="icon-hcards_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcards_add"></i></li>
+                <li title="icon-hcards_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcards_down"></i></li>
+                <li title="icon-hcards_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcards_edit"></i></li>
+                <li title="icon-hcards_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcards_remove"></i></li>
+                <li title="icon-hcards_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcards_up"></i></li>
+                <li title="icon-hcard_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcard_add"></i></li>
+                <li title="icon-hcard_download" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcard_download"></i></li>
+                <li title="icon-hcard_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcard_edit"></i></li>
+                <li title="icon-hcard_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcard_new"></i></li>
+                <li title="icon-hcard_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcard_remove"></i></li>
+                <li title="icon-hcard_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-hcard_up"></i></li>
+                <li title="icon-heart" style="cursor: pointer;"><i
+                    class="tbc-icon icon-heart"></i></li>
+                <li title="icon-heart_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-heart_add"></i></li>
+                <li title="icon-heart_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-heart_edit"></i></li>
+                <li title="icon-heart_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-heart_outline"></i></li>
+                <li title="icon-heart_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-heart_remove"></i></li>
+                <li title="icon-heart_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-heart_up"></i></li>
+                <li title="icon-help" style="cursor: pointer;"><i
+                    class="tbc-icon icon-help"></i></li>
+                <li title="icon-home_green" style="cursor: pointer;"><i
+                    class="tbc-icon icon-home_green"></i></li>
+                <li title="icon-home_grey" style="cursor: pointer;"><i
+                    class="tbc-icon icon-home_grey"></i></li>
+                <li title="icon-image_cultured" style="cursor: pointer;"><i
+                    class="tbc-icon icon-image_cultured"></i></li>
+                <li title="icon-image_modernist" style="cursor: pointer;"><i
+                    class="tbc-icon icon-image_modernist"></i></li>
+                <li title="icon-information" style="cursor: pointer;"><i
+                    class="tbc-icon icon-information"></i></li>
+                <li title="icon-lock_large_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-lock_large_locked"></i></li>
+                <li title="icon-lock_large_unlocked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-lock_large_unlocked"></i></li>
+                <li title="icon-lock_small_locked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-lock_small_locked"></i></li>
+                <li title="icon-lock_small_unlocked" style="cursor: pointer;"><i
+                    class="tbc-icon icon-lock_small_unlocked"></i></li>
+                <li title="icon-mail_light" style="cursor: pointer;"><i
+                    class="tbc-icon icon-mail_light"></i></li>
+                <li title="icon-mail_light_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-mail_light_down"></i></li>
+                <li title="icon-mail_light_left" style="cursor: pointer;"><i
+                    class="tbc-icon icon-mail_light_left"></i></li>
+                <li title="icon-mail_light_new_1" style="cursor: pointer;"><i
+                    class="tbc-icon icon-mail_light_new_1"></i></li>
+                <li title="icon-mail_light_new_2" style="cursor: pointer;"><i
+                    class="tbc-icon icon-mail_light_new_2"></i></li>
+                <li title="icon-mail_light_right" style="cursor: pointer;"><i
+                    class="tbc-icon icon-mail_light_right"></i></li>
+                <li title="icon-mail_light_stuffed" style="cursor: pointer;"><i
+                    class="tbc-icon icon-mail_light_stuffed"></i></li>
+                <li title="icon-mail_light_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-mail_light_up"></i></li>
+                <li title="icon-map" style="cursor: pointer;"><i
+                    class="tbc-icon icon-map"></i></li>
+                <li title="icon-marker_rounded_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_add"></i></li>
+                <li title="icon-marker_rounded_blue" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_blue"></i></li>
+                <li title="icon-marker_rounded_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_edit"></i></li>
+                <li title="icon-marker_rounded_green" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_green"></i></li>
+                <li title="icon-marker_rounded_grey_1" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_grey_1"></i></li>
+                <li title="icon-marker_rounded_grey_2" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_grey_2"></i></li>
+                <li title="icon-marker_rounded_grey_3" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_grey_3"></i></li>
+                <li title="icon-marker_rounded_grey_4" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_grey_4"></i></li>
+                <li title="icon-marker_rounded_grey_5" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_grey_5"></i></li>
+                <li title="icon-marker_rounded_light_blue" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_light_blue"></i></li>
+                <li title="icon-marker_rounded_new" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_new"></i></li>
+                <li title="icon-marker_rounded_red" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_red"></i></li>
+                <li title="icon-marker_rounded_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_remove"></i></li>
+                <li title="icon-marker_rounded_violet" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_violet"></i></li>
+                <li title="icon-marker_rounded_yellow" style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_yellow"></i></li>
+                <li title="icon-marker_rounded_yellow_green"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_yellow_green"></i></li>
+                <li title="icon-marker_rounded_yellow_orange"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-marker_rounded_yellow_orange"></i></li>
+                <li title="icon-media_controls_dark_first" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_dark_first"></i></li>
+                <li title="icon-media_controls_dark_forward"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_dark_forward"></i></li>
+                <li title="icon-media_controls_dark_last" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_dark_last"></i></li>
+                <li title="icon-media_controls_dark_pause" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_dark_pause"></i></li>
+                <li title="icon-media_controls_dark_play" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_dark_play"></i></li>
+                <li title="icon-media_controls_dark_rewind" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_dark_rewind"></i></li>
+                <li title="icon-media_controls_dark_stop" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_dark_stop"></i></li>
+                <li title="icon-media_controls_first_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_first_small"></i></li>
+                <li title="icon-media_controls_forward_small"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_forward_small"></i></li>
+                <li title="icon-media_controls_last_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_last_small"></i></li>
+                <li title="icon-media_controls_pause_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_pause_small"></i></li>
+                <li title="icon-media_controls_play_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_play_small"></i></li>
+                <li title="icon-media_controls_rewind_small"
+                    style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_rewind_small"></i></li>
+                <li title="icon-media_controls_stop_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-media_controls_stop_small"></i></li>
+                <li title="icon-menu" style="cursor: pointer;"><i
+                    class="tbc-icon icon-menu"></i></li>
+                <li title="icon-menu_dropdown" style="cursor: pointer;"><i
+                    class="tbc-icon icon-menu_dropdown"></i></li>
+                <li title="icon-movie_play" style="cursor: pointer;"><i
+                    class="tbc-icon icon-movie_play"></i></li>
+                <li title="icon-music_cd_blue_note" style="cursor: pointer;"><i
+                    class="tbc-icon icon-music_cd_blue_note"></i></li>
+                <li title="icon-music_green" style="cursor: pointer;"><i
+                    class="tbc-icon icon-music_green"></i></li>
+                <li title="icon-music_grey" style="cursor: pointer;"><i
+                    class="tbc-icon icon-music_grey"></i></li>
+                <li title="icon-new_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-new_small"></i></li>
+                <li title="icon-okay" style="cursor: pointer;"><i
+                    class="tbc-icon icon-okay"></i></li>
+                <li title="icon-okay_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-okay_small"></i></li>
+                <li title="icon-pagination_1_first" style="cursor: pointer;"><i
+                    class="tbc-icon icon-pagination_1_first"></i></li>
+                <li title="icon-pagination_1_last" style="cursor: pointer;"><i
+                    class="tbc-icon icon-pagination_1_last"></i></li>
+                <li title="icon-pagination_1_next" style="cursor: pointer;"><i
+                    class="tbc-icon icon-pagination_1_next"></i></li>
+                <li title="icon-pagination_1_previous" style="cursor: pointer;"><i
+                    class="tbc-icon icon-pagination_1_previous"></i></li>
+                <li title="icon-pencil" style="cursor: pointer;"><i
+                    class="tbc-icon icon-pencil"></i></li>
+                <li title="icon-pencil_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-pencil_small"></i></li>
+                <li title="icon-printer" style="cursor: pointer;"><i
+                    class="tbc-icon icon-printer"></i></li>
+                <li title="icon-quanitity_capsule_1" style="cursor: pointer;"><i
+                    class="tbc-icon icon-quanitity_capsule_1"></i></li>
+                <li title="icon-quantity_capsule_2" style="cursor: pointer;"><i
+                    class="tbc-icon icon-quantity_capsule_2"></i></li>
+                <li title="icon-quantity_capsule_3" style="cursor: pointer;"><i
+                    class="tbc-icon icon-quantity_capsule_3"></i></li>
+                <li title="icon-quantity_capsule_4" style="cursor: pointer;"><i
+                    class="tbc-icon icon-quantity_capsule_4"></i></li>
+                <li title="icon-quantity_capsule_5" style="cursor: pointer;"><i
+                    class="tbc-icon icon-quantity_capsule_5"></i></li>
+                <li title="icon-refresh" style="cursor: pointer;"><i
+                    class="tbc-icon icon-refresh"></i></li>
+                <li title="icon-refresh_backwards" style="cursor: pointer;"><i
+                    class="tbc-icon icon-refresh_backwards"></i></li>
+                <li title="icon-refresh_forward" style="cursor: pointer;"><i
+                    class="tbc-icon icon-refresh_forward"></i></li>
+                <li title="icon-remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-remove"></i></li>
+                <li title="icon-remove_minus_sign" style="cursor: pointer;"><i
+                    class="tbc-icon icon-remove_minus_sign"></i></li>
+                <li title="icon-remove_minus_sign_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-remove_minus_sign_outline"></i></li>
+                <li title="icon-remove_minus_sign_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-remove_minus_sign_small"></i></li>
+                <li title="icon-remove_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-remove_outline"></i></li>
+                <li title="icon-shield" style="cursor: pointer;"><i
+                    class="tbc-icon icon-shield"></i></li>
+                <li title="icon-shield_chevrons" style="cursor: pointer;"><i
+                    class="tbc-icon icon-shield_chevrons"></i></li>
+                <li title="icon-shield_star" style="cursor: pointer;"><i
+                    class="tbc-icon icon-shield_star"></i></li>
+                <li title="icon-slider_no_pointy_thing" style="cursor: pointer;"><i
+                    class="tbc-icon icon-slider_no_pointy_thing"></i></li>
+                <li title="icon-smiley_amused" style="cursor: pointer;"><i
+                    class="tbc-icon icon-smiley_amused"></i></li>
+                <li title="icon-smiley_happy" style="cursor: pointer;"><i
+                    class="tbc-icon icon-smiley_happy"></i></li>
+                <li title="icon-smiley_surprised" style="cursor: pointer;"><i
+                    class="tbc-icon icon-smiley_surprised"></i></li>
+                <li title="icon-sprocket_dark" style="cursor: pointer;"><i
+                    class="tbc-icon icon-sprocket_dark"></i></li>
+                <li title="icon-sprocket_light" style="cursor: pointer;"><i
+                    class="tbc-icon icon-sprocket_light"></i></li>
+                <li title="icon-star_boxed_empty" style="cursor: pointer;"><i
+                    class="tbc-icon icon-star_boxed_empty"></i></li>
+                <li title="icon-star_boxed_full" style="cursor: pointer;"><i
+                    class="tbc-icon icon-star_boxed_full"></i></li>
+                <li title="icon-star_boxed_half" style="cursor: pointer;"><i
+                    class="tbc-icon icon-star_boxed_half"></i></li>
+                <li title="icon-star_empty" style="cursor: pointer;"><i
+                    class="tbc-icon icon-star_empty"></i></li>
+                <li title="icon-star_full" style="cursor: pointer;"><i
+                    class="tbc-icon icon-star_full"></i></li>
+                <li title="icon-star_half" style="cursor: pointer;"><i
+                    class="tbc-icon icon-star_half"></i></li>
+                <li title="icon-tag" style="cursor: pointer;"><i
+                    class="tbc-icon icon-tag"></i></li>
+                <li title="icon-tag_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-tag_add"></i></li>
+                <li title="icon-tag_edit" style="cursor: pointer;"><i
+                    class="tbc-icon icon-tag_edit"></i></li>
+                <li title="icon-tag_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-tag_remove"></i></li>
+                <li title="icon-thumb_down" style="cursor: pointer;"><i
+                    class="tbc-icon icon-thumb_down"></i></li>
+                <li title="icon-thumb_up" style="cursor: pointer;"><i
+                    class="tbc-icon icon-thumb_up"></i></li>
+                <li title="icon-ticket" style="cursor: pointer;"><i
+                    class="tbc-icon icon-ticket"></i></li>
+                <li title="icon-ticket_add" style="cursor: pointer;"><i
+                    class="tbc-icon icon-ticket_add"></i></li>
+                <li title="icon-ticket_remove" style="cursor: pointer;"><i
+                    class="tbc-icon icon-ticket_remove"></i></li>
+                <li title="icon-upload" style="cursor: pointer;"><i
+                    class="tbc-icon icon-upload"></i></li>
+                <li title="icon-view_list" style="cursor: pointer;"><i
+                    class="tbc-icon icon-view_list"></i></li>
+                <li title="icon-view_list_with_thumbnail" style="cursor: pointer;"><i
+                    class="tbc-icon icon-view_list_with_thumbnail"></i></li>
+                <li title="icon-view_outline" style="cursor: pointer;"><i
+                    class="tbc-icon icon-view_outline"></i></li>
+                <li title="icon-view_outline_detail" style="cursor: pointer;"><i
+                    class="tbc-icon icon-view_outline_detail"></i></li>
+                <li title="icon-view_table" style="cursor: pointer;"><i
+                    class="tbc-icon icon-view_table"></i></li>
+                <li title="icon-view_thumbnail" style="cursor: pointer;"><i
+                    class="tbc-icon icon-view_thumbnail"></i></li>
+                <li title="icon-volume" style="cursor: pointer;"><i
+                    class="tbc-icon icon-volume"></i></li>
+                <li title="icon-volume_loud" style="cursor: pointer;"><i
+                    class="tbc-icon icon-volume_loud"></i></li>
+                <li title="icon-volume_off" style="cursor: pointer;"><i
+                    class="tbc-icon icon-volume_off"></i></li>
+                <li title="icon-volume_quiet" style="cursor: pointer;"><i
+                    class="tbc-icon icon-volume_quiet"></i></li>
+                <li title="icon-warning" style="cursor: pointer;"><i
+                    class="tbc-icon icon-warning"></i></li>
+                <li title="icon-warning_triangle" style="cursor: pointer;"><i
+                    class="tbc-icon icon-warning_triangle"></i></li>
+                <li title="icon-warning_triangle_small" style="cursor: pointer;"><i
+                    class="tbc-icon icon-warning_triangle_small"></i></li>
+                <li title="icon-zoom" style="cursor: pointer;"><i
+                    class="tbc-icon icon-zoom"></i></li>
+                <li title="icon-zoom_in" style="cursor: pointer;"><i
+                    class="tbc-icon icon-zoom_in"></i></li>
+                <li title="icon-zoom_out" style="cursor: pointer;"><i
+                    class="tbc-icon icon-zoom_out"></i></li>
+                <li class="clear"></li>
+            </ul>
+        </div>
+
+</div>
+</body>
+</html>

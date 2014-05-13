@@ -1,0 +1,52 @@
+<div style="padding:24px 0px 24px 24px;">
+<% if (rows.length>0) {
+    $.each(rows, function(i, row) {
+        var disabled = selectedId === row.id ? 's-disabled' : '';
+    %>
+    <div class="template-thumb template-thumb-s <%=disabled%>" style="background-color:<%=row.bgColor %>; border-color:<%=row.bgColor %>;"
+        data-id="<%=row.id %>"
+        data-title="<%=row.title %>"
+        data-url="<%=overviewUrl.replace('{id}', row.id) %>"
+        >
+
+        <div class="s-mask"></div>
+        <div class="template-thumb-border"></div>
+        <div class="s-header">
+            <h4><%=row.title %></h4>
+        </div>
+        <div class="s-column-list">
+        <% if (row.columns && row.columns.length>0) {
+            $.each(row.columns, function(i, column) {
+                var type = (column.type || 'COLUMN').replace(/^\w*:/, '');
+                var width = column.width ||
+                    (type==='LOGO' ?
+                        "auto" : (type==='BANNER'||column.type==='NAV' ?
+                               '100%': (type==='COLUMN' ?
+                                        '50%' :
+                                            'auto' ) ) );
+
+                width = (width+'').match(/^\d+$/) ?
+                    (Math.max(48,width*0.12)+'px') :
+                    width;
+
+                %>
+                <div class="s-column <%= type%>" style="width:<%= width%>;">
+                    <ul><%
+                        if (column.widgets) {
+                            $.each(column.widgets, function(i, widget) {
+                                %>
+                                <li class='s-widget'><%= widget.title%></li>
+                                <%
+                            });
+                        }
+                        %>
+                    </ul>
+                </div>
+                <%
+            });
+        } %>
+        </div>
+    </div>
+    <% });
+} %>
+</div>

@@ -1,0 +1,88 @@
+@charset "utf-8";
+
+/* background */
+.tbc-panel-controls a,
+.tbc-panel-controls a:visited,
+.tbc-panel-controls a:hover,
+.tbc-panel-controls a:active,
+
+.tbc-panel-controls a.tbc-panel-btn-close,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:hover,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:active,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:visited,
+
+.tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:hover,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:active,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:visited,
+
+.tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:hover,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:active,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:visited,
+
+.tbc-pop-arrow,
+.tbc-pop-close a,
+
+.tbc-widgets-close,
+.tbc-widgets-fix,
+.tbc-widgets-refresh
+{ background-image:url(images/desktop/desktop.png); background-color:transparent; background-repeat:no-repeat;}
+
+/**** ´°¿Ú:tbc.window.css */
+.tbc-panel-controls{ top:10px; right:10px;}
+.tbc-panel-controls-box{ border:0px; border-radius:0;}
+.closeable .tbc-panel-controls a, .tbc-panel-controls a:visited {
+	width:30px; height:22px; overflow:hidden; text-indent:-3000px; border:0px;
+	-moz-transition:0s; -webkit-transition:0s; -o-transition:0s; -ms-transition:0s; transition:0s; 
+}
+
+.tbc-panel-controls a.tbc-panel-btn-close{ background-position:-609px -612px;  border-radius:0 4px 4px 0;}
+.closeable .tbc-panel-controls a.tbc-panel-btn-close,
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:visited{ background-position:-609px -542px;}
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:hover{ background-position:-609px -565px;}
+.closeable .tbc-panel-controls a.tbc-panel-btn-close:active{ background-position:-609px -588px;}
+
+.tbc-panel-controls a.tbc-panel-btn-max{ background-position:-579px -611px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max,
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:visited{ background-position:-579px -542px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:hover{ background-position:-579px -565px;}
+.maximizable .tbc-panel-controls a.tbc-panel-btn-max:active{ background-position:-579px -588px;}
+
+.tbc-panel-controls a.tbc-panel-btn-min{ background-position:-545px -611px;  border-radius:4px 0 0 4px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min,
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:visited{ background-position:-545px -542px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:hover{ background-position:-545px -565px;}
+.minimizable .tbc-panel-controls a.tbc-panel-btn-min:active{ background-position:-545px -588px;}
+
+.tbc-panel-controls a.tbc-panel-btn-help{ background-position:505px 611px;  border-radius:4px 0 0 4px;}
+.helpable .tbc-panel-controls a.tbc-panel-btn-help,
+.helpable .tbc-panel-controls a.tbc-panel-btn-help:visited{ background-position:-505px -564px;}
+.helpable .tbc-panel-controls a.tbc-panel-btn-help:hover{ background-position:-505px -587px; cursor:pointer;}
+.helpable .tbc-panel-controls a.tbc-panel-btn-help:active{ background-position:-505px -541px;}
+
+.tbc-widgets-close,
+.tbc-widgets-close:visited{ background-position:-426px -543px; }
+.tbc-widgets-close:hover{ background-position:-426px -565px; background-color:#fff; }
+.tbc-widgets-close:active{ background-position:-426px -588px;}
+
+.tbc-widgets-fix,
+.tbc-widgets-fix:visited{ background-position:-402px -543px;}
+.tbc-widgets-fix:hover{ background-position:-402px -565px; background-color:#fff;}
+.tbc-widgets-fix:active{ background-position:-402px -588px;}
+.tbc-widgets-fix-disabled, .tbc-widgets-fix-disabled:visited, .tbc-widgets-fix-disabled:hover
+{ background-position:-402px -611px;}
+
+.tbc-widgets-refresh,
+.tbc-widgets-refresh:visited{ background-position:-486px -542px; }
+.tbc-widgets-refresh:hover{ background-position:-486px -565px; background-color:#fff; }
+.tbc-widgets-refresh:active{ background-position:-486px -588px; }
+
+.tbc-appsTray .tbc-button-link,
+.tbc-appsTray .tbc-button-link:visited,
+.tbc-appsTray .tbc-button-link:active{ color:#fff; border:0px; cursor:pointer; margin:4px 0 0 3px; padding:4px 0 2px 4px; text-shadow:0 1px 0px #000; }
+
+.tbc-appsTray .tbc-button-link:hover{ color:#000; text-shadow:0 1px 0px #fff;}

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>jQuery.editImage DEMO</title>
+	<script type="text/javascript" src="../../../jquery-1.5.2.min.js"></script>
+	<script type="text/javascript" src="../../../pt37.js"></script>
+	<script type="text/javascript" src="../editImage.js"></script>
+	<script type="text/javascript">
+		jQuery(function($){
+		
+			$("button").click(function(){
+				$.editImg({
+					  url : "asd.sd?ssss"
+					, img : $("img")
+					, dataType : "json"
+					, success  : function( html ){
+						if( html=="success" ){
+							this.tip("上传成功。", "green"); // 提示
+						}else{
+							this.tip("错误。", "red");      // 提示
+						}
+					}
+					,error   : function(){
+						// this.close();                // 关闭上传框
+					}
+				});
+			});
+			
+			
+		});
+	</script>
+	
+</head>
+
+<body>
+	<img class="img" src="images/logo.jpg"/>
+	<button class="btn">上传图片</button>
+	<hr />
+	
+	<pre>
+		$.editImg({
+			  url      : "asd.sd?ssss" // 保存图片的地址
+			, img      : $("img")      // 上传成功后显示的图片
+			, dataType : "json"   // 上传后返回的数据类型
+			, success  : function( html ){
+				if( html=="success" ){
+					this.tip("上传成功。", "green"); // 提示
+				}else{
+					this.tip("错误。", "red"); // 提示
+				}
+			}
+			,error   : function(){
+				// this.tip("上传错误。", "red"); // 提示
+				// this.close();                // 关闭上传框
+			}
+		});
+	</pre>
+</body>
+</html>

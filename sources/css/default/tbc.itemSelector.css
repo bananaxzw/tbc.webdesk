@@ -1,0 +1,152 @@
+@charset "utf-8";
+/* CSS Document */
+
+.tbc-itemSelector{}
+.tbc-
+
+
+.inputxt{border: 1px solid #d3cbbe;height: 20px; line-height:20px; padding: 1px;color: #633f27;background: #fff}
+select.inputxt{height: 22px}
+textarea.inputxt{height: auto}
+.newSelectorPanel {width:720px;overflow:hidden;}
+.newSelectorPanel .inputxt {border-color:#e0e0e0;color:#333;}
+.newSelectorPanel input.inputxt {height:18px;}
+.newSelectorTit {height:28px;line-height:28px;border-bottom:2px solid #ccc;font-weight:bold;zoom:1;clear:both;margin-bottom:5px;position:relative;background:#efefef;padding:0 5px;}
+.newSelectorClose {position:absolute;right:5px;top:3px;width:21px;height:21px;overflow:hidden;text-indent:-100em;cursor:pointer;background:url(../images/appimg/widgets_close.png);}
+.newSelectorSide {float:left;width:200px}
+.newSelectorMain {float:right;width:510px}
+.newSelectorSideTit {height:26px;zoom:1;overflow:hidden;background:url(../images/component/selector_03.png) 0 0 repeat-x}
+.newSelectorSideTit .txt {font-weight:bold;color:#fff;float:left;line-height:26px;padding-left:10px}
+.newSelectorSideTit .checkbox {float:right;}
+.newSelectorSideTit .checkbox label {padding-right:10px;color:#fff;}
+.newSelectorSideContent {border:1px solid #93BDF1;border-top:0;zoom:1}
+.newSelectorSideContent .open {background:url(../images/component/selector_06.png) right -2px no-repeat;}
+.newSelectorSideSwitch {border-top:1px solid #93BDF1;height:25px;line-height:25px;background:url(../images/component/selector_09.png) right -2px no-repeat;cursor:pointer;padding-left:10px}
+.newSelectorSideSwitch span {font-weight:bold;color:#4F90DC;padding:2px 0 2px 20px;background:url(../images/component/selector_12.png) left no-repeat;}
+.newSelectorSideSwitch span.bumen {background-image:url(../images/component/icon1.png);}
+.newSelectorSideSwitch span.gangwei {background-image:url(../images/component/icon2.png);}
+.newSelectorSideSwitch span.qunzhu {background-image:url(../images/component/icon3.png);}
+.newSelectorSideTree {border-top:1px solid #93BDF1;zoom:1;overflow:auto;height:282px;background:#fff}
+.newSelectorFilter {padding:4px;border:1px solid #e0e0e0;background:#efefef;text-align:right;margin-bottom:10px;height:26px}
+.newSelectorFilter .inputBlur {color:#ccc;}
+.newSelectorFilter button {border:none;background:url(../images/component/selector_01.png);width:42px;height:20px;color:#fff;font-weight:bold;margin-left:3px;}
+.newSelectorSelect {zoom:1;overflow:hidden;position:relative;}
+.newSelectorSelect .unselect {float:left;}
+.newSelectorSelect .selected {float:right;}
+.newSelectorFrame {width:218px;border:1px solid #d7d7d7;height:344px;background:#fff;}
+.newSelectorDataTit {height:25px;line-height:25px;background:url(../images/component/selector_05.png) 0 -1px repeat-x;zoom:1;padding:0 5px;}
+.newSelectorDataTit span {float:left;font-weight:bold;}
+.newSelectorDataTit button {float:right;height:19px;border:1px solid #959595;background:url(../images/component/selector_02.png) 0 -20px repeat-x;margin-top:3px;padding:0 5px 3px;overflow:hidden;line-height:normal}
+.newSelectorDataTit button:hover {background-position:0 -1px;border-color:#5291e0;color:#5291e0;}
+.newSelectorDataList {height:290px;overflow:auto;zoom:1;}
+.newSelectorDataList li {zoom:1;overflow:hidden;padding:5px;border-top:1px solid #CFCFCF;vertical-align:middle;cursor:pointer;}
+.newSelectorDataList li.chosen {background:#518FDE;color:#fff;}
+.newSelectorDataList li .cardId {width:120px;height:18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;float:left;}
+.newSelectorDataList li .nickName {float:right;width:65px;overflow:hidden;height:18px}
+.newSelectorCourse .newSelectorSideTree{width:198px;}
+.newSelectorCourse .newSelectorDataList li .cardId{ width:60px;height:18px;overflow:hidden;float:left;}
+.newSelectorCourse .newSelectorDataList li .nickName {float:right;width:120px;overflow:hidden;height:18px;text-overflow:ellipsis;-text-overflow:ellipsis;white-space:nowrap;}
+
+.newSelectorPagination {height:25px;border-top:1px solid #CFCFCF;background:url(../images/component/selector_04.png) 0 1px repeat-x;padding:3px 4px 0;zoom:1;}
+.newSelectorPagination input {width:24px;text-align:center;}
+.newSelectorCourse .newSelectorPagination select{float:left}
+.newSelectorCourse .newSelectorPagination .pageFloatRight{float:right;}
+.newSelectorCourse .newSelectorPagination .pageFloatRight .prev{width:25px;}
+.newSelectorCourse .newSelectorPagination .pageFloatRight .next{width:25px;}
+
+.newSelectorPagination .prev,.newSelectorPagination .next {display:inline-block;border:1px solid #959595;border-top:0;border-bottom:0;width:16px;height:19px;text-align:center;font-family:simsun;vertical-align:middle;cursor:pointer;background:url(../images/component/selector_02.png) 0 -19px repeat-x;}
+.newSelectorPagination .prev:hover,.newSelectorPagination .next:hover {background-position:0 0;border-color:#5291e0;color:#5291e0;}
+.newSelectorOpbar {position:absolute;top:85px;left:226px;width:60px;}
+.newSelectorOpbar button {width:58px;border:1px solid #e0e0e0;font-family:simsun;margin-bottom:10px;}
+.newSelectorOpbar .normalBtn{border:1px solid #E0E0E0;background:url(../images/component/selector_08.png) left -36px repeat-x;height:28px;}
+.newSelectorOpbar .normalBtn:hover{border-color:#5291e0;color:#5291e0;background-position:left 0;}
+.newSelectorOpbar .bigBtn {height:36px;border:1px solid #E0E0E0;background:url(../images/component/selector_08.png) left -36px repeat-x;line-height:16px;}
+.newSelectorOpbar .bigBtn:hover {background-position:0 0;border-color:#5291e0;color:#5291e0;}
+.newSelectorOpbar .finishBtn {background:url(../images/component/selector_07.png);width:60px;height:27px;border:none;color:#fff;font-weight:bold;padding:2px 0 5px;margin-top:30px}
+
+.newSelector2 {}
+.newSelector2 .newSelectorSideTree {height:275px}
+.newSelector2 .newSelectorFrame {height:353px}
+.newSelector2 .newSelectorDataList {height:299px}
+.newSelector2 .newSelectorSelect {padding-left:64px;}
+.newSelector2 .newSelectorOpbar {left:0;top:125px;}
+.newSelector2 .newSelectorSelect .selected {float:none;}
+.newSelector2 .newSelectorFrame {width:auto;}
+.newSelector2 .newSelectorPagination {text-align:center;}
+.newSelectorSubPanel {float:left;margin-left:10px;display:inline;}
+.newSelectorSubPanel .newSelectorSideTree {height:327px;}
+
+/*
+
+@charset "utf-8";
+.inputxt{border: 1px solid #d3cbbe;height: 20px; line-height:20px; padding: 1px;color: #633f27;background: #fff}
+select.inputxt{height: 22px}
+textarea.inputxt{height: auto}
+.newSelectorPanel {width:720px;overflow:hidden;}
+.newSelectorPanel .inputxt {border-color:#e0e0e0;color:#333;}
+.newSelectorPanel input.inputxt {height:18px;}
+.newSelectorTit {height:28px;line-height:28px;border-bottom:2px solid #ccc;font-weight:bold;zoom:1;clear:both;margin-bottom:5px;position:relative;background:#efefef;padding:0 5px;}
+.newSelectorClose {position:absolute;right:5px;top:3px;width:21px;height:21px;overflow:hidden;text-indent:-100em;cursor:pointer;background:url(../images/appimg/widgets_close.png);}
+.newSelectorSide {float:left;width:200px}
+.newSelectorMain {float:right;width:510px}
+.newSelectorSideTit {height:26px;zoom:1;overflow:hidden;background:url(../images/component/selector_03.png) 0 0 repeat-x}
+.newSelectorSideTit .txt {font-weight:bold;color:#fff;float:left;line-height:26px;padding-left:10px}
+.newSelectorSideTit .checkbox {float:right;}
+.newSelectorSideTit .checkbox label {padding-right:10px;color:#fff;}
+.newSelectorSideContent {border:1px solid #93BDF1;border-top:0;zoom:1}
+.newSelectorSideContent .open {background:url(../images/component/selector_06.png) right -2px no-repeat;}
+.newSelectorSideSwitch {border-top:1px solid #93BDF1;height:25px;line-height:25px;background:url(../images/component/selector_09.png) right -2px no-repeat;cursor:pointer;padding-left:10px}
+.newSelectorSideSwitch span {font-weight:bold;color:#4F90DC;padding:2px 0 2px 20px;background:url(../images/component/selector_12.png) left no-repeat;}
+.newSelectorSideSwitch span.bumen {background-image:url(../images/component/icon1.png);}
+.newSelectorSideSwitch span.gangwei {background-image:url(../images/component/icon2.png);}
+.newSelectorSideSwitch span.qunzhu {background-image:url(../images/component/icon3.png);}
+.newSelectorSideTree {border-top:1px solid #93BDF1;zoom:1;overflow:auto;height:282px;background:#fff}
+.newSelectorFilter {padding:4px;border:1px solid #e0e0e0;background:#efefef;text-align:right;margin-bottom:10px;height:26px}
+.newSelectorFilter .inputBlur {color:#ccc;}
+.newSelectorFilter button {border:none;background:url(../images/component/selector_01.png);width:42px;height:20px;color:#fff;font-weight:bold;margin-left:3px;}
+.newSelectorSelect {zoom:1;overflow:hidden;position:relative;}
+.newSelectorSelect .unselect {float:left;}
+.newSelectorSelect .selected {float:right;}
+.newSelectorFrame {width:218px;border:1px solid #d7d7d7;height:344px;background:#fff;}
+.newSelectorDataTit {height:25px;line-height:25px;background:url(../images/component/selector_05.png) 0 -1px repeat-x;zoom:1;padding:0 5px;}
+.newSelectorDataTit span {float:left;font-weight:bold;}
+.newSelectorDataTit button {float:right;height:19px;border:1px solid #959595;background:url(../images/component/selector_02.png) 0 -20px repeat-x;margin-top:3px;padding:0 5px 3px;overflow:hidden;line-height:normal}
+.newSelectorDataTit button:hover {background-position:0 -1px;border-color:#5291e0;color:#5291e0;}
+.newSelectorDataList {height:290px;overflow:auto;zoom:1;}
+.newSelectorDataList li {zoom:1;overflow:hidden;padding:5px;border-top:1px solid #CFCFCF;vertical-align:middle;cursor:pointer;}
+.newSelectorDataList li.chosen {background:#518FDE;color:#fff;}
+.newSelectorDataList li .cardId {width:120px;height:18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;float:left;}
+.newSelectorDataList li .nickName {float:right;width:65px;overflow:hidden;height:18px}
+.newSelectorCourse .newSelectorSideTree{width:198px;}
+.newSelectorCourse .newSelectorDataList li .cardId{ width:60px;height:18px;overflow:hidden;float:left;}
+.newSelectorCourse .newSelectorDataList li .nickName {float:right;width:120px;overflow:hidden;height:18px;text-overflow:ellipsis;-text-overflow:ellipsis;white-space:nowrap;}
+
+.newSelectorPagination {height:25px;border-top:1px solid #CFCFCF;background:url(../images/component/selector_04.png) 0 1px repeat-x;padding:3px 4px 0;zoom:1;}
+.newSelectorPagination input {width:24px;text-align:center;}
+.newSelectorCourse .newSelectorPagination select{float:left}
+.newSelectorCourse .newSelectorPagination .pageFloatRight{float:right;}
+.newSelectorCourse .newSelectorPagination .pageFloatRight .prev{width:25px;}
+.newSelectorCourse .newSelectorPagination .pageFloatRight .next{width:25px;}
+
+.newSelectorPagination .prev,.newSelectorPagination .next {display:inline-block;border:1px solid #959595;border-top:0;border-bottom:0;width:16px;height:19px;text-align:center;font-family:simsun;vertical-align:middle;cursor:pointer;background:url(../images/component/selector_02.png) 0 -19px repeat-x;}
+.newSelectorPagination .prev:hover,.newSelectorPagination .next:hover {background-position:0 0;border-color:#5291e0;color:#5291e0;}
+.newSelectorOpbar {position:absolute;top:85px;left:226px;width:60px;}
+.newSelectorOpbar button {width:58px;border:1px solid #e0e0e0;font-family:simsun;margin-bottom:10px;}
+.newSelectorOpbar .normalBtn{border:1px solid #E0E0E0;background:url(../images/component/selector_08.png) left -36px repeat-x;height:28px;}
+.newSelectorOpbar .normalBtn:hover{border-color:#5291e0;color:#5291e0;background-position:left 0;}
+.newSelectorOpbar .bigBtn {height:36px;border:1px solid #E0E0E0;background:url(../images/component/selector_08.png) left -36px repeat-x;line-height:16px;}
+.newSelectorOpbar .bigBtn:hover {background-position:0 0;border-color:#5291e0;color:#5291e0;}
+.newSelectorOpbar .finishBtn {background:url(../images/component/selector_07.png);width:60px;height:27px;border:none;color:#fff;font-weight:bold;padding:2px 0 5px;margin-top:30px}
+
+.newSelector2 {}
+.newSelector2 .newSelectorSideTree {height:275px}
+.newSelector2 .newSelectorFrame {height:353px}
+.newSelector2 .newSelectorDataList {height:299px}
+.newSelector2 .newSelectorSelect {padding-left:64px;}
+.newSelector2 .newSelectorOpbar {left:0;top:125px;}
+.newSelector2 .newSelectorSelect .selected {float:none;}
+.newSelector2 .newSelectorFrame {width:auto;}
+.newSelector2 .newSelectorPagination {text-align:center;}
+.newSelectorSubPanel {float:left;margin-left:10px;display:inline;}
+.newSelectorSubPanel .newSelectorSideTree {height:327px;}
+*/

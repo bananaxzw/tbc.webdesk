@@ -1,0 +1,111 @@
+@charset "utf-8";
+/*
+ *	TITLE : 应用  ###############################
+ *
+ *  COPYRIGHT	:时代光华
+ *  AUTHOR		: 罗志华
+ *  MAIL		: mail@luozhihua.com
+ */
+ 
+ .tbc-shortcut{ width:95px; height:100px; position:relative; left:0px; top:0px; text-align:center; cursor:pointer; float:left;
+ }
+ 
+ .tbc-slide-scene .tbc-shortcut
+ { -moz-transition:.5s; -webkit-transition:.5s; -o-transition:.5s; -ms-transition:.5s; transition:.5s;
+  -moz-transform-origin:center center; -webkit-transform-origin:center center; -o-transform-origin:center center; -ms-transform-origin:center center; transform-origin:center center;
+ }
+ 
+ .tbc-slide-scene .tbc-shortcut-hide{
+	 -moz-transform:rotate(720deg) scale(0);
+	 -webkit-transform:rotate(720deg) scale(0);
+	 -o-transform:rotate(720deg) scale(0);
+	 -ms-transform:rotate(720deg) scale(0);
+	 transform:rotate(720deg) scale(0);
+}
+ 
+ 
+ .tbc-shortcut:hover{ z-index:5;}
+ .tbc-shortcut-inner{ position:absolute; top:0; left:0; z-index:2; width:100%; height:100%; +width:95px; +height:100px; border-radius:10px; overflow:hidden;
+ 	-moz-transition:-moz-transform 0.2s ease 0s;
+ 	-webkit-transition:-webkit-transform 0.2s ease 0s;
+ 	-o-transition:-o-transform 0.2s ease 0s;
+ 	-ms-transition:-ms-transform 0.2s ease 0s;
+ 	transition:transform 0.2s ease 0s;
+ }
+ .tbc-shortcut-inner:hover{ background:transparent url(images/desktop/desktop.png) 0 0 no-repeat; z-index:3;
+ 	-moz-transform:scaleX(1); -webkit-transform:scaleX(1); -o-transform:scaleX(1); -ms-transform:scaleX(1); transform:scaleX(1);
+ }
+ .tbc-shortcut-inner:active, .tbc-shortcut-inner-active,
+ .tbc-shortcut-inner-mousedown
+ { background:transparent url(images/desktop/desktop.png) -95px 0 no-repeat;
+	/*-moz-transform:scale(1.2,0.9);-webkit-transform:scale(1.2,0.9);-o-transform:scale(1.2,0.9); transform:scale(1.2,0.9);*/
+}
+
+.tbc-shortcut-selected .tbc-shortcut-inner{background:transparent url(images/desktop/desktop.png) -190px 0 no-repeat; }
+.tbc-shortcut-active .tbc-shortcut-inner{background:transparent url(images/desktop/desktop.png) -95px 0 no-repeat; }
+.tbc-shortcut-hover .tbc-shortcut-inner{background:transparent url(images/desktop/desktop.png) 0 0 no-repeat; }
+.tbc-shortcut-deleted{
+	-moz-transform:rotate(360deg) scale(0.01);
+	-webkit-transform:rotate(360deg) scale(0.01);
+	-o-transform:rotate(360deg) scale(0.01);
+	-ms-transform:rotate(360deg) scale(0.01);
+	transform:rotate(360deg) scale(0.01);
+}
+ 
+ .tbc-shortcut-icon{ display:block; width:48px; height:48px; overflow:hidden; margin:15px auto 4px 23px; position:relative; position:relative;}
+ .tbc-shortcut-icon img{ width:100%; height:100%; } 
+ .tbc-shortcut-icon em{ width:100%; height:100%; position:absolute; z-index:1; left:0; top:0; opacity:0.01; filter:alpha(opacity=0.1); background:#fff; } 
+ .tbc-shortcut-inner:hover .tbc-shortcut-icon em{ display:block;}
+ 
+ .tbc-folder-shortcut .tbc-shortcut-icon{ background:url(images/desktop/folder.png) center no-repeat; }
+ 
+ .tbc-shortcut-label{ background-color:rgba(0,0,0,.8); color:#fff; text-shadow:0 1px 0 #000; padding:0px; margin-left:-4px; border-radius:20px; text-align:center; display:inline-block; _display:inline; _zoom:1; line-height:16px; height:18px; _height:18px; line-height:18px\9;  width:72px;
+ 	background:url(images/desktop/desktop.png) -500px -1px no-repeat; white-space:nowrap; word-break:keep-all; overflow:hidden; text-overflow:ellipsis; }
+ 	.tbc-shortcut-label-focus, .tbc-shortcut-label-focus:focus{ border:1px solid #0FF; background-color:#39C; box-shadow:0 0 10px #0CF; text-overflow:clip;}
+ 
+ .tbc-shortcut-inner:hover .tbc-shortcut-label{ background:none; color:#000; text-shadow:none;}
+ .tbc-shortcut-inner .tbc-shortcut-label input{ border:0px; border-radius:50px; background:none; text-align:center;}
+ .tbc-shortcut-inner .tbc-shortcut-label input:active{ box-shadow:0 0 2px #00CCCC;}
+ .tbc-shortcut-inner .tbc-shortcut-label input:focus{ box-shadow:0 0 2px #6C3;}
+ .tbc-shortcut-inner .tbc-shortcut-label input:hover{ box-shadow:0 0 2px #666;}
+ 
+/* 添加 */
+.tbc-plus-shortcut{}
+.tbc-plus-shortcut .tbc-shortcut-icon{ background:transparent url(images/plus.png) 0 0 no-repeat; margin-top:24px; }
+ 
+ .tbc-folder-shortcut .tbc-folder-thumbnail{ display:block; position:absolute; left:0; top:0; width:40px; height:40px; margin:3px; overflow:hidden;}
+ .tbc-folder-shortcut .tbc-folder-thumbnail-icon{ width:12px; height:12px; float:left; margin:1px 0 0 1px;}
+ .tbc-folder-shortcut .tbc-folder-thumbnail img{ width:100%; float:left;}
+ .tbc-shortcut-list{ width:40px; margin:20px auto auto 18px;}
+ 
+ .tbc-shortcut-tips{ color:#fff; background:url(images/desktop/desktop.png) right top no-repeat; text-align:center; vertical-align:middle;
+ 	position:absolute; right:14px; top:7px; z-index:4; display:block; padding:0; width:9px; line-height:18px; height:18px; font-size:11px;}
+	.tbc-shortcut-tips em{ position:absolute; right:9px; left:auto; top:0px; padding-left:8px; font-weight:bold; background:url(images/desktop/desktop.png) -583px 0px no-repeat;}
+
+ .tbc-shortcut-pop{ border:5px solid #ccc; background:#fff; width:260px; height:100px; border-radius:10px; box-shadow:0 0 5px #000; overflow:hidden;
+ 	position:absolute; z-index:0; left:18px; top:18px; cursor:default; text-align:left;}
+ .tbc-shortcut-pop ol{ margin:6px; width:100%; height:100%; overflow:auto;}
+ .tbc-shortcut-pop ol li{ height:18px; line-height:18px; list-style-position:inside; border-bottom:1px dotted #ccc;color:#000;  font-size:12px; list-style-position:outside; border-left:5px solid #ece; margin-left:2em;}
+
+/* Dock */
+ .tbc-desktop-dock .tbc-shortcut{ width:64px; height:69px; margin:0 0 -14px -6px; position:relative; left:0px; top:0px; text-align:center; cursor:pointer; float:left;}
+ .tbc-desktop-dock .tbc-shortcut:hover{ z-index:5;}
+ .tbc-desktop-dock .tbc-shortcut-inner{ position:absolute; top:0; left:0; z-index:2; width:100%; height:100%; border-radius:10px;
+ 	-moz-transition:-moz-transform 0.2s ease 0s;
+ }
+ .tbc-desktop-dock .tbc-shortcut-inner:hover{ background:transparent url(images/desktop/desktop.png) -302px -60px no-repeat; z-index:3;}
+ .tbc-desktop-dock .tbc-shortcut-inner:active, .tbc-shortcut-inner-active,
+ .tbc-desktop-dock .tbc-shortcut-inner-mousedown
+ { background:transparent url(images/desktop/desktop.png) -374px -60px no-repeat; }
+ .tbc-desktop-dock .tbc-shortcut-icon{ width:36px; height:36px; margin:18px auto 4px auto; }
+ .tbc-desktop-dock .tbc-shortcut-label{ display:none;}
+
+/* 帮助 */
+.tbc-panel .apphelp-frame {zoom:1;position:relative;height:370px}
+.tbc-panel .apphelp-frame .infotitle_a {background:url("./images/help/help_bg_01.png") repeat-x scroll 0 -1px transparent;position:absolute;top:0px;left:0px;margin:0;width:100%;height:27px;padding:3px 0 0; z-index:1;}
+.tbc-panel .apphelp-frame .infotitle_a ul {line-height:32px;}
+.tbc-panel .apphelp-frame .infotitle_a ul li {width:72px;background:url(./images/help/help_bg_06.png) 0 2px no-repeat;color:#fff;height:27px;margin-right:3px;float:left; list-style:none; text-align:center;}
+.tbc-panel .apphelp-frame .infotitle_a ul li.cur {background:url(./images/help/help_bg_04.png) 0 0 no-repeat;color:#1D6ED5;font-weight:normal;}
+.tbc-panel .apphelp-tab-frame {overflow:auto;zoom:1; position:absolute; }
+.tbc-panel .apphelp-frame-container{ position:relative; top:32px; width:100%; height:100%; overflow-x:hidden; overflow-y:auto;}
+.tbc-panel .apphelp-txt {padding:15px 12px;zoom:1;}

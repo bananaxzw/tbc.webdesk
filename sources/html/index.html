@@ -1,0 +1,700 @@
+<#assign comppath=web_comp_url/>
+<#assign initjs=[
+	comppath+"jet/source/jet-common.js",
+	comppath+"js/jquery.prototype.js",
+	comppath+"js/jquery.vfdialog.js",
+	comppath+"js/tbc_easyui_min.js",
+	comppath+"js/easyui-lang-zh_CN.js",
+	comppath+"js/tbc_easyui_init.js",
+	comppath+"jqueryui/js/jquery-ui-1.8.14.custom.min.js",
+	comppath+"js/jquery.timers.js",
+	comppath+"js/jquery.loading.js",
+	comppath+"js/tbc_form.js",
+	comppath+"js/jquery.tbcdialog.js",
+	comppath+"js/jquery.tbcmsg.js",
+	comppath+"js/jquery.smenu.js",
+	comppath+"js/jquery.widget.js",
+	comppath+"js/desktop.js",
+	comppath+"js/window.js",
+	comppath+"js/jquery.roleswitch.js"
+]/>
+<#assign otherjs=[
+	comppath+"js/jquery.json.js",
+	comppath+"js/jquery.jsonp.js"
+	comppath+"kindeditor/kindeditor.js",
+	comppath+"js/movetree.js",
+	comppath+"js/jquery.spagination.js",
+	comppath+"js/jquery.tpagination.js",
+	comppath+"js/jquery.sgrid.js",
+	comppath+"js/jquery.menubutton.js",
+	comppath+"js/jquery.foldpanel.js",
+	comppath+"js/jquery.stab.js",
+	comppath+"js/jquery.sacc.js",
+	comppath+"js/jquery.stree.js",
+	comppath+"js/jquery.selectorpanel.js",
+	comppath+"js/jquery.orgselector.js",
+	comppath+"js/jquery.courseselector.js",
+	comppath+"js/jquery.simpleorgselector.js",
+	comppath+"js/jquery.advorgselector.js",
+	comppath+"js/jquery.accselector.js",
+	comppath+"js/jquery.sprompt.js",
+	comppath+"js/jquery.advcombotree.js",
+	comppath+"js/jquery.searcher.js",
+	comppath+"js/jquery.tag.js",
+	comppath+"js/jquery.picpanel.js",
+	comppath+"js/jquery.picgrid.js",
+	comppath+"js/jquery.simplepicswitch.js",
+	comppath+"js/jquery.picswitch.js",
+	comppath+"js/jquery.uploadfile.js",
+	comppath+"js/jquery.tagnav.js",
+	comppath+"js/jquery.star.js",
+	comppath+"js/jquery.stimer.js",
+	comppath+"js/jquery.timers.js",
+	comppath+"js/jquery.commentgrid.js",
+	comppath+"js/jquery.colorpicker.js",
+	comppath+"js/jquery.wenstar.js",
+	comppath+"js/jquery.galleryview.js",
+	comppath+"js/jquery.tbcitem.js",
+	comppath+"js/jquery.pgrid.js",
+	comppath+"js/jquery.wordnumber.js",
+	comppath+"js/jquery.scombo.js",
+	comppath+"js/jquery.wtag.js",
+	comppath+"js/jquery.wpagination.js",
+	comppath+"js/jquery.sinput.js",
+	comppath+"js/FusionCharts.js"
+]/>
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<meta charset="utf-8"/>
+
+	<!--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>-->
+
+	<title>${title!'欢迎进入企业学习门户'}</title>
+
+	<meta name="description" content="21tb"/>
+
+	<meta name="keywords" content="21tb"/>
+	<link rel="stylesheet" href="${comppath}easyui/themes/default/easyui.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/common.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/desktop.css" type="text/css"/>
+
+	<link rel="stylesheet" id="skinStyle" href="${comppath}css/window.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/tbc_components.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/appdetail.css" type="text/css"/>
+
+    <link type="text/css" href="${comppath}css/shortcut.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="${comppath}css/userapp_modify.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/helpstyle.css" type="text/css" />
+
+	<link rel="stylesheet" href="${comppath}css/msgcenter.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/questionnaire.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/weibo.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/wenda.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/track.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/mp3.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}css/appnav.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}kindeditor/skins/default.css" type="text/css"/>
+
+	<link rel="stylesheet" href="${comppath}html/datacenter/images/style.css" type="text/css">
+	<!--widgets-->
+
+	<!--
+
+	<link href="${comppath}widgets/vcard/css/style.css" rel="stylesheet" type="text/css" />
+
+	<link href="${comppath}widgets/wait/css/style.css" rel="stylesheet" type="text/css" />
+
+	-->
+	<script type="text/javascript" src="${comppath}js/labjs.min.js"></script>
+	<!--[if IE 6]>
+
+	<link rel="stylesheet" href="${comppath}css/ie6.css" type="text/css" />
+
+	<style>
+
+		body{behavior: url("${comppath}css/csshover3.htc");}
+
+	</style>
+	<script src="${comppath}js/DD_belatedPNG_0.0.8a-min.js"></script>
+
+
+
+	<script>
+
+		DD_belatedPNG.fix(".scrbar .mdf1");
+
+		DD_belatedPNG.fix(".scrbar .mdf2");
+
+		DD_belatedPNG.fix(".scrbar ul");
+
+		DD_belatedPNG.fix(".desktop-panel li a i");
+
+		DD_belatedPNG.fix(".desktop-panel li a span");
+
+		DD_belatedPNG.fix(".sidebar .prgico li a i");
+
+		DD_belatedPNG.fix(".sidebar .prgico li a span");
+
+		DD_belatedPNG.fix(".sidebar");
+
+		DD_belatedPNG.fix(".starbtn");
+
+		DD_belatedPNG.fix(".sysmenuloguot");
+
+		DD_belatedPNG.fix(".topbar");
+
+		DD_belatedPNG.fix(".starmenu_h");
+
+		DD_belatedPNG.fix(".starmenu_f");
+
+		DD_belatedPNG.fix(".starmenu");
+
+		DD_belatedPNG.fix(".pic-switch-select");
+
+	</script>
+
+	<![endif]-->
+	<script>
+
+		document.domain='${domain!}';
+
+
+
+		$LAB.script("${comppath}js/jquery.js").wait()
+
+			<#list initjs as value>
+
+				.script("${value}").wait()
+
+			</#list>
+		var tid=setInterval(function(){
+
+			try{
+
+				if(jQuery&&jQuery.fn.desktop){
+
+					clearInterval(tid);
+
+					init()
+
+					loadOther()
+
+				}
+
+			}catch(e){}
+
+		},200)
+
+
+
+		window.onbeforeunload = function (e) {
+
+		  	e = e || window.event;
+
+		  	var _msg = '退出后，您正在观看的课程进度将不会被记录，确定要退出吗？';
+
+		  	// For IE and Firefox prior to version 4
+
+		  	if (e) {
+
+		    	e.returnValue = _msg;
+
+		  	}
+
+		  	// For Safari
+
+		 	return _msg;
+
+		};
+		function loadOther(){
+
+			$LAB
+
+			<#list otherjs as value>
+
+				.script("${value}")
+
+			</#list>
+
+		}
+
+		// 转到登陆页
+
+		function sendRedirect(isFinal){
+
+			if(isFinal)
+
+				window.onbeforeunload={};
+
+			location.href = '${logout_url}';
+
+		}
+
+
+
+		function init(){
+
+				$.ajaxSetup({
+
+					 data:{
+
+						'_ajax_toKen':'elos'
+
+					 },
+					 cache:false,
+					 error:function(jqXHR, textStatus, errorThrown){
+
+						$.loading('close');
+						if(jqXHR.status==404){
+
+							$.msgN('您无法访问该页面');
+
+						}
+
+						if(jqXHR.status==403){
+
+							sendRedirect(true);
+
+						}
+
+						if(jqXHR.status==410){
+
+							//$.cookie("eln_session_id",null,{domain:'${cookie_domain!}',path:"/"});
+
+							$.msgN('您无权访问该页面');
+
+						}
+						if(jqXHR.status==411){
+
+							window.onbeforeunload=function(){};
+
+							$.tbcmsg({
+
+								url:'login_temp_out.html',
+
+								width:428,
+
+								okText:"重新登录",
+
+								onlyOk:true,
+
+								close:function(){
+
+									sendRedirect(false);
+
+								},
+
+								onOk:function(){
+
+									sendRedirect(false);
+
+								}
+
+							})
+
+						}
+
+					 }
+
+				});
+				$(function() {
+
+					/*每3分钟发起AJAX请求 */
+
+					function autoajax() {
+
+						$.ajax({
+
+							url:'/uc/html/loginLog.updateLogout.do',
+
+							type:'post',
+
+							success:function(){}
+
+						})
+
+					}
+
+					setInterval(autoajax,180000);
+
+					$('body').on('click','.login_temp_out_continue',function(e){
+
+						e.preventDefault();
+
+						sendRedirect(false);
+
+					})
+
+
+
+					var Sys = {};
+
+					var ua = navigator.userAgent.toLowerCase();
+
+					var s;
+
+					var browserType;
+
+					(s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+
+					(s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+
+					(s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+
+					(s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+
+					(s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+
+
+
+					if (Sys.ie) {browserType='IE '+Sys.ie}
+
+					else if (Sys.firefox) {browserType='Firefox '+Sys.firefox}
+
+					else if (Sys.chrome) {browserType='Chrome '+Sys.chrome}
+
+					else if (Sys.opera) {browserType='Opera '+Sys.opera}
+
+					else if (Sys.safari) {browserType='Safari '+Sys.safari}
+
+					else {browserType='未知浏览器'}
+
+					if (Sys.firefox<8 | Sys.ie<7 | Sys.chrome<12 | Sys.opera<8 | Sys.safari<3 ) {
+
+						$.tbcmsg({
+
+							msg:'<div class="dialog-msg">您现在使用的浏览器是<b class="truered">'+browserType+'</b>访问，可能会造成一些应用功能的体验不好，是否要使用这浏览器继续访问？<br /><b style="color:#06f">（建议使用IE7.0以上、Firefox8.0以上、Chrome12.0以上、Safari3.0以上版本的浏览器）</b></div>',
+
+							width:450,
+
+							okText:'继续访问',
+
+							cancelText:'退出登录',
+
+							noSysClose:true,
+
+							onOk:function(){
+
+								loadDesktopAfterLogin();
+
+							},
+
+							onCancel:function(){
+
+								sendRedirect(false);
+
+							}
+
+						})
+
+					} else {
+
+						loadDesktopAfterLogin();
+
+					}
+
+					function loadDesktopAfterLogin() {
+
+						$('body').desktop({
+
+							bg:'/skm/html/skmSkin/skmSkin.getCurrentDeskTopImg.do',
+
+							containsAdmin:'${contains_manage_type_role!0}',
+
+							userName:'${eln_session_map["user_name"]!}',
+
+							domain:'${domain!}',
+
+							itemurl:'elos.initdesk.do',
+
+							folderurl:'elos.listfolderitem.do',//itemId
+
+							accessiconurl:'elos.accessicon.do',//userDeskItemId
+
+							loginurl:'/elos/roles/role/login_u2.html',
+
+							imageurl:'',
+
+							//msgurl:'', // Used for update login.
+
+							msgInterval:180000,
+
+							startmenuurl:'/uc/html/user/user.getFaceUrlAndName.do',
+
+							onLogout:function(){
+
+								sendRedirect(false);
+
+							},
+							onCreateFolder:function(name,userDeskId){
+								var desk=$(this);
+								$.ajax({
+										async:false,
+										url:'elos.createfolder.do',
+										type:'post',
+										data:{
+											folderName:name,
+											userDeskId:userDeskId
+										},
+										success:function(d){
+											if(d){
+												d.userDeskItemName=name||d.userDeskItemName;
+												desk.desktop('createItem',{
+													data:d,
+													userDeskItemId:d.userDeskItemId,
+													userDeskId:userDeskId
+												})
+											}else{
+												$.msgF('文件夹已存在!');
+											}
+										},
+										error:function(){
+
+										}
+								})
+							},
+							onMoveToFolder:function(itemId,folderItemId){
+								$.ajax({
+										url:'elos.moveintofolder.do',
+										type:'post',
+										data:{
+											folderUserDeskItemId:folderItemId,
+											userDeskItemId:itemId
+										},
+										success:function(){},
+										error:function(){}
+								})
+							},
+							onMoveOutFolder:function(itemId,folderItemId){
+								$.ajax({
+										url:'elos.moveoutoffolder.do',
+										type:'post',
+										data:{
+											folderUserDeskItemId:folderItemId,
+											userDeskItemId:itemId
+										},
+										success:function(){},
+										error:function(){}
+								})
+							},
+							onRenameFolder:function(name,id,userDeskId){
+								//文件夹名,itemId
+								$.ajax({
+										url:'elos.renamefolder.do',
+										type:'post',
+										data:{
+											folderName:name,
+											userDeskItemId:id,
+											userDeskId:userDeskId
+										},
+										success:function(d){
+											if(!d){
+												$.msgF('文件夹已存在!');
+											}
+										},
+										error:function(){}
+								})
+							},
+							onDeleteFolder:function(id){
+								//itemId
+								$.ajax({
+										url:'elos.deletefolder.do',
+										type:'post',
+										data:{
+											userDeskItemId:id
+										},
+										success:function(){},
+										error:function(){}
+								})
+							},
+							onDockChange:function(parent) {
+								var apps = parent.find('.app-shortcut:not(.ui-draggable-dragging,.hasdel)')
+								var ids = $.map(apps, function(value, indexOrKey) {
+									var d=$.data(value,'appData')
+									return d.userDeskItemId;
+								})
+								$.ajax({
+										url:'elos.updatedock.do',
+										type:'post',
+										data:{
+											items:ids.join(',')
+										},
+										success:function() {
+										},
+										error:function() {
+										}
+									})
+							},
+							onMoveItem:function(parent) {
+								//移动Item时的保存
+								var apps = parent.find('.app-desktop:not(.ui-draggable-dragging)')
+								var ids = $.map(apps, function(value, indexOrKey) {
+									var d=$.data(value,'appData')
+									return d.userDeskItemId;
+								})
+								var userDeskId = parent.data('userDeskId');
+								if (userDeskId) {
+									$.ajax({
+											url:'elos.updatedeskitemposition.do',
+											type:'post',
+											data:{
+												deskid:userDeskId,
+												items:ids.join(',')
+											},
+											success:function() {
+											},
+											error:function() {
+											}
+										})
+								}
+
+							},
+
+                            feedbackurl:'/fb/html/index.parser.do?id=0001&current_app_id=4028805639a08b660139dd44553d043b',
+
+                            onLoad:function () {
+
+                                var topbarpanel = $(this).data('desktop').topbarpanel;
+                                $.ajax({
+
+                                    url:'elos.showCompanyKF.do',
+
+                                    type:'post',
+
+                                    success:function (d) {
+
+                                    	if ( d.showKF == 'false' ) {
+
+                                            topbarpanel.find('.onlinekf').show();
+
+                                            topbarpanel.delegate('.onlinekf', 'click', function () {
+
+                                                window.onbeforeunload = function () {
+
+                                                };
+
+                                                var kf_openurl = 'http://chat.5251.net/client.jsp?flag=1&companyId=1733&style=4897&locate=cn&username=' + encodeURIComponent('[4.0]' + d.corpName + '-' + d.corpCode + '-' + d.userName);
+
+                                                var chat_win = window.open(kf_openurl, 'chat_1733', 'height=473,width=703,top=200,left=200,status=yes,toolbar=no,menubar=no,resizable=no,scrollbars=no,location=no,titlebar=no');
+
+                                                chat_win.focus();
+
+                                            })
+
+                                        } else {
+
+                                            topbarpanel.find('.onlinekf').hide();
+
+                                        }
+
+                                    }
+
+                                })
+
+                            },
+
+                            createshortcut:'elos.toCreateShortcut4User.do',
+
+							manageshortcut:'elos.toManageShortcut.do',
+
+                            scwarnurl:'elos.loadShortcutWarn.do',
+
+							titleTip: '学员1,学员2'
+
+						});
+
+					}
+
+			        //我们为你
+
+			        //        $('.ylTipIcon').find("i").click(function () {
+
+			        //            if ($('.ylTipframe').height() > 200) {
+
+			        //                $('.ylTipframe').animate({ 'height': 0, 'width': 0 }, 300, function () { $(this).hide() });
+
+			        //            } else {
+
+			        //                $('.ylTipframe').show().animate({ 'height': '285px', 'width': '432px' }, 300);
+
+			        //            }
+
+			        //        })
+
+
+
+			        //状态栏控制我们为你显隐
+
+			        $('.gw_posticon').click(function () {
+
+			            if ($('.postTipframe').hasClass('hide') == true)
+
+			                $('.postTipframe').removeClass('hide');
+
+			            else
+
+			                $('.postTipframe').addClass('hide');
+
+			        })
+
+			     //在线人数
+
+        $('.dskOnline').click(function () {
+
+            if ($('.onlineFrame').hasClass('hide') == true) {
+
+                $('.onlineFrame').removeClass('hide');
+
+               // $('.onlineFrame').attr('src','/im/html/olp/olp.onlineIndex.do');
+
+            } else {
+
+                $('.onlineFrame').addClass('hide');
+
+            }
+
+        })
+
+				});
+		}
+
+	</script>
+
+	<!-- 我们为你  -->
+
+	<style>
+
+		.postTipframe {position:absolute;bottom:35px;right:5px;width:432px;height:285px;overflow:hidden;background:transparent;z-index:5;}
+
+		.ylTipIcon{display:none;}
+
+		.onlineFrame{ position:absolute;width:480px; height:510px; overflow:hidden;  z-index:10; bottom:30px; right:0px;}
+
+	</style>
+
+</head>
+<body>
+<!--<iframe id="common_editor_iframe" frameBorder="0" class="ke-iframe hide" src="elos.toBlank.do"></iframe>-->
+
+<iframe class="postTipframe" src="/cmsinner/html/train/train.postFrame.do#" frameBorder="no" scrolling="no" hideFocus="false" allowTransparency="true" width="432" height="285" id="postframe"></iframe>
+
+<iframe class="onlineFrame hide" src="/im/html/olp/olp.onlineIndex.do" frameBorder="no" scrolling="no" hideFocus="false" allowTransparency="true" width="480" height="520" id="onlineFrame"></iframe>
+</body>
+</html>
