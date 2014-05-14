@@ -80,8 +80,8 @@
 
         options.orgSelectorOptions = $.extend(options.orgSelectorOptions||{}, {height:365});
 
-        var itemSelector    = new tbc.itemSelector(options.itemSelectorOptions),
-            accSelector        = new tbc.accordionSelector (options.orgSelectorOptions);
+        var itemSelector = new tbc.itemSelector(options.itemSelectorOptions),
+            accSelector  = new tbc.accordionSelector (options.orgSelectorOptions);
 
         itemSelector.prepend('<div class="tbc-itemSelector-header">' +
                     '    <div class="padding">' +

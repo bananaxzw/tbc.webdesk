@@ -1,0 +1,28 @@
+[
+{
+	"id":"827f7f6622224f6abc4b41552ba1f4b6","nm":"默认导入","sn":[
+	{
+		"id":"e264d7e45d1641ae92f8913a0639b91e","nm":"17-2","tp":"GROUP"
+	},
+	{
+		"id":"6f402945816f46039f89ed6c51957c98","nm":"111","tp":"GROUP"
+	},
+	{
+		"id":"9bbc0b17abb64aa4bd56403a7e0edb5d","nm":"1","tp":"GROUP"
+	},
+	{
+		"id":"a0cfedf7aea64f4295579a7b2a70ea35","nm":"2","tp":"GROUP"
+	},
+	{
+		"id":"aa8634be920e49a89cd603529977fd10","nm":"17-1","tp":"GROUP"
+	}],"tp":"GROUP_CATEGORY"
+},
+{
+	"id":"e7c9e529fc204d2b83133f3cee8aa781","nm":"沐志芹","sn":[
+	{
+		"id":"9f2a19958ba14824a21c24f48681a42a","nm":"测试","tp":"GROUP"
+	},
+	{
+		"id":"61986172af7f4e40bef34ee1fe256592","nm":"18-33","tp":"GROUP"
+	}],"tp":"GROUP_CATEGORY"
+}]

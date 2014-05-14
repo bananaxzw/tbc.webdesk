@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>TBC JS tests</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+
+<!-- Bootstrap.start -->
+<link rel="stylesheet" href="/tests/css/bootstrap.min.css">
+<link rel="stylesheet" href="/tests/css/bootstrap-theme.min.css">
+<script src="/tests/js/jquery-2.1.1.min.js"></script>
+<script src="/tests/js/bootstrap.min.js"></script>
+<!-- Bootstrap.end -->
+
+<link rel="stylesheet" href="/tests/css/highlight/monokai_sublime.css">
+<script src="/tests/js/highlight-min.js"></script>
+
+<script src="/webdesk/js/tbc-extend-min.js"></script>
+<script src="/webdesk/js/jQuery/jQuery.organizationSelector.js"></script>
+<link rel="stylesheet" href="/webdesk/css/default/tbc.webdesk.css">
+<link rel="stylesheet" href="/webdesk/css/classic/skin.css">
+
+<link rel="stylesheet" href="/tests/css/init.css">
+<script src="/tests/js/init.js"></script>
+</head>
+<body>
+
+
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+
+    <div class="panel-heading">jQuery.organizationSelector.js</div>
+    <div class="panel-body">
+      <h4>选组织、部门、群组组件，功能说明：</h4>
+      <ol>
+        <li>支持即时保存（选择后立即保存到服务器端）；</li>
+        <li>支持延迟保存，选好所有部门、岗位群组后，点击确认或保存按钮；</li>
+        <li>支持灵活配置；</li>
+        <li>支持确认事件和取消事件；</li>
+        <li>确认按钮和取消按钮可自定义文件；</li>
+      </ol>
+      <h4>详细配置：</h4>
+    </div>
+    <!-- Table -->
+    <table class="table">
+      <thead>
+        <tr>
+          <td>属性名</td>
+          <td>默认值</td>
+          <td>类型</td>
+          <td>说明</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="panel-body">
+      <h4>Demo：</h4>
+      <div class="demo1">
+        <button class="openSelector btn btn-primary">猛戳我以打开选择组件...</button>
+      </div>
+      <script class="democode">
+
+          $(".openSelector").click(function() {
+
+            $().organizationSelector ({
+                //max         : 1,
+                ucUrl         : "orgSelectorInner.html",
+                verifyButton  : true,
+                cancelButton  : true,
+                deletable     : true,
+                verifyText    : "Verify",
+                cancelText    : "Cancel",//
+                //autoSave    : false, // 自动保存
+                lazy          : true, // 延迟保存
+                //max         : 3,
+                accountStatus : "ENABLE",
+
+                sincludeChild : true,
+                orgItem     : [
+                    // 启用部门选择
+                    {
+                        nodeType     :"ORGANIZATION",
+                        includeChild :true
+                    }
+
+                    // 启用岗位选择
+                    ,{
+                      nodeType     :"POSITION",
+                      includeChild :true
+                    }
+
+                    // 启用群组选择
+                    //,"GROUP"
+                ],
+                selectedData  : "id1, id2, id3",
+                post          : {
+                    id    : "XXXXXXXXXXXXXXXXXX",
+                    aaaa  : "wwwwwwwwwww"
+                },
+                event : {
+                    verify : function( selected_array ){
+
+                        // 分批处理
+                        $.batch( selected_array, 1000, 0, 1, function( list ){
+
+                            // 在这里处理返回的已选项:list是已经分批后的单批次;
+                            for( var i=0,len=list.length; i<len; i++ ) {
+
+                            }
+                        }, function(){} );
+
+                        return false; // return false 会阻止选人组件关闭;返回其他值不做任何处理;
+                    },
+
+                    cancel : function ( selected_array ) {
+
+                        //return false;
+                    }
+                }
+            });
+
+          });
+      </script>
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      $('.democode').each(function() {
+          code.view(this);
+      });
+  </script>
+</body>
+</html>

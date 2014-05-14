@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>TBC JS tests</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+
+<!-- Bootstrap.start -->
+<link rel="stylesheet" href="/tests/css/bootstrap.min.css">
+<link rel="stylesheet" href="/tests/css/bootstrap-theme.min.css">
+<script src="/tests/js/jquery-2.1.1.min.js"></script>
+<script src="/tests/js/bootstrap.min.js"></script>
+<!-- Bootstrap.end -->
+
+<link rel="stylesheet" href="/tests/css/highlight/monokai_sublime.css">
+<script src="/tests/js/highlight-min.js"></script>
+
+<script src="/webdesk/js/tbc-extend-min.js"></script>
+<script src="/webdesk/js/jQuery/jQuery.blendSelector.js"></script>
+<link rel="stylesheet" href="/webdesk/css/default/tbc.webdesk.css">
+<link rel="stylesheet" href="/webdesk/css/classic/skin.css">
+
+<link rel="stylesheet" href="/tests/css/init.css">
+<script src="/tests/js/init.js"></script>
+</head>
+<body>
+  <div class="demo1">
+    <button class="openSelector btn btn-primary">Open Selector</button>
+  </div>
+  <script class="democode">
+
+      $(".openSelector").click(function(){
+
+        $().blendSelector ({
+          max             : 10,  // 限制选择人数
+          ucUrl           : "blendSelectorInner.html",
+          verifyButton    : true,
+          cancelButton    : true,
+          deletable       : true,
+          verifyText      : "确认",
+          cancelText      : "取消",//
+          autoSave        : false, // 自动保存
+          //lazy          : true,  // 延迟保存
+          //accountStatus : "ENABLE",
+          selectedData    : "id1, id2, id3, id4",
+          // 附送给服务器的数据
+          post            : {
+            appId         : "aid-XXXXXXXXXXXXXX",
+            userId        : "uid-xxxxxxxxxxxxxx",
+            accountStatus : "active"
+          },
+          event : {
+            verify : function (selectedList) {
+
+              // 分批处理，对大批量数据进行分批处理，原因：
+              // 如果数据过多，IE等低版本的浏览器可能会被卡死
+              $.batch(selectedList, 1000, 0, 1, function (list) {
+
+                // 在这里处理返回的已选项:list是已经分批后的单批次;
+                for (var i=0,len=list.length; i<len; i++) {
+
+                }
+              }, function(){} );
+
+
+              //return false; // return false 会阻止选人组件关闭;返回其他值不做任何处理;
+            },
+
+            cancel : function (selectedList) {
+
+            }
+          }
+        });
+
+      });
+  </script>
+
+  <script type="text/javascript">
+  $('.democode').each(function() {
+    code.view(this);
+  });
+  </script>
+</body>
+</html>
