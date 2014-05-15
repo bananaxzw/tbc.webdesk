@@ -58,6 +58,8 @@
 
                 // 按钮
                 if (options.buttons) {
+
+                    // jquery UI 按钮定义方式
                     if (typeof options.buttons === 'object' && !(options.buttons instanceof Array)) {
                         for (k in options.buttons) {
                             if (options.buttons.hasOwnProperty(k)) {
@@ -66,6 +68,8 @@
                                 btns.push(text);
                             }
                         }
+
+                    // 按钮对象list
                     } else if (options.buttons instanceof Array) {
                         for (k=0; k<options.buttons.length; k++) {
                             btn = options.buttons[k];

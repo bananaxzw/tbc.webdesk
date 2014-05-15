@@ -152,7 +152,7 @@
         var dt = options.itemSelectorOptions.dataTemplate;
 
         var itemSelector = new tbc.itemSelector(options.itemSelectorOptions),
-            accSelector  = new tbc.accordionSelector (options.orgSelectorOptions);
+            accSelector  = new tbc.accordionSelector(options.orgSelectorOptions);
 
         // 已选栏和待选栏
         itemSelector.prepend('<div class="tbc-itemSelector-header">' +

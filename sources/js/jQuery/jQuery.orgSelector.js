@@ -35,7 +35,7 @@
         },
         options = $.extend( {}, defaults, settings );
 
-        options.event = options.event || {};
+        options.events = options.events || options.event || {};
 
         options.url += options.url.indexOf("?")==-1 ? "?" : "&";
         options.url += ["current_app_id="+(options.currentAppId||""), "type="+(options.type||"") ].join("&");
@@ -74,8 +74,8 @@
                 advText : '高级',
                 bgImgPath : '/webos/images/',
                 onSelect    : function ( val ) {
-                    if ( $.isFunction(options.event.verify) ) {
-                        options.event.verify(val);
+                    if ( $.isFunction(options.events.verify) ) {
+                        options.events.verify(val);
                     }
                 },
                 onLoad  : function(){},
@@ -195,8 +195,8 @@
                             arg.push(arguments[i]);
                         }
 
-                        if ( options.event && options.event[eventName] ) {
-                            try { return options.event[eventName].apply( this, arg ); } finally { arg=null; }
+                        if ( options.events && options.events[eventName] ) {
+                            try { return options.events[eventName].apply( this, arg ); } finally { arg=null; }
                         }
                     }
 
