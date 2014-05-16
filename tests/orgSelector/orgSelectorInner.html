@@ -6,7 +6,8 @@
 
     <link rel="stylesheet" type="text/css" href="/webdesk/css/default/tbc.webdesk-min.css" />
     <script src="/tests/js/jquery-2.1.1.min.js"></script>
-    <script src="/webdesk/js/tbc-extend-min.js" type="text/javascript"></script>
+    <script src="/tests/js/i18n.properties.js"></script>
+    <script src="/webdesk/js/tbc-extend.js" type="text/javascript"></script>
 
     <script type="text/javascript">
     //window.acc = new tbc.Accordion();
@@ -58,6 +59,7 @@
                     content     : '/tests/tbc.Tree/group.json',
                     type        :"ajax",
                     treeOptions : {
+                        cascadeSelect: true,
                         multiple  : true // 树节点多选
                     }
                 },
@@ -68,6 +70,7 @@
                     content     : '/tests/tbc.Tree/group.json',
                     type        :"ajax",
                     treeOptions : {
+                        cascadeSelect: true,
                         multiple  : true // 树节点多选
                     }
                 }
@@ -85,20 +88,20 @@
                   orgItems.push(accItems[orgType]);
                 }
             } else if (typeof(orgType)=="object" && orgType.nodeType) {
-                orgItems.push($.extend({}, accItems[orgType.nodeType], orgType));
+                orgItems.push($.extend(true, {}, accItems[orgType.nodeType], orgType));
             }
         }
 
         // 综合选择组件
         window.org = new tbc.organizationSelector({
 
-            max                : options.max,
-            verifyText         : options.verifyText,
-            cancelText         : options.cancelText,
-            verifyButton       : options.verifyButton,
-            cancelButton       : options.cancelButton,
-            accountStatus      : options.accountStatus,
-            lazyUrl            : "../../module/stree/itemSelectorHTML.txt?oooooooooo=1",
+            max           : options.max,
+            verifyText    : options.verifyText,
+            cancelText    : options.cancelText,
+            verifyButton  : options.verifyButton,
+            cancelButton  : options.cancelButton,
+            accountStatus : options.accountStatus,
+            lazyUrl       : "../../module/stree/itemSelectorHTML.txt?oooooooooo=1",
 
             // 组织/部门/群组
             orgSelectorOptions : {

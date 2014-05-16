@@ -20,7 +20,7 @@
 
 <script src="/webdesk/js/tbc-extend-min.js"></script>
 <script src="/webdesk/js/jQuery/jQuery.organizationSelector.js"></script>
-<link rel="stylesheet" href="/webdesk/css/default/tbc.webdesk.css">
+<link rel="stylesheet" href="/swebdesk/css/default/tbc.webdesk.css">
 <link rel="stylesheet" href="/webdesk/css/classic/skin.css">
 
 <link rel="stylesheet" href="/tests/css/init.css">
@@ -38,9 +38,8 @@
       <ol>
         <li>支持即时保存（选择后立即保存到服务器端）；</li>
         <li>支持延迟保存，选好所有部门、岗位群组后，点击确认或保存按钮；</li>
-        <li>支持灵活配置；</li>
         <li>支持确认事件和取消事件；</li>
-        <li>确认按钮和取消按钮可自定义文件；</li>
+        <li>确认按钮和取消按钮可自定义文字；</li>
       </ol>
       <h4>详细配置：</h4>
     </div>
@@ -56,64 +55,108 @@
       </thead>
       <tbody>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>max</td>
+          <td>0</td>
+          <td>number</td>
+          <td>限制最多能选多少项</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>verifyButton</td>
+          <td>true</td>
+          <td>Boolean</td>
+          <td>是否显示确认按钮</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>cancelButton</td>
+          <td>true</td>
+          <td>Boolean</td>
+          <td>是否显示取消按钮</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>deletable</td>
+          <td>true</td>
+          <td>Boolean</td>
+          <td>是否可以移除已选择的项目</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>verifyText</td>
+          <td>i18n('v4.js.confirm')</td>
+          <td>String</td>
+          <td>确认按钮的文字，默认为国际化值</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>cancelText</td>
+          <td>i18n('v4.js.cancel')</td>
+          <td>String</td>
+          <td>取消按钮的文字，默认为国际化值</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>autoSave</td>
+          <td>true</td>
+          <td>Boolean</td>
+          <td>是否启用自动保存，启用后选择到已选栏的选项将即时保存到数据库。</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>lazy</td>
+          <td>false</td>
+          <td>Boolean</td>
+          <td>是否延迟保存，仅对autoSave==true时有效，在选好想要的选项之后，点击确定按钮时，自动保存选择结果到服务器。</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>orgItem</td>
+          <td>null</td>
+          <td>Array[Object, ...]</td>
+          <td>左侧的手风琴选择器配置选项</td>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>orgItem[].nodeType</td>
+          <td>"ORGANIZATION", "POSITION", "GROUP"</td>
+          <td>String (constant)</td>
+          <td>手风琴选项卡的类型</td>
+        </tr>
+        <tr>
+          <td>orgItem[].includeChild</td>
+          <td>flase</td>
+          <td>Boolean</td>
+          <td>是否包含子类</td>
+        </tr>
+        <tr>
+          <td>selectedData</td>
+          <td>''</td>
+          <td>String - ids split with ','</td>
+          <td>已选栏的默认数据, 一般为用逗号分隔的id串</td>
+        </tr>
+        <tr>
+          <td>post</td>
+          <td>null</td>
+          <td>Object</td>
+          <td>需要传送给服务器接口的数据，这是数据是指在你实现UC提供的选择组件接口时需要用到的参数，例如：
+              <script class="democode">
+              , post: {
+                  userId  : "uid-xxxxxx",
+                  appCode : "uid"
+              }
+              ,
+              </script>
+          </td>
+        </tr>
+        <tr>
+          <td>events</td>
+          <td>null</td>
+          <td>Object</td>
+          <td>事件</td>
+        </tr>
+        <tr>
+          <td>events.verify</td>
+          <td>null</td>
+          <td>Function</td>
+          <td>确认事件的方法</td>
+        </tr>
+        <tr>
+          <td>events.cancel</td>
+          <td>null</td>
+          <td>Function</td>
+          <td>取消事件的方法</td>
         </tr>
       </tbody>
     </table>
@@ -129,7 +172,7 @@
 
             $().organizationSelector ({
                 //max         : 1,
-                ucUrl         : "orgSelectorInner.html",
+                ucUrl         : "orgSelectorInner.html", // 不用配置，默认即可
                 verifyButton  : true,
                 cancelButton  : true,
                 deletable     : true,
@@ -139,30 +182,43 @@
                 lazy          : true, // 延迟保存
                 //max         : 3,
                 accountStatus : "ENABLE",
-
-                sincludeChild : true,
                 orgItem     : [
                     // 启用部门选择
                     {
                         nodeType     :"ORGANIZATION",
-                        includeChild :true
+                        includeChild :true,
+                        autoSelectChild: true, // 在启用包含子类的选项后，自动选中子节点
+                        treeOptions: {
+                            cascadeSelect: true // 仅在includeChild==true时生效
+                        }
+
                     }
 
                     // 启用岗位选择
                     ,{
-                      nodeType     :"POSITION",
-                      includeChild :true
+                        nodeType     :"POSITION",
+                        includeChild :true,
+                        treeOptions: {
+                            cascadeSelect: false // 仅在includeChild==true时生效
+                        }
                     }
 
                     // 启用群组选择
-                    //,"GROUP"
+                    ,{
+                        nodeType: "GROUP",
+                        includeChild: true,
+                        autoSelectChild: true, // 在启用包含子类的选项后，自动选中子节点
+                        treeOptions: {
+                            cascadeSelect: true // 仅在includeChild==true时生效
+                        }
+                    }
                 ],
                 selectedData  : "id1, id2, id3",
                 post          : {
                     id    : "XXXXXXXXXXXXXXXXXX",
                     aaaa  : "wwwwwwwwwww"
                 },
-                event : {
+                events : {
                     verify : function( selected_array ){
 
                         // 分批处理

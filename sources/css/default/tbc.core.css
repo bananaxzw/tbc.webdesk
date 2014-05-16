@@ -1136,10 +1136,10 @@ ul, ol, li {
 .stree-icon {
     background: url('./images/icons/16/stree_icon_folder_open.png') center center no-repeat transparent
 }
-.stree-leaf .stree-icon {
+.GROUP.stree-leaf .stree-icon {
     background: url('./images/icons/16/check.png') center center no-repeat transparent
 }
-.stree-node-selected.stree-leaf .stree-icon {
+.GROUP.stree-node-selected.stree-leaf .stree-icon {
     background: url('./images/icons/16/checked.png') center center no-repeat transparent
 }
 .stree-handle {

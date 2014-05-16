@@ -52,7 +52,7 @@
                 checkbox       : false,
                 cascadeCheck   : true,
                 singleCheck    : true,
-                cascadeSelect  : true,
+                cascadeSelect  : false,
                 multipleSelect : false,
                 filterVisible  : true,
                 filterEmptyText: "没有找到<b>{keyword}</b>相关的内容",
@@ -107,11 +107,31 @@
                     this.setCurrent(options.selected, false);
                 }
             },
-            'select'      : function() { if ($.isFunction(options.onSelect)) {options.onSelect.apply(this, arguments);} },
-            'deleteNode'  : function() { if ($.isFunction(options.onDelete)) {options.onDelete.apply(this, arguments);} },
-            'check'       : function() { if ($.isFunction(options.onCheck)) {options.onCheck.apply(this, arguments);} },
-            'move'        : function() { if ($.isFunction(options.onMove)) {options.onMove.apply(this, arguments);} },
-            'addNode'     : function() { if ($.isFunction(options.onAdd)) {options.onAdd.apply(this, arguments);} }
+            'select' : function() {
+                if ($.isFunction(options.onSelect)) {
+                    options.onSelect.apply(this, arguments);
+                }
+            },
+            'deleteNode' : function() {
+                if ($.isFunction(options.onDelete)) {
+                    options.onDelete.apply(this, arguments);
+                }
+            },
+            'check' : function() {
+                if ($.isFunction(options.onCheck)) {
+                    options.onCheck.apply(this, arguments);
+                }
+            },
+            'move' : function() {
+                if ($.isFunction(options.onMove)) {
+                    options.onMove.apply(this, arguments);
+                }
+            },
+            'addNode' : function() {
+                if ($.isFunction(options.onAdd)) {
+                    options.onAdd.apply(this, arguments);
+                }
+            }
         });
 
         SELF.packageName = "tbc.Tree";
@@ -515,6 +535,7 @@
                     keyword = this.keyword,
                     leng = children.length,
                     id, properties,
+                    node, selected,
                     self = SELF,
                     i;
 
@@ -532,9 +553,18 @@
                     this.cache(id, "property", properties);
                     this.cache(id, "level", level);
                     this.cache(id, "parents", parents);
-                    this.cache(id, "checked", !!properties.checked);
-                    this.cache(id, "current", !!properties.selected || !!properties.current);
 
+                    if (typeof(properties.checked) !== 'undefined') {
+                        this.cache(id, "checked", !!properties.checked);
+                    }
+
+                    selected = typeof(properties.selected)!=='undefined' ?
+                        properties.selected :
+                        properties.current;
+
+                    if (typeof(selected) !== 'undefined') {
+                        this.cache(id, "current", !!properties.checked);
+                    }
 
                     this._cacheIndex.push(id);
 
@@ -607,6 +637,7 @@
                 classN   =  [
                                 'stree-node',
                                 'stree-level-{3}',
+                                properties.tp,
                                 FLCLS,
                                 (!child||child.length===0 ? " stree-leaf" : ""),
                                 (cache&&cache.current ? 'stree-node-selected' : '')
@@ -1219,13 +1250,13 @@
                     }
                 } else {
 
-                    var callback = function() {
+                    callback = function() {
                         if (id.checked) {
                             tree.uncheckNode(current);
                         } else {
                             tree.checkNode(current);
                         }
-                    }
+                    };
 
                     if (!ctrlKey && o.singleCheck) {
                         deselectList = this.getWillBeDeselect(id, options.cascadeCheck);
@@ -1460,18 +1491,20 @@
              * 设为当前节点
              * @param  {String} id       节点ID
              * @param  {Boolean} multiple 是否允许多选
-             * @param  {Boolean} dbl      是否是被双击事件调用
+             * @param  {Boolean} dbl      是否是被双击事件触发
              */
             selectNode : function (id, ctrlKey, dbl) {
 
-                var node  = typeof id==="string" ? this.cache(id) : id||this.getCurrent(),
-                    cls   = options.currentCss||"stree-node-selected",
-                    data  = node.property,
-                    elem  = node.html,
-                    child = data && data.sn && data.sn.length>0;
+                var node     = typeof id==="string" ? this.cache(id) : id||this.getCurrent(),
+                    cls      = options.currentCss||"stree-node-selected",
+                    property = node.property,
+                    elem     = node.html,
+                    child    = property && property.sn && property.sn.length>0,
+                    selectList = [],
+                    children;
 
-                if (data) {
-                    data.tp = data.tp||"ORGANIZATION";
+                if (property) {
+                    property.tp = property.tp || "ORGANIZATION";
                 }
 
                 // Toggle selected
@@ -1492,26 +1525,59 @@
 
                     $(node.html).addClass(cls);
                     node.current = true;
+                    this.triggerEvent("select", property, $(elem), child, dbl);
 
-                    this.triggerEvent("select", data, $(elem), child, dbl);
+                    if (options.cascadeSelect) {
+                        children = this.getChildNodes(property.id, true);
+
+                        tbc.batch(children, 1000, 0, 10, function (portion, completed, current) {
+                            var i=0, length=portion.length,
+                                node;
+                            for (; i<length; i++) {
+                                node = portion[i];
+                                $(node.html).addClass(cls);
+                                node.current = true;
+                            }
+
+                            if (current===3) {tbc.lock(SELF.ui);}
+                            SELF.triggerEvent("select", portion, null, child, dbl);
+                            if (completed) {tbc.unlock(SELF.ui);}
+                        });
+                    }
                 }
 
-                cls = data = elem = child = null;
+                cls = property = elem = child = null;
             },
 
             deselectNode : function (nodeList) {
-                var cls = options.currentCss || "stree-node-selected",
-                    i, len;
-                for (i=0,len=nodeList.length; i<len; i+=1) {
-                    $(nodeList[i].html).removeClass(cls);
-                    nodeList[i].current = false;
-                }
-                this.triggerEvent ("deselect", nodeList);
+                var cls = options.currentCss || "stree-node-selected";
+
+                // for (i=0,len=nodeList.length; i<len; i+=1) {
+                //     $(nodeList[i].html).removeClass(cls);
+                //     nodeList[i].current = false;
+                // }
+
+                tbc.batch(nodeList, 1000, 0, 10, function (portion, completed, current) {
+                    var i=0, length=portion.length,
+                        node;
+                    for (; i<length; i++) {
+                        node = portion[i];
+                        $(node.html).removeClass(cls);
+                        node.current = false;
+                    }
+
+                    if (current===3) {tbc.lock(SELF.ui);}
+                    SELF.triggerEvent ("deselect", portion);
+                    if (completed) {tbc.unlock(SELF.ui);}
+                });
+
+
             },
 
             getCurrent : function() {
                 var node, id,
                     i, len;
+
                 for (i=0,len=this._cacheIndex.length; i<len; i+=1) {
                     id   = this._cacheIndex[i];
                     node = this.cache(id);
@@ -1536,6 +1602,7 @@
                 var nodes = [],
                     id,
                     i, len, isExclude, j, k;
+
                 for (i=0,len=this._cacheIndex.length; i<len; i+=1) {
                     id = this._cacheIndex[i];
                     if (this.cache(id).current) {
@@ -1568,7 +1635,7 @@
             },
 
             /**
-             * 获取多个节点所共同的父节点
+             * 获取多个节点共同的祖先节点
              * @param {Object} node1 缓存中的节点对象
              *     @param {Element} node1.html 节点的HTML element对象
              *     @param {Boolean} node1.checked 是否被勾选
@@ -1728,7 +1795,7 @@
 
                 this.deselectNode(selected);
 
-                function batch(portion, isEnd, current) {
+                function batch(portion, completed, current) {
                     var i, len = portion.length,
                         cssClass = options.currentCss || "stree-node-selected",
                         node;
@@ -1741,13 +1808,32 @@
                         }
                     }
 
-                    if (isEnd) {
+                    if (completed) {
                         tbc.unlock(that.ui);
+                        that.triggerEvent('select', selectedList, null, false);
                     }
                 }
 
                 tbc.lock(this.ui);
                 tbc.batch(list, 1000, 0, 10, batch);
+            },
+
+            /**
+             * 更新tree选项
+             * @param key {String}
+             * @param value {unknow}
+             * @return {[type]} [description]
+             */
+            options: function(key, value) {
+                if ($.isPlainObject(key)) {
+                    $.extend(true, options, key);
+                } else if(typeof key =='string' && typeof value !== 'undefined') {
+                    if ($.isPlainObject(options[key]) && $.isPlainObject(value)) {
+                        $.extend(true, options[key], value);
+                    } else {
+                        options[key] = value;
+                    }
+                }
             }
         });
 

@@ -27,16 +27,17 @@
                 container    : null,
                 //includeChild : false,
                 multiple     : true,
+                autoSelectChild: false, // 在启用包含子类的选项后，自动选中子节点
                 height       : 356,
                 treeOptions  : {},
                 accordionOptions : {},
                 items        : [
                     {
                         title    : i18n('v4.js.organization'), //"部门",
-                        type     : "ajax", 
+                        type     : "ajax",
                         nodeType : "ORGANIZATION",
                         content  : "",
-                        active   : true, 
+                        active   : true,
                         options  : {}
                     },
                     {
@@ -142,6 +143,8 @@
                                 nodeType  : opt.nodeType,
                                 url       : opt.content,
                                 container : tab.container,
+                                cascadeSelect : !!(SELF.includeChild && opt.autoSelectChild===true),
+                                cascadeCheck  : !!(SELF.includeChild && opt.autoSelectChild===true),
                                 param     : {
                                     nodeType : opt.nodeType
                                 }
@@ -161,17 +164,27 @@
                                     SELF.triggerEvent("afterLoad", tab);
                                     loading = tab = null;
                                 },
-                                select: function(a, b, c, dbl) {
+                                select: function(property, element, children, dbl) {
                                     console.log(arguments);
-                                    SELF._selected = a;
-                                    SELF.triggerEvent("select", a, a.tp||a.nodeType, dbl);
-                                    SELF.triggerEvent("selected", a, a.tp||a.nodeType, dbl);
+
+
+                                    SELF._selected = property;
+                                    if ($.isArray(property)) {
+                                        $.each(property, function() {
+                                            var tp = this.tp || this.nodeType;
+                                            SELF.triggerEvent("select", this.property, tp, dbl);
+                                        });
+                                    } else {
+                                        var tp = property.tp || property.nodeType;
+                                        SELF.triggerEvent("select", property, tp, dbl);
+                                        SELF.triggerEvent("selected", property, tp, dbl);
+                                    }
                                 },
-                                deselect    : function(list) {
+                                deselect   : function(list) {
                                     return SELF.triggerEvent("deselect", list);
                                 },
-                                beforeLoad    : function() {tbc.lock(tab.container, 10);},
-                                afterLoad    : function() {
+                                beforeLoad : function() {tbc.lock(tab.container, 10); },
+                                afterLoad  : function() {
                                     tbc.unlock(tab.container, 10);
                                 }
                             });
@@ -229,9 +242,10 @@
 
         $.each(options.items, function (i) {
             var undefine,
-                title    = $('<h3 class="tbc-accordion-itemHeader"/>').html(this.title).appendTo(SELF.container),
-                cont    = $('<div class="tbc-accordion-itemContainer"/>').appendTo(SELF.container).hide(),
-                icon    = this.icon ?
+                opt = this,
+                title = $('<h3 class="tbc-accordion-itemHeader"/>').html(this.title).appendTo(SELF.container),
+                cont  = $('<div class="tbc-accordion-itemContainer"/>').appendTo(SELF.container).hide(),
+                icon  = this.icon ?
                      (this.icon.match(/(jpg|jpeg|png|gif|bmp)/) ?
                         '<i class="tbc-icon"><img src="'+ this.icon +'"/></i>' :
                         '<i class="tbc-icon '+ this.icon +'"></i>')
@@ -253,20 +267,31 @@
                 //include.hide().css({display:"block"});
             } else {
             }
-                include.show().css({display:"none"});
+            include.show().css({display:"none"});
 
             // 切换包含子类
             include.find("[name='includeChild_"+ i +"']").click(function() {
+
+                var treeId = cont.data("treeId"),
+                    tree = tbc.TASKS(treeId);
+
+                if (tree && opt.autoSelectChild) {
+                    tree.options({
+                        cascadeSelect : this.checked,
+                        cascadeCheck  : this.checked
+                    });
+                }
+
                 SELF.includeChild = this.checked;
-                SELF.triggerEvent ("includechild", this.checked);
+                SELF.triggerEvent("includechild", this.checked);
             });
             title.append(include);
 
-            cont.data ("options", this);
+            cont.data("options", this);
 
             accordion.appendItem({ header:title, container:cont });
 
-            title = cont = icon = null;
+            title = icon = null;
             if (this.active) {
                 active=i;
             }
